@@ -51,6 +51,27 @@ public class DataBase implements DBInterface {
 		return rs;
 	}
 	
+	// check valid password
+	public boolean checkPassword(String username, String password) throws Exception{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/TrempIt", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT `password` FROM `users` WHERE `username` = ?;");
+		ps.setString(1, username);
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		try {
+			String psw = rs.getString("password");
+			if(psw.equals(password)) {
+				return true;
+			}
+			return false;	// wrong password
+		}
+		catch(Exception e) {
+			return false;	// wrong username
+		}
+	}
+	
 	// find edge between two stations, return ResultSet
 	public ResultSet getEdge(String srcStation, String dstStation) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();

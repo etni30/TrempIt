@@ -30,6 +30,7 @@ try{
 
 	Model m = new Model();
 //	m.addNewUser("eliyahu" , "levi", "passenger", "eli1", "1234", "eli@gmail.com");
+	System.out.println(m.checkPassword("eli1", "1234"));
 /*	
 
 	User u1 = m.getUser("eli1");

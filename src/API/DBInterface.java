@@ -13,6 +13,9 @@ public interface DBInterface {
 	// find user for specific user, return ResultSet
 	public ResultSet getUser(String username) throws Exception;
 	
+	// check valid password
+	public boolean checkPassword(String username, String password) throws Exception;
+	
 	// find edge between two stations, return ResultSet
 	public ResultSet getEdge(String station1, String station2) throws Exception;
 	
