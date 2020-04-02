@@ -56,6 +56,12 @@ public class Model implements ModelInterface {
 		return u;
 	}
 
+	// check valid password
+	public boolean checkPassword(String username, String password) throws Exception{
+		return db.checkPassword(username, password);
+	}
+			
+			
 	// find edge between two stations, return ResultSet
 	public void getEdge(String station1, String station2) throws Exception{
 	}

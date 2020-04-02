@@ -16,6 +16,9 @@ public interface ModelInterface {
 		// find user for specific user, return ResultSet
 		public User getUser(String username) throws Exception;
 		
+		// check valid password
+		public boolean checkPassword(String username, String password) throws Exception;
+		
 		// find edge between two stations, return ResultSet
 		public void getEdge(String station1, String station2) throws Exception;
 		

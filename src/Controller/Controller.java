@@ -26,11 +26,20 @@ public class Controller implements ControllerInterface{
 			System.out.println(e);
 			return 1;
 		}
-		catch (Exception e) {	// if problem with
+		catch (Exception e) {	// if problem with SQL
 			System.out.println(e);
 			return 2;
 		}
 	}
+    
+    // get type of user return: 0 - Passenger | 1 - Driver | 2 -Admin 
+    public int getType(User u) {
+    	if(u instanceof Passenger)
+    		return 0;
+    	if(u instanceof Driver)
+    		return 1;
+    	return 2;
+    }
     
     //______________________________________________________________________________________________________________
     // Method name: Find_Tremp
