@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*, java.util.ArrayList"%>
+<%@page import="View.*, trampclass.*, java.util.ArrayList"%>
 			<%
 				String userName = request.getParameter("userName");
 				String type = request.getParameter("type");
@@ -108,7 +108,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 		if(e.target && e.target.id== 'back'){
 			window.location.href = "mainpage.jsp";
 		}
-		if(e.target && e.target.class== 'back'){
+		
 	});
 	
 	function refresh(){

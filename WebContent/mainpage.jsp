@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*"%>
+<%@page import="View.*, trampclass.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -37,8 +37,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 			<%
 				String userName = request.getParameter("userName");
 				String type = request.getParameter("type");
-				User user = new User();
-				out.println("name: " + user.getUserName());
+				out.println("name: " + userName);
 			%>
           </div>
           </br>
@@ -76,10 +75,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         </div>
         <div class="w3-container">
           <h5 class="w3-opacity"><b>travel chat (<%
-        		  if(user.isARide())
+        		  if(false/*user.isARide()*/)
         		  	%><a href="LiveChat.jsp">go to live chat</a>
         		  	<%
-        		  if(!user.isARide())
+        		  if(true/*!user.isARide()*/)
         			  out.println("not available - sign to a tramp first");
         		  %>)</b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>

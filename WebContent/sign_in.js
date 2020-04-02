@@ -93,25 +93,28 @@ function creatAnewForm1(){
   left_collomn[0].getElementsByTagName('p')[0].innerHTML += "Create your TrampIt Account";
 
   //insert new form to the project
-  var form = document.createElement('form');//create a form sending the data
-  form.action = 'AddUser.jsp';
-  form.method = 'post';
+  var form = document.createElement('form');//creat a form sending the data
+  form.action = 'connect_to_main_page.jsp';
+  form.method = 'POST';
+  
+  form.innerHTML += "choose type:    driver <input type ='radio' value = 'driver' name ='type'/>  "
+	  form.innerHTML += "passenger <input type ='radio' value = 'passenger' name ='type'/></br>"
 
   var input = document.createElement('input');//first name element
   input.name = "first";
   input.style.width = "100%";
-  input.value = "firstName";
+  input.value = "first name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
-  var input = document.createElement('input');//last name element
+  var input = document.createElement('input');//first name element
   input.name = "last";
   input.style.width = "100%";
-  input.value = "lastName";
+  input.value = "last name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
-  var input = document.createElement('input');//username element
+  var input = document.createElement('input');//first name element
   input.name = "userName";
   input.style.width = "100%";
   input.value = "userName";
@@ -123,13 +126,6 @@ function creatAnewForm1(){
   input.value = "0000";
   input.style.width = "100%";
   input.type = "password";
-  input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
-  form.appendChild(input);
-  
-  var input = document.createElement('input');//password element
-  input.name = "email";
-  input.value = "mail@mail.com";
-  input.style.width = "100%";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 

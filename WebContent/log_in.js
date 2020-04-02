@@ -74,7 +74,7 @@ function creatAnewForm(){
   //insert new form to the project
   var form = document.createElement('form');//creat a form sending the data
   form.action = 'mainpage.jsp';
-  form.method = 'get';
+  form.method = 'POST';
 
   form.innerHTML += "choose type:    driver <input type ='radio' value = 'driver' name ='type'/>  "
   form.innerHTML += "passenger <input type ='radio' value = 'passenger' name ='type'/></br>"

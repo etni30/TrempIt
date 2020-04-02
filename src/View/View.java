@@ -12,8 +12,8 @@ public class View{
     }
 	
 	// add a new user, return false if failed
-	public void addNewUser(String first, String last, String type, String username, String password, String email) {
-		int x = cont.addNewUser(first, last, type, username, password, email);
+	public int addNewUser(String first, String last, String type, String username, String password, String email) {
+		return  cont.addNewUser(first, last, type, username, password, email);
 	}
 	
 }

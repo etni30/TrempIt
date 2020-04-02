@@ -41,8 +41,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 			<%
 				String userName = request.getParameter("userName");
 				String type = request.getParameter("type");
-				User user = new User();
-				out.println("name: " + user.getUserName());
+				out.println("name: " + userName);
 			%>
           </div>
           </br>
