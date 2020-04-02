@@ -23,6 +23,7 @@
 	%>
 			<script type="text/javascript">window.location.href = "mainpage.jsp";</script>`
 	<%
+	
 			session.setAttribute("userName", userName);
 			session.setAttribute("type", type);
 		}else{

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, trampclass.*, java.util.ArrayList"%>
+<%@page import="View.*, Model.*, java.util.ArrayList"%>
 			<%
 				String userName = request.getParameter("userName");
 				String type = request.getParameter("type");
 			%>
+			
 <!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
@@ -36,7 +37,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
         <p>User chat:</p>
 
-        <p> <%out.println("User: " + new User().getUserName() +", type: " + new User().getStatus().toString());%></p>
+        <p> <%out.println("User: " + userName +", type: " + new User().getStatus().toString());%></p>
         <div class="w3-light-grey w3-round-xlarge w3-small">
           <div  class="w3-center w3-hight">
 

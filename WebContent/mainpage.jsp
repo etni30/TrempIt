@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, trampclass.*"%>
+<%@page import="View.*, Model.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -73,6 +73,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
           <hr>
         </div>
+        
         <div class="w3-container">
           <h5 class="w3-opacity"><b>travel chat (<%
         		  if(false/*user.isARide()*/)
