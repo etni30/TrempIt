@@ -94,14 +94,15 @@ function creatAnewForm1(){
 
   //insert new form to the project
   var form = document.createElement('form');//creat a form sending the data
-  form.action = 'connect_to_main_page.jsp';
-  form.method = 'POST';
+  form.action = 'registeration_page.jsp';
+  form.method = 'post';
   
-  form.innerHTML += "choose type:    driver <input type ='radio' value = 'driver' name ='type'/>  "
-	  form.innerHTML += "passenger <input type ='radio' value = 'passenger' name ='type'/></br>"
+  form.innerHTML += "choose type:    driver <input type ='radio' value = 'driver' name ='type' required='required' />  "
+	  form.innerHTML += "passenger <input type ='radio' value = 'passenger' name ='type' required='required'/></br>"
 
   var input = document.createElement('input');//first name element
   input.name = "first";
+  input.required="required";
   input.style.width = "100%";
   input.value = "first name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
@@ -109,6 +110,7 @@ function creatAnewForm1(){
 
   var input = document.createElement('input');//first name element
   input.name = "last";
+  input.required="required"
   input.style.width = "100%";
   input.value = "last name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
@@ -116,6 +118,7 @@ function creatAnewForm1(){
 
   var input = document.createElement('input');//first name element
   input.name = "userName";
+  input.required="required"
   input.style.width = "100%";
   input.value = "userName";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
@@ -123,6 +126,7 @@ function creatAnewForm1(){
 
   var input = document.createElement('input');//password element
   input.name = "psw";
+  input.required="required"
   input.value = "0000";
   input.style.width = "100%";
   input.type = "password";
@@ -131,6 +135,7 @@ function creatAnewForm1(){
 
   var input = document.createElement('input');//submit button element
   input.type = "submit";
+  input.required="required"
   input.style.width = "100%";
   input.value = "submit";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
@@ -139,7 +144,6 @@ function creatAnewForm1(){
   //append the form
   register[0].appendChild(form);
 
-  const sign_in = register[0].getElementsByTagName("div");
 }
 
 //------------------------delet elements------------------------

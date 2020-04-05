@@ -11,6 +11,7 @@ public abstract class User {
 	private String userName;
 	private String password;
 	private String email;
+	//TODO create a private boolean isInARide, and change the C'tor
 	
 	public User(int idUser, String firstName, String lastName, String userName, String password, String email) {
 		this.idUser = idUser;
@@ -27,6 +28,10 @@ public abstract class User {
 	}
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
+	}
+	public boolean isInARide() {
+		//TODO make an abstract function for both driver and passenger
+		return true;
 	}
 	public String getFirstName() {
 		return firstName;

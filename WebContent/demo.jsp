@@ -12,7 +12,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
 <!-- Page Container -->
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
-
+<% 
+	session.invalidate();
+%>
   <!-- The Grid -->
   <div class="w3-row-padding">
 

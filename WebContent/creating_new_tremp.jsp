@@ -13,16 +13,21 @@ try{
 
 <html>
 <title>W3.CSS Template</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="cssFile/demostyle.css">
 <style>
+<head>
+
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
 th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
 th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px}
 </style>
+
+</head>
+
 <body class="w3-light-grey">
 
 <!-- Page Container -->
@@ -70,6 +75,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 
       </div>
       </br>
+      	  	<% session.setAttribute("userName", userName); %>
 <%	}catch(Exception e){
 	out.println(e);
 } %>
@@ -93,7 +99,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="mainpage.jsp"> 
+	<form action="add_new_tremp.jsp"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
@@ -116,53 +122,12 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 			  </tr>
 		  </table>
 	  	</div>
-	  	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>CHOOSE PRIORITY</h4>
-	  	      <table class="groove">
-		  <tr class="groove">
-		    <th class="groove">first priority</th>
-		    <th class="groove">second priority</th>
-		    <th class="groove">third priority</th>
-		  </tr>
-	  </table>
+
 	<!--  searching form  -->
 
-	  <div class="w3-container w3-card w3-white w3-margin-bottom">
-	  <!-- search parameters -->
-	      <table class="groove">
-			  <tr class="groove">
-			    <th >
-			    	<select name="first_priority">
-					    <option value="Origin">distance from Origin</option>
-					    <option value="destination">distance from destination</option>
-					    <option value="departure ">departure time</option>
-					    <option value="rank">driver rank</option>
-					</select >
-				</th>
-			    <th >
-			    	<select name="second_priority" required="required" >
-					    <option value="Origin">distance from Origin</option>
-					    <option value="destination">distance from destination</option>
-					    <option value="departure ">departure time</option>
-					    <option value="rank">driver rank</option>
-					</select >
-				</th>
-			    <th >
-			    	<select name="third_priority">
-					    <option value="Origin">distance from Origin</option>
-					    <option value="destination">distance from destination</option>
-					    <option value="departure ">departure time</option>
-					    <option value="rank">driver rank</option>
-					</select >
-				</th>
-			  </tr>
-		  </table>
-	  	</div>
-	  	</br>
-	  	
-	  	<div class ="submit" ><input type="submit" value="search"></div>
+	  	<div class ="submit" ><input type="submit" value="add a new tremp"></div>
 	  	</form><!-- end of form -->
-      
-
+	
     <!-- End Right Column -->
     </div>
 

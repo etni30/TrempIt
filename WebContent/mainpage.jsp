@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="View.*, Model.*"%>
+<%@ page session="true" %>
+<%
+	
+	try{
+		String userName=(String)session.getAttribute("userName");
+		String type=(String)session.getAttribute("type");
+		Model m = new Model();
+		User user = m.getUser(userName);
+
+%>
 
 <!DOCTYPE html>
 <html>
@@ -35,9 +45,19 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class="w3-light-grey w3-round-xlarge w3-small">
           <div  class="w3-center w3-hight">
 			<%
-				String userName = request.getParameter("userName");
-				String type = request.getParameter("type");
-				out.println("name: " + userName);
+				out.println("First name: " + user.getFirstName());
+			%>
+          </div>
+		  </br>
+          <div  class="w3-center w3-hight">
+			<%
+				out.println("Last name: " + user.getLastName());
+			%>
+          </div>
+          </br>
+          <div  class="w3-center w3-hight">
+			<%
+				out.println("User name: " + user.getUserName());
 			%>
           </div>
           </br>
@@ -62,7 +82,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>USER MENU</h2>
         <div class="w3-container">
-          <h5 class="w3-opacity"><b><a href="automaticSearch.jsp">Automatic search</a></b></h5>
+          <h5 class="w3-opacity"><b>
+          <%
+
+          if(type.equals("passenger")){ 
+        	  session.setAttribute("userName", userName);
+          %>	
+          	<a href="automaticSearch.jsp">Automatic search</a>
+          <%}else{ // TODO add driver tremp %>
+          	<a href="creating_new_tremp.jsp">create a new tremp</a>
+          	<%} %>
+          </b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details<span class="w3-tag w3-teal w3-round">recommended</span></h6>
           <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
           <hr>
@@ -76,12 +106,18 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         
         <div class="w3-container">
           <h5 class="w3-opacity"><b>travel chat (<%
-        		  if(false/*user.isARide()*/)
-        		  	%><a href="LiveChat.jsp">go to live chat</a>
-        		  	<%
-        		  if(true/*!user.isARide()*/)
-        			  out.println("not available - sign to a tramp first");
-        		  %>)</b></h5>
+        		  session.setAttribute("userName", userName);
+        		  if(user.isInARide()){
+	        		  if(user instanceof Driver){
+	        		  	%><a href="LiveChat.jsp">tremp zone</a>
+	        		  	<%
+	        		  		
+	        		  }else{// TODO separate page for passenger and driver  
+	        			  %><a href="LiveChat.jsp">tremp zone</a>
+	        		  <%}
+        		  }else{
+	        			  out.println("not available - sign to a tramp first " + user.isInARide());
+        		  }%>)</b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
         </div>
@@ -95,7 +131,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
   <!-- End Page Container -->
 </div>
-
+<%	}catch(Exception e){
+	out.println(e);
+} %>
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>

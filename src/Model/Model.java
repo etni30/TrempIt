@@ -55,7 +55,7 @@ public class Model implements ModelInterface {
 		}	
 		return u;
 	}
-
+	
 	// check valid password
 	public boolean checkPassword(String username, String password) throws Exception{
 		return db.checkPassword(username, password);
@@ -66,11 +66,13 @@ public class Model implements ModelInterface {
 	public void getEdge(String station1, String station2) throws Exception{
 	}
 			
-	// add a ride from source to destination
+	// add a ride from source to destination TODO change parameters ()
 	public void addRide(int idDriver, String time, String srcStation, String srcCity, String dstStation, String dstCity) throws Exception{
 		db.addRide(idDriver, time, srcStation, srcCity, dstStation, dstCity);
 	}
-	
+	public void removeRide() throws Exception{
+		//TODO
+	}
 	// return all edges between two stations
 	public LinkedList<Group> getRide(String srcStation, String dstStation) throws Exception{
 		String srcCity = db.getCity(srcStation);

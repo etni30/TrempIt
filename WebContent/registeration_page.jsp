@@ -12,27 +12,28 @@
 </head>
 <body>
 	<%
+	
 		try{
-
-			String type = request.getParameterValues("type")[0];
+			String type = request.getParameter("type");
+			String first = request.getParameter("first");
+			String last = request.getParameter("last");
 			String userName = request.getParameter("userName");
 			String psw = request.getParameter("psw");
-			
 			Model m = new Model();  // TODO change to view after finishig tests 
-			boolean valid = m.checkPassword(userName, psw);
-	
-			if(valid == true){
-			session.setAttribute("userName", userName);
-			session.setAttribute("type", type);
-	%>			
+			m.addNewUser(first, last, type, userName, psw, "test@gmail.com");
+			int valid = 0;
+			if(valid == 0){
 			
-				<script> window.location.href = "mainpage.jsp";</script>`
+				session.setAttribute("userName", userName);
+				session.setAttribute("type", type);
+	%>
+				<script type="text/javascript">window.location.href = "mainpage.jsp";</script>`
 	<%
 
 			}else{
 	%>
 				<script type="text/javascript"> 
-				alert("invalid password/user name");
+				alert("invalid user name, the name is already in use");
 				window.location.href = "demo.jsp";
 				</script>
 	<%		}
