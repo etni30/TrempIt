@@ -45,6 +45,8 @@ public class Controller implements ControllerInterface{
     // Method name: Find_Tremp
     // Description: The function returns a list of tramps between the two stations that deploy after departure_time.
     // 				prefer = 0 for minimum walk, prefer = 1 for fastest arrive
+    	
+//TODO delete des and source station, we don't need them
     
 //    public LinkedList <Tramp> Find_Tramp(String source_station, String source_city, String dest_station, String dest_city, Time departure_time, int prefer )
 //    {

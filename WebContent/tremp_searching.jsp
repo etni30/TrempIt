@@ -1,33 +1,47 @@
+<%@page import="org.omg.CORBA.ExceptionList"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*,java.util.LinkedList"%>
-
+<%@page import="Model.*, Controller.*, java.util.LinkedList"%>
 <%
-try{
-	//parameter and initialization
-	String userName=(String)session.getAttribute("userName");
-	Model m = new Model();
-	User user = m.getUser(userName);
-	LinkedList<String> station = m.getStations();
+	String userName = session.getAttribute("userName").toString();
 
-	
-	//save userName for next page
-	session.setAttribute("userName", userName);
-	
+	String Origin = request.getParameter("Origin");
+	String destination = request.getParameter("destination");
+	String time = request.getParameter("time");
+	String priority = request.getParameter("priority");
+	Model m = new Model();  // TODO change to view after finishig tests 
+	try{
+		//parameter and initialization
+		User user = m.getUser(userName);
+		//save userName for next page
+		session.setAttribute("userName", userName);
+		
+	%>
+<%
+// The searching algorithm
+	//Controller con = new Controller();
+	//LinkedList <Tramp> groupList = con.Find_Tremp(Origin, destination, time, priority);
 %>
-<!DOCTYPE html>
+<%
+out.print("tessssssssst");
 
+	LinkedList<Group> groupList = m.getGroups();
+
+%>
+
+<!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="cssFile/demostyle.css">
 <style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", ariel}
 table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
 th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
-th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px}
+th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 15px; padding-right: 15px; padding-top: 10px; padding-bottom: 10px;
+			background-color: #d4bce1;}
 </style>
 <body class="w3-light-grey">
 
@@ -77,7 +91,6 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
       </div>
       </br>
 
-
     <!-- End Left Column -->
     </div>
 
@@ -94,57 +107,26 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		    <th class="groove">departure time</th>
 		    <th class="groove">Origin </th>
 		    <th class="groove">destination</th>
+		    <th class="groove">places left</th>
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="tremp_searching.jsp"> 
+	<form action="search_resault.jsp"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
+	      <% for(Group i: groupList){%>
 			  <tr class="groove">
-				<th class="margin"><input type="time" name="time"/></th>
-			    <th class="margin">
-			    	<select name="Origin">
-			    	<%for(String x: station) { %>
-					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
-					<%} %>
-					</select >
-				</th>
-			    <th class="margin">
-			    	<select name= "destination">
-			    	<%for(String x: station) { %>
-					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
-					<%} %>
-					</select >
-				</th>
+			  	<th><input type="radio" name="trempBox" value="<%out.print(i.getIdDriver());%>" /></th>
+				<th class="margin"><% out.print(i.getTime());%></th>
+			    <th class="margin"><% out.print(i.getSourceStation()); %></th>
+			    <th class="margin"><% out.print(i.getDestStation()); %></th>
+			    <th class="margin"><% out.print(i.getAmount()); %></th>
 			  </tr>
+			  <%} %>
 		  </table>
 	  	</div>
-	  	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>CHOOSE PRIORITY</h4>
-	  	      <table class="groove">
-		  <tr class="groove">
-		    <th >your priority</th>
-		  </tr>
-	  </table>
-	<!--  searching form  -->
 
-	  <div class="w3-container w3-card w3-white w3-margin-bottom">
-	  <!-- search parameters -->
-	      <table class="groove">
-			  <tr class="groove">
-			    <th >
-			    	<select name="priority">
-					    <option value="Origin">distance from Origin</option>
-					    <option value="destination">distance from destination</option>
-					    <option value="departure ">departure time</option>
-					    <option value="rank">driver rank</option>
-					</select >
-				</th>
-			  </tr>
-		  </table>
-	  	</div>
-	  	</br>
-	  	
 	  	<div class ="submit" ><input type="submit" value="search"></div>
 	  	</form><!-- end of form -->
       
@@ -159,9 +141,8 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 </div>
 <%	}catch(Exception e){
 	out.println(e);
-%>
-<script type="text/javascript">window.location.href = "mainpage.jsp"</script>
-<%} %>
+} %>
+
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>

@@ -26,6 +26,7 @@ public class Group {
 		this.amount = amount;
 		this.time = new Time(time);
 		this.idDriver = idDriver;
+		//TODO IF it's possible change to array it's more easy to handle
 		this.idUser1 = idUser1;
 		this.idUser2 = idUser2;
 		this.idUser3 = idUser3;
