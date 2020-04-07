@@ -4,6 +4,10 @@ import java.util.LinkedList;
 import API.*;
 import DataBase.DataBase;
 import Model.*;
+import Model.Driver;
+
+import java.sql.*;
+import API.DBInterface;
 
 
 //this class will contain all of the business logic and algorithms
@@ -48,6 +52,15 @@ public class Controller implements ControllerInterface{
     	}
     }
 
+    public LinkedList<String> getStations() throws Exception
+    {
+    	ResultSet rs = dataBase.getStations();
+    	System.out.println(rs.toString());
+    	LinkedList<String> stations = new LinkedList<String>();
+    	return stations;
+    }
+
+    
     // get type of user return: 0 - Passenger | 1 - Driver | 2 -Admin 
     public int getType(User u) {
     	if(u instanceof Passenger)
@@ -80,7 +93,18 @@ public class Controller implements ControllerInterface{
 //    }
     //_______________________________________________________________________________________________________________
 
-}
 
+
+public static void main(String args[])
+{
+	/*Controller con = new Controller();
+	try {
+		con.getStations();
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
+}
+}
 
 

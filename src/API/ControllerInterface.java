@@ -1,5 +1,7 @@
 package API;
 
+import java.util.LinkedList;
+
 import Model.User;
 
 public interface ControllerInterface {
@@ -11,5 +13,6 @@ public interface ControllerInterface {
     public int getType(User u);
     
     public boolean checkPassword(String userName, String psw) throws Exception;
-    // TODO LinkedList<String> getStations()
+    public LinkedList<String> getStations() throws Exception;
+    
 }
