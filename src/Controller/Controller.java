@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.LinkedList;
 import API.*;
+import DataBase.DataBase;
 import Model.*;
 
 
@@ -9,15 +10,19 @@ import Model.*;
 public class Controller implements ControllerInterface{
     
 	private ModelInterface model = null;
+	private DataBase dataBase = null;
     
     public Controller() {
     	this.model = new Model();
+    	this.dataBase = new DataBase();
     }
+    
 	// here we will put functions the business logic
     
     // here we will put the functions that access the database through the model
     
 	// add a new user, return 0 if success, return 1 if there exist user with same name, return 2 if sql problem
+    
     public int addNewUser(String first, String last, String type, String username, String password, String email) {
 		try {
 			model.addNewUser(first, last, type, username, password, email);
@@ -32,6 +37,16 @@ public class Controller implements ControllerInterface{
 		}
 	}
     
+    public boolean checkPassword(String username, String password) throws Exception
+    {
+    	try {
+    		return dataBase.checkPassword(username, password);
+    	}
+    	catch(Exception e)
+    	{
+    		throw e;
+    	}
+    }
     // get type of user return: 0 - Passenger | 1 - Driver | 2 -Admin 
     public int getType(User u) {
     	if(u instanceof Passenger)
