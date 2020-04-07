@@ -9,4 +9,7 @@ public interface ControllerInterface {
 		
     // get type of user return 0 - Passenger | 1 - Driver | 2 -Admin 
     public int getType(User u);
+    
+    //TODO checkPassword(userName, psw) 
+    // TODO LinkedList<String> getStations()
 }

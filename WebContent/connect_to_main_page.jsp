@@ -13,14 +13,15 @@
 <body>
 	<%
 		try{
-
+// TODO remove type
 			String type = request.getParameterValues("type")[0];
 			String userName = request.getParameter("userName");
 			String psw = request.getParameter("psw");
 			
 			Model m = new Model();  // TODO change to view after finishig tests 
 			boolean valid = m.checkPassword(userName, psw);
-	
+
+// If the password is valid: set session for the user
 			if(valid == true){
 			session.setAttribute("userName", userName);
 			session.setAttribute("type", type);
@@ -28,7 +29,7 @@
 			
 				<script> window.location.href = "mainpage.jsp";</script>`
 	<%
-
+// if we get a wrong password  get back to index.jsp
 			}else{
 	%>
 				<script type="text/javascript"> 

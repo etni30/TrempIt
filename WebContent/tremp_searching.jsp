@@ -23,7 +23,7 @@
 	//LinkedList <Tramp> groupList = con.Find_Tremp(Origin, destination, time, priority);
 %>
 <%
-out.print("tessssssssst");
+
 
 	LinkedList<Group> groupList = m.getGroups();
 

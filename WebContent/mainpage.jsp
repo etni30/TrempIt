@@ -149,7 +149,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 	document.addEventListener('click', function(e){
 		if(e.target && e.target.id== 'back'){
 			alert("goodbye");
-			window.location.href = "demo.jsp";
+			window.location.href = "clear_page.jsp";
 		}
 	});
 	
