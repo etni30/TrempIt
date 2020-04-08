@@ -46,18 +46,16 @@ try{
 	System.out.println(m.getDistance("kiryat shret", "amidar"));
 	System.out.println(m.getDistance("amidar", "kiryat shret"));
 	
+	System.out.println(m.getStations());
 
 	Group g1 = m.getGroupForUser(18);
 	System.out.println(g1.getDestCity());
 	System.out.println(g1.getSourceCity());
 	System.out.println(g1.getSourceStation());
-
+	*/
 	LinkedList<Group> l1 = m.getGroups();
-	System.out.println(l1.size());	
+	System.out.println(l1.size());
 	System.out.println(l1.get(0).getIdDriver());	
-
-	System.out.println(m.getStations());
-*/
 	
 }catch(Exception e){
 	System.out.println(e);
