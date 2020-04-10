@@ -1,36 +1,77 @@
 package Model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Group {
 	
 	
 	private String srcCity;
 	private String srcStation;
-	private String destCity;
-	private String destStation;
+	private String dstCity;
+	private String dstStation;
 	private int amount;
-	private Time time;
-	private int idDriver;
-	private int idUser1;
-	private int idUser2;
-	private int idUser3;
-	private int idUser4;
+	private Time depTime;
+	private String idDriver;
+	private String[] usersID;
 	
 	
-	public Group(String srcCity, String srcStation, String destCity, String destStation, int amount, String time,
-			int idDriver, int idUser1, int idUser2, int idUser3, int idUser4) throws Exception {
+	public Group(String srcCity, String srcStation, String dstCity, String dstStation, int amount, String depTime,
+			String idDriver, String idUser1, String idUser2, String idUser3, String idUser4) throws Exception {
 		super();
 		this.srcCity = srcCity;
 		this.srcStation = srcStation;
-		this.destCity = destCity;
-		this.destStation = destStation;
+		this.dstCity = dstCity;
+		this.dstStation = dstStation;
 		this.amount = amount;
-		this.time = new Time(time);
+		this.depTime = new Time(depTime);
 		this.idDriver = idDriver;
-		//TODO IF it's possible change to array it's more easy to handle
-		this.idUser1 = idUser1;
-		this.idUser2 = idUser2;
-		this.idUser3 = idUser3;
-		this.idUser4 = idUser4;
+		this.usersID = new String[4];
+		usersID[0] = idUser1;
+		usersID[1] = idUser2;
+		usersID[2] = idUser3;
+		usersID[3] = idUser4;
+	}
+	
+	public Group(Group g) throws Exception {
+		super();
+		this.srcCity = g.getSourceCity();
+		this.srcStation = g.getSourceStation();
+		this.dstCity = g.getdstCity();
+		this.dstStation = g.getdstStation();
+		this.amount = g.getAmount();
+		this.depTime = new Time(g.getDepTime().toString());
+		this.idDriver = g.getIdDriver();
+		this.usersID = g.getUsersID();
+	}
+	
+	public Group(ResultSet rs) throws Exception
+	{
+		String srcCity = rs.getString("srcCity");
+		String srcStation = rs.getString("srcstation");
+		String dstCity = rs.getString("dstCity");
+		String dstStation = rs.getString("dststation");
+		int amount = Integer.parseInt(rs.getString("amount"));
+		String depTime = rs.getString("departureTime");
+		String idDriver = rs.getString("idDriver");
+		String idUser1 = rs.getString("iduser1");
+		String idUser2 = rs.getString("iduser2");
+		String idUser3 = rs.getString("iduser3");
+		String idUser4 = rs.getString("iduser4");
+		
+		this.srcCity = srcCity;
+		this.srcStation = srcStation;
+		this.dstCity = dstCity;
+		this.dstStation = dstStation;
+		this.amount = amount;
+		this.depTime = new Time(depTime);
+		this.idDriver = idDriver;
+		this.usersID = new String[4];
+		usersID[0] = idUser1;
+		usersID[1] = idUser2;
+		usersID[2] = idUser3;
+		usersID[3] = idUser4;
+		
 	}
 	
 	// get and set functions:
@@ -46,47 +87,29 @@ public class Group {
 	public void setSourceStation(String sourceStation) {
 		this.srcStation = sourceStation;
 	}
-	public int getIdUser1() {
-		return idUser1;
+	public String[] getUsersID()
+	{
+		String[] usersIDCopy = usersID.clone();
+		return usersIDCopy;
 	}
-	public void setIdUser1(int idUser1) {
-		this.idUser1 = idUser1;
+	
+	public String getdstCity() {
+		return dstCity;
 	}
-	public int getIdUser2() {
-		return idUser2;
+	public void setdstCity(String dstCity) {
+		this.dstCity = dstCity;
 	}
-	public void setIdUser2(int idUser2) {
-		this.idUser2 = idUser2;
+	public String getdstStation() {
+		return dstStation;
 	}
-	public int getIdUser3() {
-		return idUser3;
+	public void setdstStation(String dstStation) {
+		this.dstStation = dstStation;
 	}
-	public void setIdUser3(int idUser3) {
-		this.idUser3 = idUser3;
+	public Time getDepTime() {
+		return depTime;
 	}
-	public int getIdUser4() {
-		return idUser4;
-	}
-	public void setIdUser4(int idUser4) {
-		this.idUser4 = idUser4;
-	}
-	public String getDestCity() {
-		return destCity;
-	}
-	public void setDestCity(String destCity) {
-		this.destCity = destCity;
-	}
-	public String getDestStation() {
-		return destStation;
-	}
-	public void setDestStation(String destStation) {
-		this.destStation = destStation;
-	}
-	public Time getTime() {
-		return time;
-	}
-	public void setTime(Time time) {
-		this.time = time;
+	public void setTime(Time depTime) {
+		this.depTime = depTime;
 	}
 	public int getAmount() {
 		return amount;
@@ -94,10 +117,10 @@ public class Group {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getIdDriver() {
+	public String getIdDriver() {
 		return idDriver;
 	}
-	public void setIdDriver(int idDriver) {
+	public void setIdDriver(String idDriver) {
 		this.idDriver = idDriver;
 	}
 	

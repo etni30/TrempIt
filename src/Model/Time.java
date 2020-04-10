@@ -46,26 +46,62 @@ public class Time {
 			m = "0" + m;
 		return h + ":" + m;
 	}
-	// return 0 if equal,  1 if t1 is bigger, 2 if t2 is bigger 
-	public static int cmpTime(Time t1, Time t2) {
+	
+	// The function gets Time t1 and float t2. t2 represents duration in hours
+	// and returns the t1-t2
+	public static Time sub(Time t1, float t2) throws Exception
+	{
+		
+		int hour = t1.getHour() - Math.round(t2);
+		
+		int minute = (int) (t1.getMinute() - (t2%1)*60);
+		if(minute<0)
+		{
+			hour--;
+			minute += 60;
+		}
+		
+		if(hour<0)
+			hour += 24;
+		
+		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
+		return t;
+	}
+	
+	public static Time add(Time t1, float t2) throws Exception
+	{
+		
+		int hour = t1.getHour() + Math.round(t2);
+		
+		int minute = (int) (t1.getMinute() + (t2%1)*60);
+		if(minute>60)
+		{
+			hour++;
+			minute += 60;
+		}
+		if(hour>24)
+			hour -= 24;
+		
+		
+		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
+		return t;
+	}
+	
+	// return 0 if t1<t2, return 1 if t1>t2 
+	public static boolean t1BiggerThant2(Time t1, Time t2) {
+		
+		if(t1.hour < t2.hour) {
+			return false;
+		}
+		
 		if(t1.hour > t2.hour) {
-			return 1;
+			return true;
 		}
-		else if(t2.hour > t1.hour) {
-			return 2;
+		
+		else if(t1.minute >= t2.minute) {
+			return true;
 		}
-		else {
-			if(t1.minute > t2.minute) {
-				return 1;
-			}
-			else if(t2.minute > t1.minute) {
-				return 2;
-			}
-			return 0;
-		}
+		return false;
+	}
 	}
 
-	
-	
-
-}
