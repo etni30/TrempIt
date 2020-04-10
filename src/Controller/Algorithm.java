@@ -37,15 +37,7 @@ public class Algorithm {
 		}
 	//______________________________________________________________________________________________________________
     // Method name: Find_Tremp
-    // Description: The function returns a list of tramps between the two stations that deploy after departure_time.
-    // 				prefer = 0 for minimum walk, prefer = 1 for fastest arrive
-
-	
-    //	"firstWalk" = a size 2 String array. It means, first walk from station l["firstWalk"][0] to l["firstWalk"][1]. If empty then no need for walking
-    //  "trampsList = a Tramp linked list sorted by optimal arrive time. If empty then there are no relevant tramps.
-    //  "secondWalk" = a size 2 String array. It means, at last walk from station l["secondWalk"][0] to l["secondWalk"][1]. If empty then no need for walking
-    //  "departureTime" = Time object that means at what time the user needs to departure
-    //	"arriveTime" = Time object that means: estimated arrive time
+    // Description: The function returns a list of paths between the two stations
     
     public ArrayList<Path> Find_Tramp(String srcStation, String srcCity, String dstStation,
     											String dstCity, Time desiredArriveT) throws Exception
