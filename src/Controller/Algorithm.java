@@ -36,10 +36,10 @@ public class Algorithm {
 			return null;
 		}
 	//______________________________________________________________________________________________________________
-    // Method name: Find_Tremp
+    // Method name: findTramps
     // Description: The function returns a list of paths between the two stations
     
-    public ArrayList<Path> Find_Tramp(String srcStation, String srcCity, String dstStation,
+    public ArrayList<Path> findTramps(String srcStation, String srcCity, String dstStation,
     											String dstCity, Time desiredArriveT) throws Exception
     {
 
