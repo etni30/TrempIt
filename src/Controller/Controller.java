@@ -23,6 +23,9 @@ public class Controller implements ControllerInterface{
     
     	
     // here we will put functions the business logic
+=======
+	// here we will put functions the business logic
+
     
     // here we will put the functions that access the database through the model
     
