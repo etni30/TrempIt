@@ -150,9 +150,9 @@ th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding
 			  <tr class="groove">
 			    <th >
 			    	<select name="priority">
-					    <option value="Origin">distance from Origin</option>
-					    <option value="destination">distance from destination</option>
-					    <option value="departure ">departure time</option>
+					    <option value="0">distance from Origin</option>
+					    <option value="1">distance from destination</option>
+					    <option value="2">departure time</option>
 					   <!--  <option value="rank">driver rank</option> -->
 					</select >
 				</th>
