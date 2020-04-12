@@ -59,7 +59,7 @@ public class Time implements Comparable {
 		{
 			hour--;
 			minute += 60;
-		}
+
 		
 		if(hour<0)
 			hour += 24;

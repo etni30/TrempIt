@@ -131,8 +131,8 @@ public class Model implements ModelInterface {
 			srcCity = db.getCity(srcStation);
 			dstCity = db.getCity(dstStation);
 			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
-					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
+      rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+      rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			groups.add(g);
 		}
 		return groups;

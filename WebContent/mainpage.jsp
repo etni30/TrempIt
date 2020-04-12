@@ -5,10 +5,13 @@
 <%
 	
 	try{
-		String userName=(String)session.getAttribute("userName");
-		String type=(String)session.getAttribute("type");
+		User user= (User)session.getAttribute("User");
+		String type = null;
+		if(user instanceof Passenger)
+			type = "Passenger";
+		else
+			type = "Driver";
 		Model m = new Model();
-		User user = m.getUser(userName);
 
 %>
 
@@ -84,9 +87,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
           <%
-
-          if(type.equals("passenger")){ 
-        	  session.setAttribute("userName", userName);
+          session.setAttribute("User", user);
+          if(type.equals("Passenger")){ 
+        	  
           %>	
           	<a href="automaticSearch.jsp">Automatic search</a>
           <%}else{ // TODO add driver tremp %>
@@ -106,7 +109,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         
         <div class="w3-container">
           <h5 class="w3-opacity"><b>travel chat (<%
-        		  session.setAttribute("userName", userName);
+        		  session.setAttribute("user", user);
         		  if(user.isInARide()){
 	        		  if(user instanceof Driver){
 	        		  	%><a href="LiveChat.jsp">tremp zone</a>

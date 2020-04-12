@@ -76,9 +76,6 @@ function creatAnewForm(){
   form.action = 'connect_to_main_page.jsp';
   form.method = 'POST';
 
-  form.innerHTML += "choose type:    driver <input type ='radio' value ='driver' name ='type' required='required' />  "
-  form.innerHTML += "passenger <input type ='radio' value ='passenger' name ='type' required='required'/></br>"
-
   var input = document.createElement('input');//first name element
   input.name = "userName";
   input.required="required";

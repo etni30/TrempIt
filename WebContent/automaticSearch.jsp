@@ -5,14 +5,15 @@
 <%
 try{
 	//parameter and initialization
-	String userName=(String)session.getAttribute("userName");
 	Model m = new Model();
-	User user = m.getUser(userName);
+	User user = (User)session.getAttribute("User");
 	LinkedList<String> station = m.getStations();
-
-	
+	//LinkedList<String> city = m.getCities(); TODO
+	LinkedList<String> city = new LinkedList<String>();
+	city.add("raanana");
+	city.add("ramat gan");
 	//save userName for next page
-	session.setAttribute("userName", userName);
+	session.setAttribute("User", user);
 	
 %>
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
 th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
-th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px}
+th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding-bottom: 20px}
 </style>
 <body class="w3-light-grey">
 
@@ -92,19 +93,21 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
       <table class="groove">
 		  <tr class="groove">
 		    <th class="groove">departure time</th>
-		    <th class="groove">Origin </th>
-		    <th class="groove">destination</th>
+		    <th class="groove">Origin station</th>
+		    <th class="groove">dest. station</th>
+		    <th class="groove">Origin station</th>
+		    <th class="groove">dest. city</th>
 		  </tr>
 	  </table>
-	<!--  searching form  -->
-	<form action="tremp_searching.jsp"> 
+	<!-- ---------------------------- searching form -------------------------------------- -->
+	<form name="myForm" action="tremp_searching.jsp" onsubmit="return validateForm()"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
 			  <tr class="groove">
-				<th class="margin"><input type="time" name="time"/></th>
+				<th class="margin"><input type="time" name="time"/ required="required"></th>
 			    <th class="margin">
-			    	<select name="Origin">
+			    	<select name="Origin" >
 			    	<%for(String x: station) { %>
 					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
 					<%} %>
@@ -113,6 +116,20 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 			    <th class="margin">
 			    	<select name= "destination">
 			    	<%for(String x: station) { %>
+					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
+					<%} %>
+					</select >
+				</th>
+			    <th class="margin">
+			    	<select name= "orgCity">
+			    	<%for(String x: city) { %>
+					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
+					<%} %>
+					</select >
+				</th>
+			    <th class="margin">
+			    	<select name= "destCity">
+			    	<%for(String x: city) { %>
 					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
 					<%} %>
 					</select >
@@ -126,7 +143,6 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		    <th >your priority</th>
 		  </tr>
 	  </table>
-	<!--  searching form  -->
 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
@@ -137,7 +153,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 					    <option value="Origin">distance from Origin</option>
 					    <option value="destination">distance from destination</option>
 					    <option value="departure ">departure time</option>
-					    <option value="rank">driver rank</option>
+					   <!--  <option value="rank">driver rank</option> -->
 					</select >
 				</th>
 			  </tr>
@@ -146,7 +162,8 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 	  	</br>
 	  	
 	  	<div class ="submit" ><input type="submit" value="search"></div>
-	  	</form><!-- end of form -->
+	  	</form>
+	 	<!-- ---------------------------- end of form --------------------------------- -->
       
 
     <!-- End Right Column -->
@@ -180,6 +197,16 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		}
 	});
 	
+	function validateForm() {
+		  var Origin = document.forms["myForm"]["Origin"].value;
+		  var destination = document.forms["myForm"]["destination"].value;
+		  var orgCity = document.forms["myForm"]["orgCity"].value;
+		  var destCity = document.forms["myForm"]["destCity"].value;
+		  if (Origin == destination || orgCity == destCity) {
+		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
+		    return false;
+		  }
+		}
 </script>
 
 </body>
