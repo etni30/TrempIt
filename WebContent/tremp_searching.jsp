@@ -120,7 +120,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="LiveChat.jsp"> 
+	<form action="LiveChat.jsp" method="post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">

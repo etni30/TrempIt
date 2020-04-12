@@ -9,6 +9,9 @@ try{
 	
 	Controller conn = new Controller();
 	Model m = new Model();
+	if(user instanceof Passenger){
+		
+	}
 	//Group g = conn.get TODO add getTREMP
 %>
 <!DOCTYPE html>

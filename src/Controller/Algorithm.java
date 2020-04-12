@@ -97,7 +97,7 @@ public class Algorithm {
     		
     		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 	// get dist btwn cities
 
-        	    		
+    		
     		Time groupDepTime = tramp.getDepTime();									 // get departure time
     		Time departT = calcDepartT(distBtwnSrcs, groupDepTime);					 // calc departure time
 
@@ -138,15 +138,15 @@ public class Algorithm {
     		});
     	}
     	case 1:
-		Collections.sort(paths, new Comparator<Path>()
-		{
-			@Override
-			public int compare(Path p1, Path p2)
-			{
+    		Collections.sort(paths, new Comparator<Path>()
+    		{
+    			@Override
+    			public int compare(Path p1, Path p2)
+    			{
     				return p1.getArriveTime().compareTo(p2.getArriveTime())*(-1);
-			}
-		});
-    }
+    			}
+    		});
+    	}
     }
     public float calcTime(float distance, float speed)
     {
