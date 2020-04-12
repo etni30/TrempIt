@@ -234,6 +234,18 @@ public class DataBase implements DBInterface {
 		rs.next();
 		return rs.getString("city");
 	}
+
+	@Override
+	public ResultSet getGroups(String srcCity, String dstCity) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/TrempIt", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `srcCity` = ?, `dstCity = ?");
+		ps.setString(1, srcCity);
+		ps.setString(2, dstCity);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
 		
 	
 }

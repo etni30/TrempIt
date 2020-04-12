@@ -43,6 +43,6 @@ public interface DBInterface {
 	// join group, if full return false
 	public boolean joinGroup(int idUser, int idGroup) throws Exception;
 
-	public ResultSet getGroups(String srcCity, String dstCity);
+	public ResultSet getGroups(String srcCity, String dstCity) throws Exception;
 	
 }
