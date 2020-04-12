@@ -1,6 +1,6 @@
 package Model;
 
-public class Time {
+public class Time implements Comparable {
 	
 	private int hour;
 	private int minute;	
@@ -87,21 +87,26 @@ public class Time {
 		return t;
 	}
 	
-	// return 0 if t1<t2, return 1 if t1>t2 
-	public static boolean t1BiggerThant2(Time t1, Time t2) {
+	// return 0 if t1=t2, 1 if t1>t2 and -1 of t1<t2
+	public int compareTo(Time t2) {
 		
-		if(t1.hour < t2.hour) {
-			return false;
+		if(this.hour < t2.hour) {
+			return -1;
 		}
 		
-		if(t1.hour > t2.hour) {
-			return true;
+		if(this.hour > t2.hour) {
+			return 1;
 		}
 		
-		else if(t1.minute >= t2.minute) {
-			return true;
+		else if(this.minute > t2.minute) {
+			return 1;
 		}
-		return false;
+		
+		else if(this.minute < t2.minute)
+			return -1;
+		
+		return 0;
 	}
+
 	}
 

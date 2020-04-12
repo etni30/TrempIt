@@ -38,9 +38,11 @@ public class Algorithm {
 	//______________________________________________________________________________________________________________
     // Method name: findTramps
     // Description: The function returns a list of paths between the two stations
-    
+    // prefer:
+	// 	0 = minimum walk
+	//	1 = early arriveTime
     public ArrayList<Path> findTramps(String srcStation, String srcCity, String dstStation,
-    											String dstCity, Time desiredArriveT) throws Exception
+    											String dstCity, Time desiredArriveT, int prefer) throws Exception
     {
 
     	//-----------------------------Variables initializations----------------------------------------//
@@ -112,21 +114,40 @@ public class Algorithm {
     	
     	// At this point we have put all of the paths in a list. Now we will sort it.
     	
-    	//sortPriority(paths, prefer);	TODO 
-		Collections.sort(paths, new Comparator<Path>()
-		{
-			@Override
-			public int compare(Path p1, Path p2)
-			{
-				return Float.compare(p1.getWalkDistance(), p2.getWalkDistance());
-			}
-		});
+    	sortPriority(paths, prefer);	 
+		
     	
     	return paths;
     		
     }
     //_______________________________________________________________________________________________________________
 
+    private ArrayList<Path> sortPriority(ArrayList<Path> paths, int prefer)
+    {
+    	switch(prefer)
+    	{
+    	case 0:
+    	{
+    		Collections.sort(paths, new Comparator<Path>()
+    		{
+    			@Override
+    			public int compare(Path p1, Path p2)
+    			{
+    				return Float.compare(p1.getWalkDistance(), p2.getWalkDistance())*(-1);
+    			}
+    		});
+    	}
+    	case 1:
+    		Collections.sort(paths, new Comparator<Path>()
+    		{
+    			@Override
+    			public int compare(Path p1, Path p2)
+    			{
+    				return p1.getArriveTime().compareTo(p2.getArriveTime())*(-1);
+    			}
+    		});
+    	}
+    }
     public float calcTime(float distance, float speed)
     {
     	return distance/speed;
