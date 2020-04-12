@@ -83,9 +83,17 @@ public class Algorithm {
     		String groupSrcCity = tramp.getSourceCity();		//
     		String groupDstCity = tramp.getdstCity();			//
     		
-    		float distBtwnSrcs = model.getDistance(srcStation, groupSrcStation);	 //	Get distances
-    		float distBtwnDests = model.getDistance(dstStation, groupDstStation);	 // 
-    		float distBtwnCities = model.getDistance(groupSrcCity, groupDstStation); // get dist btwn cities
+    		float distBtwnSrcs = 0;
+    		float distBtwnDests = 0;
+    		float distBtwnCities = 0;
+    		
+    		if( !srcStation.equals(groupSrcStation))
+    			distBtwnSrcs = model.getDistance(srcStation, groupSrcStation);	 //	If not the same, get distance
+    		
+    		if( !dstStation.equals(groupDstStation))
+        		distBtwnDests = model.getDistance(dstStation, groupDstStation);	 //	If not the same, get distance 
+    		
+    		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); // get dist btwn cities
 
     		
     		Time groupDepTime = tramp.getDepTime();									 // get departure time

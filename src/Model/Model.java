@@ -157,7 +157,7 @@ public class Model implements ModelInterface {
 			dstStation = rs.getString("dststation");
 			
 			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			groups.add(g);
 		}
