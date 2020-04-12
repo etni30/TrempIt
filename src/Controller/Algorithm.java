@@ -29,8 +29,8 @@ public class Algorithm {
 	    }
 	 private Time calcArriveT(Time groupDepTime, float distBtwnCities, float distBtwnDests) throws Exception {
 			
-		 float driveTime = calcTime(distBtwnCities, 70);
-		 float walkTime = calcTime(distBtwnDests, 7);
+		 float driveTime = calcTime(distBtwnCities, 70);	// assume a car drives at 70 kmph
+		 float walkTime = calcTime(distBtwnDests, 7);		// assume a car drives at 7 kmph
 		 
 		 Time arriveT = Time.add(groupDepTime, driveTime + walkTime);
 			return null;
@@ -70,7 +70,7 @@ public class Algorithm {
 			tramps = model.getGroups(srcCity, dstCity);
 		} catch (Exception e) {
 			System.out.println(e);
-			throw e;
+			throw new Exception("DATABASE ERROR");
 		}
     	//--------------------------------------------------------------------------------------//
     	
@@ -93,7 +93,7 @@ public class Algorithm {
     		if( !dstStation.equals(groupDstStation))
         		distBtwnDests = model.getDistance(dstStation, groupDstStation);	 //	If not the same, get distance 
     		
-    		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); // get dist btwn cities
+    		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 	// get dist btwn cities
 
     		
     		Time groupDepTime = tramp.getDepTime();									 // get departure time
@@ -112,7 +112,8 @@ public class Algorithm {
     	
     	// At this point we have put all of the paths in a list. Now we will sort it.
     	
-    	Collections.sort(paths, new Comparator<Path>()
+    	//sortPriority(paths, prefer);	TODO 
+		Collections.sort(paths, new Comparator<Path>()
 		{
 			@Override
 			public int compare(Path p1, Path p2)
