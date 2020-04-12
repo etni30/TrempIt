@@ -11,7 +11,7 @@
 	String destCity = request.getParameter("destCity");
 	String time = request.getParameter("time");
 	Time arrivalTime = new Time(time);
-	String priority = request.getParameter("priority");
+	Integer priority =  Integer.parseInt(request.getParameter("priority"));
 	Model m = new Model();  // TODO change to view after finishig tests 
 	Algorithm alg = new Algorithm();
 	try{
@@ -99,8 +99,8 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
     <%		
 		ArrayList<Path> pathResult;
 		try{
-			pathResult= alg.findTramps(Origin, orgCity, destination, destCity, arrivalTime);//TODO ADD PRIORITY
-	
+			pathResult= alg.findTramps(Origin, orgCity, destination, destCity, arrivalTime, priority);//TODO ADD PRIORITY
+			
 			LinkedList<Group> groupList = m.getGroups();
 %>
     
