@@ -1,3 +1,4 @@
+<%@page import="Controller.Controller"%>
 <%@page import="com.sun.xml.internal.bind.v2.TODO"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
@@ -19,12 +20,12 @@
 			String last = request.getParameter("last");
 			String userName = request.getParameter("userName");
 			String psw = request.getParameter("psw");
-			Model m = new Model();  // TODO change to view after finishig tests 
-			m.addNewUser(first, last, type, userName, psw, "test@gmail.com");
-			int valid = 0;
+			Controller conn = new Controller();
+			Model m = new Model();
+			int valid = conn.addNewUser(first, last, type, userName, psw, "test@gmail.com");
 			if(valid == 0){
-			
-				session.setAttribute("userName", userName);
+				User user = m.getUser(userName);
+				session.setAttribute("User", user);
 				session.setAttribute("type", type);
 	%>
 				<script type="text/javascript">window.location.href = "mainpage.jsp";</script>`

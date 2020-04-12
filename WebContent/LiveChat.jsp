@@ -1,12 +1,15 @@
+<%@page import="Controller.Controller"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="View.*, Model.*, java.util.ArrayList"%>
 <%
 try{
-	String userName=(String)session.getAttribute("userName");
+	User user =(User)session.getAttribute("user");
+	String driverName = request.getParameter("trempBox");
+	
+	Controller conn = new Controller();
 	Model m = new Model();
-	User user = m.getUser(userName);
-
+	//Group g = conn.get TODO add getTREMP
 %>
 <!DOCTYPE html>
 <html>
@@ -19,7 +22,11 @@ try{
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 50%;
+        bottom: 60%;
+        height: 60%;
+        width: 50%;
+        left: 35%;
+        
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -87,7 +94,8 @@ try{
         padding: 6px 12px;
       }
       #target {
-        width: 50%;
+        width: 70%;
+        
         position:relative;
         
       }
@@ -118,14 +126,22 @@ try{
  
         <div class="w3-light-grey w3-round-xlarge w3-small">
          
-        </div>
+         	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>YOUR TREMP DETAILS:</h4> 
+      <table class="groove">
+		  <tr class="groove"><h4><%out.print("group id:"); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("departure time:"); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("place left:"); %></h4></tr>
+	  </table>
 
+         
+        </div>
           <img id="back" src="cssFile/images/button.png" />
         </div>
+        
 
       </div>
       </br>
-      	  	<% session.setAttribute("userName", userName); %>
+      	  	<% session.setAttribute("User", user); %>
 <%	}catch(Exception e){
 	out.println(e);
 } %>
@@ -137,63 +153,38 @@ try{
     <div class="w3-twothird">
 
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>TRAMP SEARCHING (AUTO)</h2>
-      </div>
-	<!--  names of parameters -->
-	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h4> 
-      <table class="groove">
-		  <tr class="groove">
-		    <th class="groove">departure time</th>
-		    <th class="groove">Origin </th>
-		    <th class="groove">destination</th>
-		  </tr>
-	  </table>
-	<!--  searching form  -->
-	<form action="add_new_tremp.jsp"> 
-	  <div class="w3-container w3-card w3-white w3-margin-bottom">
-	  <!-- search parameters -->
-	      <table class="groove">
-			  <tr class="groove">
-				<th class="margin"><input type="time" name="time"/></th>
-			    <th class="margin">
-			    	<select name="Origin">
-					    <option value="1">אחד</option>
-					    <option value="2">שנים</option>
-					    <option value="3">שלוש</option>
-					</select >
-				</th>
-			    <th class="margin">
-			    	<select name= "destination">
-					    <option value="1">אחד</option>
-					    <option value="2">שנים</option>
-					    <option value="3">שלוש</option>
-					</select >
-				</th>
-			 <input id="origin-input" class="controls" type="text"
-            placeholder="Enter an origin location">
-
-        <input id="destination-input" class="controls" type="text"
-            placeholder="Enter a destination location">
-			 <div id="mode-selector" class="controls">
-          <input type="radio" name="type" id="changemode-walking" checked="checked">
-          <label for="changemode-walking">Walking</label>
-
-          <input type="radio" name="type" id="changemode-transit">
-          <label for="changemode-transit">Transit</label>
-
-          <input type="radio" name="type" id="changemode-driving">
-          <label for="changemode-driving">Driving</label>
-        </div>
-    </div>
-			 
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>YOUR TREMPBOX</h2>
+      	<!--  searching form  -->
+	<form action="#" onsubmit="me.route()"> 
+			  <div class="w3-container w3-card w3-white w3-margin-bottom">
+			  <!-- search parameters -->
+			      <table class="groove">
+					  <tr class="groove">
+					 <input id="origin-input" class="controls" type="text"
+		            placeholder="Enter an origin location">
+		
+		        <input id="destination-input" class="controls" type="text"
+		            placeholder="Enter a destination location">
+					 <div id="mode-selector" class="controls">
+				 click on one of the buttons to see how to travel:
+				 </br>
+		          <input type="radio" name="type" id="changemode-walking" checked="checked">
+		          <label for="changemode-walking">Walking</label>
+		
+		          <input type="radio" name="type" id="changemode-transit">
+		          <label for="changemode-transit">Transit</label>
+		
+		          <input type="radio" name="type" id="changemode-driving">
+		          <label for="changemode-driving">Driving</label>
+		        </div>
+		    </div>
+					 
 			  </tr>
 		  </table>
+      </div>
+
 	  	</div>
-
-	<!--  searching form  -->
-
-	  	<div class ="submit" ><input type="submit" value="add a new tremp"></div>
-	  	</form><!-- end of form -->
+	  	</form>
 	
     <!-- End Right Column -->
     </div>
@@ -207,6 +198,17 @@ try{
   
 
     <div id="map"></div>
+    
+    <footer class="w3-container w3-teal w3-center w3-margin-top">
+  <p>Find me on social media.</p>
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
 
     <script>
 // This example requires the Places library. Include the libraries=places
@@ -256,10 +258,7 @@ function AutocompleteDirectionsHandler(map) {
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
   this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-  //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
-  //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(
-  //    destinationInput);
-  //this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(modeSelector);
+
 }
 
 // Sets a listener on a radio button to change the filter type on Places
@@ -322,6 +321,14 @@ AutocompleteDirectionsHandler.prototype.route = function() {
       });
 
 };
+
+var img = document.getElementsByClassName('back');
+document.addEventListener('click', function(e){
+	if(e.target && e.target.id== 'back'){
+		window.location.href = "mainpage.jsp";
+	}
+});
+
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDopI8aARx_Cu5Eo6A3VHvTMKOeqdX9KZE&libraries=places&callback=initMap"

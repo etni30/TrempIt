@@ -42,4 +42,6 @@ public interface ModelInterface {
 
 		// join group, if full return false
 		public boolean joinGroup(int idUser, int idGroup) throws Exception;
+
+		public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception;
 }

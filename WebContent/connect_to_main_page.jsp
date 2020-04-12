@@ -1,7 +1,7 @@
 <%@page import="com.sun.xml.internal.bind.v2.TODO"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="Model.*"%>
+<%@page import="Model.*, Controller.*"%>
     
 
 <!DOCTYPE html>
@@ -14,21 +14,32 @@
 	<%
 		try{
 // TODO remove type
-			String type = request.getParameterValues("type")[0];
+
 			String userName = request.getParameter("userName");
 			String psw = request.getParameter("psw");
 			
+			Controller con = new Controller();
+			//boolean valid = con.checkPassword(userName, psw);
 			Model m = new Model();  // TODO change to view after finishig tests 
+			
+			//User user = con.getUser(username); // TODO CREATE USER METHOD
+			
 			boolean valid = m.checkPassword(userName, psw);
 
 // If the password is valid: set session for the user
 			if(valid == true){
-			session.setAttribute("userName", userName);
-			session.setAttribute("type", type);
-	%>			
-			
-				<script> window.location.href = "mainpage.jsp";</script>`
-	<%
+			User user = m.getUser(userName);
+				if(user instanceof Passenger || user instanceof Driver){
+					session.setAttribute("User", user);
+		%>			
+					<jsp:forward page="mainpage.jsp"/>
+								
+					<!-- <script> window.location.href = "mainpage.jsp";</script>` -->
+		<%
+//for admin:
+				}else{%>
+					<jsp:forward page="demo.jsp"/>
+				<%}
 // if we get a wrong password  get back to index.jsp
 			}else{
 	%>
@@ -40,7 +51,7 @@
 	}catch(Exception e){
 		%>
 		<script type="text/javascript"> 
-		alert("invalid password/user name");
+		alert("<% out.print(e);%>");
 		window.location.href = "demo.jsp";
 		</script>
 <%

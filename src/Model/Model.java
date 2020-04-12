@@ -2,6 +2,7 @@ package Model;
 
 import java.util.LinkedList;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import Model.*;
 import API.DBInterface;
@@ -73,17 +74,21 @@ public class Model implements ModelInterface {
 	public void removeRide() throws Exception{
 		//TODO
 	}
+	
 	// return all edges between two stations
 	public LinkedList<Group> getRide(String srcStation, String dstStation) throws Exception{
+		
 		String srcCity = db.getCity(srcStation);
 		String dstCity = db.getCity(dstStation);
 		ResultSet rs = db.getRide(srcStation, dstStation);
 		LinkedList<Group> groups= new LinkedList<Group>();
 		Group g = null;
+		
 		while(rs.next()) {
 			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getInt("iddriver"), rs.getInt("iduser1"),
-					rs.getInt("iduser2"), rs.getInt("iduser3"), rs.getInt("iduser4"));
+					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
+			
 			groups.add(g);
 		}
 		return groups;
@@ -107,9 +112,11 @@ public class Model implements ModelInterface {
 		String dstStation = rs.getString("dststation");
 		String srcCity = db.getCity(srcStation);
 		String dstCity = db.getCity(dstStation);
-		return new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-				rs.getString("time"), rs.getInt("iddriver"), rs.getInt("iduser1"),
-				rs.getInt("iduser2"), rs.getInt("iduser3"), rs.getInt("iduser4"));
+		
+		Group g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+				rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+				rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
+		return g;
 	}
 
 	// return all groups
@@ -124,16 +131,38 @@ public class Model implements ModelInterface {
 			srcCity = db.getCity(srcStation);
 			dstCity = db.getCity(dstStation);
 			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getInt("iddriver"), rs.getInt("iduser1"),
-					rs.getInt("iduser2"), rs.getInt("iduser3"), rs.getInt("iduser4"));
+					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			groups.add(g);
 		}
 		return groups;
 	}
+	
 
 	// join group, if full return false
 	public boolean joinGroup(int idUser, int idGroup) throws Exception{
 		return db.joinGroup(idUser, idGroup);
+	}
+
+	@Override
+	public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception {
+		
+		ResultSet rs = db.getGroups(srcCity, dstCity);
+		
+		String srcStation, dstStation;
+		LinkedList<Group> groups= new LinkedList<Group>();
+		Group g =null;
+		while(rs.next()) {
+			srcStation = rs.getString("srcstation");
+			dstStation = rs.getString("dststation");
+			
+			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
+			groups.add(g);
+		}
+		return groups;
+		
 	}
 	
  
