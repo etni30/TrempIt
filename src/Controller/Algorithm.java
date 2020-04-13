@@ -116,7 +116,7 @@ public class Algorithm {
     	
     	removeIrrelevantGroups(paths, departureT);
     	
-    	sortPriority(paths, prefer); // sort by preference
+    	sortPriority(paths, prefer); // sort by preference.
 		
     	
     	return paths;
