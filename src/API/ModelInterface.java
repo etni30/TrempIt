@@ -11,10 +11,14 @@ public interface ModelInterface {
 		public void addNewUser(String first, String last, String type, String username, String password, String email) throws Exception;
 		
 		// update properties for specific user
-		public void updateUser(int iduser, String first, String last, String username, String password, String email) throws Exception;
+		public void updateUser(int iduser, String first, String last, String username, String password, String email
+				, boolean isInARide) throws Exception;
 		
-		// find user for specific user, return ResultSet
+		// return user for specific username
 		public User getUser(String username) throws Exception;
+		
+		// return user for specific userid
+		public User getUser(int userId) throws Exception;
 		
 		// check valid password
 		public boolean checkPassword(String username, String password) throws Exception;
@@ -43,5 +47,10 @@ public interface ModelInterface {
 		// join group, if full return false
 		public boolean joinGroup(int idUser, int idGroup) throws Exception;
 
+		// get groups from one city to another city
 		public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception;
+		
+		// delete ride and update all users
+		public void deleteRide(int idDriver) throws Exception;
+
 }

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Group {
 	
-	
+	private int id;
 	private String srcCity;
 	private String srcStation;
 	private String dstCity;
@@ -16,9 +16,10 @@ public class Group {
 	private String[] usersID;
 	
 	
-	public Group(String srcCity, String srcStation, String dstCity, String dstStation, int amount, String depTime,
+	public Group(int id, String srcCity, String srcStation, String dstCity, String dstStation, int amount, String depTime,
 			String idDriver, String idUser1, String idUser2, String idUser3, String idUser4) throws Exception {
 		super();
+		this.id =id;
 		this.srcCity = srcCity;
 		this.srcStation = srcStation;
 		this.dstCity = dstCity;

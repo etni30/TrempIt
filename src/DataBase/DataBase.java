@@ -3,17 +3,22 @@ package DataBase;
 import java.sql.*;
 
 import API.DBInterface;
+import Model.Admin;
+import Model.Driver;
+import Model.Passenger;
 
 // this class will be responsible for handling the database 
 
 public class DataBase implements DBInterface {
 	
 	// add a new user
-	public void addNewUser(String first, String last, String type, String username, String password, String email) throws Exception{
+	public void addNewUser(String first, String last, String type, String username, String password,
+			String email) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 	
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO `users` (`firstname`, `lastname`, `type`, `username`, `password`, `email`) VALUES (?, ?, ?, ?, ?, ?)");
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO `users` (`firstname`, `lastname`, `type`, `username`,"
+				+ " `password`, `email`) VALUES (?, ?, ?, ?, ?, ?)");
 		ps.setString(1, first);
 		ps.setString(2, last);
 		ps.setString(3, type);
@@ -25,28 +30,42 @@ public class DataBase implements DBInterface {
 	}
 	
 	// update properties for specific user
-	public void updateUser(int iduser, String first, String last, String username, String password, String email) throws Exception {
+	public void updateUser(int iduser, String first, String last, String username, String password, String email
+			, boolean isInARide) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("UPDATE `users` SET `firstname` = ?, `lastname` = ? , `username` = ?, `password` = ?, `email` = ?  WHERE `iduser` = ? ");
+		PreparedStatement ps = conn.prepareStatement("UPDATE `users` SET `firstname` = ?, `lastname` = ? , `username` = ?,"
+				+ " `password` = ?, `email` = ?, `isinaride` = ?   WHERE `iduser` = ? ");
 		ps.setString(1, first);
 		ps.setString(2, last);
 		ps.setString(3, username);
 		ps.setString(4, password);
 		ps.setString(5, email);
 		ps.setString(6, Integer.toString(iduser));
+		ps.setBoolean(6, isInARide);
 		ps.executeUpdate();
 		conn.close();
 	}
 	
-	// find user for specific user, return false if failed
+	// return user for specific username
 	public ResultSet getUser(String username) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
 		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `users` WHERE `username` = ?;");
 		ps.setString(1, username);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+	
+	// return user for specific user, return ResultSet
+	public ResultSet getUser(int userId) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `users` WHERE `userid` = ?;");
+		ps.setInt(1, userId);
 		ResultSet rs = ps.executeQuery();
 		return rs;
 	}
@@ -96,7 +115,8 @@ public class DataBase implements DBInterface {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT `distance` FROM `edge` WHERE `station1` = ? AND `station2` = ? ;");
+		PreparedStatement ps = conn.prepareStatement("SELECT `distance` FROM `edge` WHERE `station1` = ? AND"
+				+ " `station2` = ? ;");
 		ps.setString(1, srcStation);
 		ps.setString(2, dstStation);
 		float dis = 0;
@@ -117,15 +137,19 @@ public class DataBase implements DBInterface {
 	}
 
 	// add a ride from source to destination
-	public void addRide(int idDriver, String departureTime, String srcStation, String srcCity, String dstStation, String dstCity) throws Exception{
+	public void addRide(int idDriver, String departureTime, String srcStation, String srcCity, String dstStation,
+			String dstCity) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("INSERT INTO `group` (`srcstation`, `dststation`, `iddriver`, `departureTime`) VALUES (?, ?, ?, ?);");
-		ps.setString(1, srcStation);
-		ps.setString(2, dstStation);
-		ps.setInt(3, idDriver);
-		ps.setString(4, departureTime);
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO `group` (`srcCity`, `dstCity`, `srcstation`,"
+				+ " `dststation`, `iddriver`, `departureTime`) VALUES (?, ?, ?, ?, ?, ?);");
+		ps.setString(1, srcCity);
+		ps.setString(2, dstCity);
+		ps.setString(3, srcStation);
+		ps.setString(4, dstStation);
+		ps.setInt(5, idDriver);
+		ps.setString(6, departureTime);
 		ps.executeUpdate();
 		conn.close();
 	}
@@ -147,7 +171,8 @@ public class DataBase implements DBInterface {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `iddriver` = ? OR `iduser1` = ? OR `iduser2` = ? OR `iduser3` = ? OR `iduser4` = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `iddriver` = ? OR"
+				+ " `iduser1` = ? OR `iduser2` = ? OR `iduser3` = ? OR `iduser4` = ?");
 		ps.setInt(1, idUser);
 		ps.setInt(2, idUser);
 		ps.setInt(3, idUser);
@@ -172,46 +197,43 @@ public class DataBase implements DBInterface {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT `iduser1`, `iduser2`, `iduser3`, `iduser4` FROM `group` WHERE `idgroup` = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT `amount`, `iduser1`, `iduser2`, `iduser3`,"
+				+ " `iduser4` FROM `group` WHERE `idgroup` = ?");
 		ps.setInt(1, idGroup);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-		if(rs.getInt("iduser1") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser1` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}
-		else if(rs.getInt("iduser2") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser2` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}	
-		else if(rs.getInt("iduser3") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser3` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}
-		else if(rs.getInt("iduser4") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser4` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
+		// update status at user
+		ps = conn.prepareStatement("UPDATE `users` SET `status` = 1 WHERE `iduser` = ? ");			
+		ps.setInt(1, idUser);
+		ps.executeUpdate();
+		// update iduser at group
+		int amount = rs.getInt("amount");
+		if(amount < 4){
+			amount += 1;
+			if(rs.getInt("iduser1") == 0) {
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser1` = ?, `amount` = ? WHERE `idgroup` = ? ");
+			}
+			else if(rs.getInt("iduser2") == 0) {
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser2` = ?, `amount` = ? WHERE `idgroup` = ? ");
+			}	
+			else if(rs.getInt("iduser3") == 0) {
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser3` = ?, `amount` = ? WHERE `idgroup` = ? ");
+			}
+			else if(rs.getInt("iduser4") == 0) {
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser4` = ?, `amount` = ? WHERE `idgroup` = ? ");
+			}
 		}
 		else {
 			conn.close();
 			return false;
 		}
+		
+		ps.setInt(1, idUser);
+		ps.setInt(2, amount);
+		ps.setInt(3, idGroup);
+		ps.executeUpdate();
+		conn.close();
+		return true;
 	}
 	
 	// return all stations
@@ -235,17 +257,40 @@ public class DataBase implements DBInterface {
 		return rs.getString("city");
 	}
 
-	@Override
+	// get groups from one city to another city
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `srcCity` = ? AND `dstCity` = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `srcCity` = ? AND"
+				+ " `dstCity` = ? AND `amount` < 4 ");
 		ps.setString(1, srcCity);
 		ps.setString(2, dstCity);
 		ResultSet rs = ps.executeQuery();
 		return rs;
 	}
 		
+	// delete group and update users
+	public void deleteGroup(int idGroup) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("DELETE FROM `group` WHERE `idgroup` = ? ");
+		ps.setInt(1, idGroup);
+		ps.executeUpdate();
+		conn.close();
+
+	}
 	
+	// get group by driver id
+	public ResultSet getGroup(int idDriver) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `iddriver` = ? ");
+		ps.setInt(1, idDriver);
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+
 }
