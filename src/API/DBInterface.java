@@ -43,6 +43,11 @@ public interface DBInterface {
 	// join group, if full return false
 	public boolean joinGroup(int idUser, int idGroup) throws Exception;
 
+	// get groups from one city to another city
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception;
+	
+	// delete group and update users
+	public void deleteGroup(int idGroup) throws Exception;
+
 	
 }

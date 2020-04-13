@@ -85,7 +85,7 @@ public class Model implements ModelInterface {
 		Group g = null;
 		
 		while(rs.next()) {
-			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
 					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			
@@ -100,6 +100,7 @@ public class Model implements ModelInterface {
 		LinkedList<String> stations= new LinkedList<String>();
 		while(rs.next()) {
 			stations.add(rs.getString("stationname"));
+			stations.add(rs.getString("city"));
 		}
 		return stations;
 	}
@@ -113,7 +114,7 @@ public class Model implements ModelInterface {
 		String srcCity = db.getCity(srcStation);
 		String dstCity = db.getCity(dstStation);
 		
-		Group g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+		Group g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
 				rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
 				rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 		return g;
@@ -130,7 +131,7 @@ public class Model implements ModelInterface {
 			dstStation = rs.getString("dststation");
 			srcCity = db.getCity(srcStation);
 			dstCity = db.getCity(dstStation);
-			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
       rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
       rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			groups.add(g);
@@ -144,7 +145,7 @@ public class Model implements ModelInterface {
 		return db.joinGroup(idUser, idGroup);
 	}
 
-	@Override
+	// get groups from one city to another city
 	public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception {
 		
 		ResultSet rs = db.getGroups(srcCity, dstCity);
@@ -156,7 +157,7 @@ public class Model implements ModelInterface {
 			srcStation = rs.getString("srcstation");
 			dstStation = rs.getString("dststation");
 			
-			g = new Group(srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
 					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 			groups.add(g);

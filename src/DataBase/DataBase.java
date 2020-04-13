@@ -3,6 +3,9 @@ package DataBase;
 import java.sql.*;
 
 import API.DBInterface;
+import Model.Admin;
+import Model.Driver;
+import Model.Passenger;
 
 // this class will be responsible for handling the database 
 
@@ -172,46 +175,41 @@ public class DataBase implements DBInterface {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT `iduser1`, `iduser2`, `iduser3`, `iduser4` FROM `group` WHERE `idgroup` = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT `amount`, `iduser1`, `iduser2`, `iduser3`, `iduser4` FROM `group` WHERE `idgroup` = ?");
 		ps.setInt(1, idGroup);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-		if(rs.getInt("iduser1") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser1` = ? WHERE `idgroup` = ? ");			
+		// update status at user
+		ps = conn.prepareStatement("UPDATE `users` SET `status` = 1 WHERE `iduser` = ? ");			
+		ps.setInt(1, idUser);
+		ps.executeUpdate();
+		// update iduser at group
+		int amount = rs.getInt("amount");
+		if(amount < 4){
+			amount += 1;
+			switch(amount) {
+			case 1:
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser1` = ?, `amount` = ? WHERE `idgroup` = ? ");			
+				break;
+			case 2:
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser2` = ?, `amount` = ? WHERE `idgroup` = ? ");			
+				break;
+			case 3:
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser3` = ?, `amount` = ? WHERE `idgroup` = ? ");			
+				break;
+			case 4:
+				ps = conn.prepareStatement("UPDATE `group` SET `iduser4` = ?, `amount` = ? WHERE `idgroup` = ? ");			
+				break;
+			}	
 			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
+			ps.setInt(2, amount);
+			ps.setInt(3, idGroup);
 			ps.executeUpdate();
 			conn.close();
 			return true;
 		}
-		else if(rs.getInt("iduser2") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser2` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}	
-		else if(rs.getInt("iduser3") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser3` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}
-		else if(rs.getInt("iduser4") == 0) {
-			ps = conn.prepareStatement("UPDATE `group` SET `iduser4` = ? WHERE `idgroup` = ? ");			
-			ps.setInt(1, idUser);
-			ps.setInt(2, idGroup);
-			ps.executeUpdate();
-			conn.close();
-			return true;
-		}
-		else {
-			conn.close();
-			return false;
-		}
+		conn.close();
+		return false;
 	}
 	
 	// return all stations
@@ -235,17 +233,35 @@ public class DataBase implements DBInterface {
 		return rs.getString("city");
 	}
 
-	@Override
+	// get groups from one city to another city
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `srcCity` = ? AND `dstCity` = ?");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `srcCity` = ? AND `dstCity` = ? AND `amount` < 4 ");
 		ps.setString(1, srcCity);
 		ps.setString(2, dstCity);
 		ResultSet rs = ps.executeQuery();
 		return rs;
 	}
 		
-	
+	// delete group and update users
+	public void deleteGroup(int idGroup) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `group` WHERE `idgroup` = ? ");
+		ps.setInt(1, idGroup);
+		ResultSet rs = ps.executeQuery();
+		// TODO update each user's status
+		rs.next();
+		int amount = rs.getInt("amount");
+		for(int i = 1; i <= amount; i++) {
+		}
+		
+		ps = conn.prepareStatement("DELETE FROM `group` WHERE `idgroup` = ? ");
+		ps.setInt(1, idGroup);
+		ps.executeUpdate();
+		conn.close();
+
+	}
 }
