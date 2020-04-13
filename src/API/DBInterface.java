@@ -5,14 +5,19 @@ import java.sql.ResultSet;
 public interface DBInterface {
 
 	// add a new user
-	public void addNewUser(String first, String last, String type, String username, String password, String email) throws Exception;
+	public void addNewUser(String first, String last, String type, String username, String password, String email)
+			throws Exception;
 	
 	// update properties for specific user
-	public void updateUser(int iduser, String first, String last, String username, String password, String email) throws Exception;
+	public void updateUser(int iduser, String first, String last, String username, String password, String email,
+			boolean isInARide) throws Exception;
 	
 	// find user for specific user, return ResultSet
 	public ResultSet getUser(String username) throws Exception;
 	
+	// return user for specific user, return ResultSet
+	public ResultSet getUser(int userId) throws Exception;
+
 	// check valid password
 	public boolean checkPassword(String username, String password) throws Exception;
 	
@@ -23,7 +28,8 @@ public interface DBInterface {
 	public float getDistance(String srcStation, String dstStation) throws Exception;
 		
 	// add a ride from source to destination
-	public void addRide(int idDriver, String time, String srcStation, String srcCity, String dstStation, String dstCity) throws Exception;
+	public void addRide(int idDriver, String time, String srcStation, String srcCity, String dstStation,
+			String dstCity) throws Exception;
 	
 	// return all edges between two stations
 	public ResultSet getRide(String srcStation, String dstStation) throws Exception;
@@ -47,7 +53,8 @@ public interface DBInterface {
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception;
 	
 	// delete group and update users
-	public void deleteGroup(int idGroup) throws Exception;
+	public void deleteGroup(int idDriver) throws Exception;
 
-	
+	// get group by driver id
+	public ResultSet getGroup(int idDriver) throws Exception;
 }
