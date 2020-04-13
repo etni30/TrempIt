@@ -11,6 +11,8 @@ import Model.Passenger;
 
 public class DataBase implements DBInterface {
 	
+	// user functions:------------------------------------------------------------------
+	
 	// add a new user
 	public void addNewUser(String first, String last, String type, String username, String password,
 			String email) throws Exception{
@@ -42,8 +44,8 @@ public class DataBase implements DBInterface {
 		ps.setString(3, username);
 		ps.setString(4, password);
 		ps.setString(5, email);
-		ps.setString(6, Integer.toString(iduser));
 		ps.setBoolean(6, isInARide);
+		ps.setInt(7, iduser);
 		ps.executeUpdate();
 		conn.close();
 	}
@@ -70,7 +72,18 @@ public class DataBase implements DBInterface {
 		return rs;
 	}
 	
-	// check valid password
+	// get all users
+	public ResultSet getUsers() throws Exception{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `users`;");
+		ResultSet rs = ps.executeQuery();
+		return rs;
+	}
+
+	
+	// check valid password return true if correct
 	public boolean checkPassword(String username, String password) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
@@ -90,27 +103,20 @@ public class DataBase implements DBInterface {
 			return false;	// wrong username
 		}
 	}
+
+	// edge functions:--------------------------------------------------------------------
 	
-	// find edge between two stations, return ResultSet
-	public ResultSet getEdge(String srcStation, String dstStation) throws Exception{
+	// get all edges, return ResultSet
+	public ResultSet getEdges() throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
-		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `edge` WHERE `station1` = ? AND `station2` = ? ;");
-		ps.setString(1, srcStation);
-		ps.setString(2, dstStation);
+		PreparedStatement ps = conn.prepareStatement("SELECT * FROM `edge`;");
 		ResultSet rs = ps.executeQuery();
-		if(rs.next() != false) {
-			rs.previous();
-			return rs;
-		}
-		ps.setString(1, dstStation);
-		ps.setString(2, srcStation);
-		rs = ps.executeQuery();
 		return rs;
 	}
 	
-	// find distance between two stations, return distance
+	// get distance between two stations, return float
 	public float getDistance(String srcStation, String dstStation) throws Exception{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
@@ -135,6 +141,74 @@ public class DataBase implements DBInterface {
 		conn.close();
 		return dis;
 	}
+	
+	// update distance between two stations
+	public void changeDistance(String station1, String station2) throws Exception{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("UPDATE `edge` SET `distacne` = ? WHERE `station1` = ? AND `station2` = ?");
+		ps.setInt(1, 1);
+		ps.setString(2, station1);
+		ps.setString(3, station2);
+		ps.executeUpdate();
+	}
+	
+	// add station to city with all distance 1
+	public void addStationToEdge(String station, String city) throws Exception{
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT `stationname` FROM `station` WHERE `station` = ?");
+		ps.setString(1, city);
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()) {
+			ps = conn.prepareStatement("INSERT INTO `edge` (`station1`, `station2`, `city`)"
+					+ " VALUES (?, ?, ?)");
+			ps.setString(1, station);
+			ps.setString(2, rs.getString("stationname"));
+			ps.setString(3, city);
+		}
+	}
+	
+	// station functions:------------------------------------------------------------------
+	
+	// return all stations
+		public ResultSet getStations() throws Exception{	
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM `station`");
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		}
+
+		// return city of specific station
+		public String getCity(String station) throws Exception{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT `city` FROM `station` WHERE `stationname` = ? ");
+			ps.setString(1, station);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return rs.getString("city");
+		}
+		
+		// add new station to DB with distance of 1 to all stations in same city
+		public void addStation(String  stationName, String city) throws Exception{
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
+			
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO `station` (`station`, `city`) "
+					+ " VALUES (?, ?);");
+			ps.setString(1, stationName);
+			ps.setString(2, city);
+
+			ps.executeUpdate();
+		}
+
+	// group functions:------------------------------------------------------------------
 
 	// add a ride from source to destination
 	public void addRide(int idDriver, String departureTime, String srcStation, String srcCity, String dstStation,
@@ -182,7 +256,7 @@ public class DataBase implements DBInterface {
 		return rs;		
 	}
 	
-	// return all stations
+	// return all groups
 	public ResultSet getGroups() throws Exception{	
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
@@ -203,8 +277,10 @@ public class DataBase implements DBInterface {
 		ResultSet rs = ps.executeQuery();
 		rs.next();
 		// update status at user
-		ps = conn.prepareStatement("UPDATE `users` SET `status` = 1 WHERE `iduser` = ? ");			
-		ps.setInt(1, idUser);
+		ps = conn.prepareStatement("UPDATE `users` SET `status` = ? WHERE `iduser` = ? ");			
+		ps.setInt(1, 1);
+		ps.setInt(2, idUser);
+
 		ps.executeUpdate();
 		// update iduser at group
 		int amount = rs.getInt("amount");
@@ -236,27 +312,6 @@ public class DataBase implements DBInterface {
 		return true;
 	}
 	
-	// return all stations
-	public ResultSet getStations() throws Exception{	
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
-		
-		PreparedStatement ps = conn.prepareStatement("SELECT `stationname` FROM `station`");
-		ResultSet rs = ps.executeQuery();
-		return rs;
-	}
-
-	// return city of specific station
-	public String getCity(String station) throws Exception{
-		Class.forName("com.mysql.jdbc.Driver").newInstance();
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
-		PreparedStatement ps = conn.prepareStatement("SELECT `city` FROM `station` WHERE `stationname` = ? ");
-		ps.setString(1, station);
-		ResultSet rs = ps.executeQuery();
-		rs.next();
-		return rs.getString("city");
-	}
-
 	// get groups from one city to another city
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception {
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -279,7 +334,6 @@ public class DataBase implements DBInterface {
 		ps.setInt(1, idGroup);
 		ps.executeUpdate();
 		conn.close();
-
 	}
 	
 	// get group by driver id
