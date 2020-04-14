@@ -18,14 +18,11 @@ public class Model implements ModelInterface {
         this.db = new DataBase();
     }
 	
+	// user functions:------------------------------------------------------------------
+	
 	// add a new user
 	public void addNewUser(String first, String last, String type, String username, String password, String email) throws Exception{
 		db.addNewUser(first, last, type, username, password, email);
-	}
-
-	// find distance between two stations, return distance
-	public float getDistance(String srcStation, String dstStation) throws Exception{
-		return db.getDistance(srcStation, dstStation);
 	}
 	
 	// update properties for specific user
@@ -42,20 +39,51 @@ public class Model implements ModelInterface {
 		switch(rs.getString("type")) {
 			case "passenger":
 				u = new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), false);
+						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+						rs.getBoolean("isinaride"));
 				break;
 			case "driver":
 				u = new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), false);
+						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+						rs.getBoolean("isinaride"));
 				break;
 			case "admin":
 				u = new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"));
+						rs.getString("username"), rs.getString("password"), rs.getString("email"),
+						rs.getBoolean("isinaride"));
 				break;
 			default:
 				throw new Exception("not a valid input in DB");
 		}	
 		return u;
+	}
+	
+	// get all users
+	public LinkedList<User> getUsers() throws Exception{
+		ResultSet rs = db.getUsers();
+		LinkedList<User> users= new LinkedList<User>();
+		while(rs.next()) {
+			switch(rs.getString("type")) {
+			case "passenger":
+				users.add(new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+						rs.getBoolean("isinaride")));
+				break;
+			case "driver":
+				users.add(new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
+						rs.getBoolean("isinaride")));
+				break;
+			case "admin":
+				users.add(new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+						rs.getString("username"), rs.getString("password"), rs.getString("email"),
+						rs.getBoolean("isinaride")));
+				break;
+			default:
+				throw new Exception("not a valid input in DB");
+			}	
+		}
+		return users;
 	}
 	
 	// return user for specific userid
@@ -74,7 +102,8 @@ public class Model implements ModelInterface {
 				break;
 			case "admin":
 				u = new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"));
+						rs.getString("username"), rs.getString("password"), rs.getString("email"),
+						rs.getBoolean("isinaride"));
 				break;
 			default:
 				throw new Exception("not a valid input in DB");
@@ -87,35 +116,30 @@ public class Model implements ModelInterface {
 		return db.checkPassword(username, password);
 	}
 			
+	// edge functions:------------------------------------------------------------------
 			
-	// find edge between two stations, return ResultSet
-	public void getEdge(String station1, String station2) throws Exception{
-	}
-			
-	// add a ride from source to destination TODO change parameters ()
-	public void addRide(int idDriver, String time, String srcStation, String srcCity, String dstStation, String dstCity) throws Exception{
-		db.addRide(idDriver, time, srcStation, srcCity, dstStation, dstCity);
-	}
-	
-	
-	// return all edges between two stations
-	public LinkedList<Group> getRide(String srcStation, String dstStation) throws Exception{
-		
-		String srcCity = db.getCity(srcStation);
-		String dstCity = db.getCity(dstStation);
-		ResultSet rs = db.getRide(srcStation, dstStation);
-		LinkedList<Group> groups= new LinkedList<Group>();
-		Group g = null;
-		
+	// return all edges
+	public LinkedList<Edge> getEdges() throws Exception{
+		ResultSet rs = db.getEdges();
+		LinkedList<Edge> edges = new LinkedList<Edge>();
 		while(rs.next()) {
-			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
-					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
-			
-			groups.add(g);
+			edges.add(new Edge(rs.getString("station1"), rs.getString("station2"),
+					rs.getString("city"), rs.getInt("distance")));
 		}
-		return groups;
+		return edges;
 	}
+	
+	// find distance between two stations, return distance
+	public float getDistance(String srcStation, String dstStation) throws Exception{
+		return db.getDistance(srcStation, dstStation);
+	}
+	
+	// update distance between two stations
+	public void changeDistance(String station1, String station2) throws Exception{
+		db.changeDistance(station1, station2);
+	}
+		
+	// station functions:------------------------------------------------------------------
 
 	// return all stations in a linked list where the first is the station name and the second is the city
 	public LinkedList<String> getStations() throws Exception{
@@ -126,6 +150,34 @@ public class Model implements ModelInterface {
 			stations.add(rs.getString("city"));
 		}
 		return stations;
+	}
+	
+	// add new station to DB with default distance of 1 to all stations in same city
+	public void addStation(String  stationName, String city) throws Exception{
+		db.addStationToEdge(stationName, city);
+	}
+		
+		
+	// group functions:------------------------------------------------------------------
+
+	// add a ride from source to destination TODO change parameters ()
+	public void addRide(int idDriver, String time, String srcStation, String srcCity, String dstStation, String dstCity) throws Exception{
+		db.addRide(idDriver, time, srcStation, srcCity, dstStation, dstCity);
+	}
+	
+	// return all edges between two stations
+	public LinkedList<Group> getRide(String srcStation, String dstStation) throws Exception{
+		
+		String srcCity = db.getCity(srcStation);
+		String dstCity = db.getCity(dstStation);
+		ResultSet rs = db.getRide(srcStation, dstStation);
+		LinkedList<Group> groups= new LinkedList<Group>();		
+		while(rs.next()) {
+			groups.add(new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
+			}
+		return groups;
 	}
 	
 	// return user's group
@@ -148,16 +200,14 @@ public class Model implements ModelInterface {
 		ResultSet rs = db.getGroups();
 		String srcStation, dstStation, srcCity, dstCity;
 		LinkedList<Group> groups= new LinkedList<Group>();
-		Group g =null;
 		while(rs.next()) {
 			srcStation = rs.getString("srcstation");
 			dstStation = rs.getString("dststation");
 			srcCity = db.getCity(srcStation);
 			dstCity = db.getCity(dstStation);
-			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+			groups.add(new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
       rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
-      rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
-			groups.add(g);
+      rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 		}
 		return groups;
 	}
@@ -173,15 +223,13 @@ public class Model implements ModelInterface {
 		ResultSet rs = db.getGroups(srcCity, dstCity);
 		String srcStation, dstStation;
 		LinkedList<Group> groups= new LinkedList<Group>();
-		Group g =null;
 		while(rs.next()) {
 			srcStation = rs.getString("srcstation");
 			dstStation = rs.getString("dststation");
 			
-			g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
+			groups.add(new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
 					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
-					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
-			groups.add(g);
+					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 		}
 		return groups;
 		
