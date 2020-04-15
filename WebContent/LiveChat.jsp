@@ -1,18 +1,14 @@
-<%@page import="Controller.Controller"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*, java.util.ArrayList"%>
+<%@page import="Controller.Controller ,Model.*, java.util.ArrayList"%>
 <%
 try{
 	User user =(User)session.getAttribute("user");
-	String driverName = request.getParameter("trempBox");
+	session.setAttribute("User", user);
 	
+	String driverName = request.getParameter("trempBox");
 	Controller conn = new Controller();
-	Model m = new Model();
-	if(user instanceof Passenger){
-		
-	}
-	//Group g = conn.get TODO add getTREMP
+	Group g = conn.getGroupForUser(user.getIdUser());
 %>
 <!DOCTYPE html>
 <html>
@@ -131,12 +127,17 @@ try{
          
          	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>YOUR TREMP DETAILS:</h4> 
       <table class="groove">
-		  <tr class="groove"><h4><%out.print("group id:"); %></h4></tr>
-		  <tr class="groove"><h4><%out.print("departure time:"); %></h4></tr>
-		  <tr class="groove"><h4><%out.print("place left:"); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("group id:" + g.getGroupId()); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("departure time:" + g.getDepTime()); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("departure station: " + g.getSourceStation() 
+		  								+ ", " + g.getSourceCity()); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("destination station: " + g.getdstStation() 
+		  								+ ", " + g.getdstCity()); %></h4></tr>
+		  <tr class="groove"><h4><%out.print("place left:" + (4 - g.getAmount())); %></h4></tr>
 	  </table>
-
-         
+	  <%if(user instanceof Driver){ %>
+		<a href="delete_tremp.jsp">click here to delete the tremp</a>
+         <%} %>
         </div>
           <img id="back" src="cssFile/images/button.png" />
         </div>
@@ -144,10 +145,11 @@ try{
 
       </div>
       </br>
-      	  	<% session.setAttribute("User", user); %>
-<%	}catch(Exception e){
-	out.println(e);
-} %>
+
+<% }catch(Exception e){
+  %>	<script >alert("Data got lost \n log in again");</script >
+		<script >window.location.href = "clear_page.jsp";</script >	
+<%}%>
 
     <!-- End Left Column -->
     </div>
@@ -197,8 +199,6 @@ try{
 
   <!-- End Page Container -->
 </div>
-  
-  
 
     <div id="map"></div>
     
@@ -214,10 +214,6 @@ try{
 </footer>
 
     <script>
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script
-// src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {

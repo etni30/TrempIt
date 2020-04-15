@@ -1,17 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*,java.util.LinkedList"%>
+<%@page import="Controller.Controller, Model.*,java.util.LinkedList"%>
 
 <%
 try{
 	//parameter and initialization
-	Model m = new Model();
+	Controller conn = new Controller();
 	User user = (User)session.getAttribute("User");
-	LinkedList<String> station = m.getStations();
-	//LinkedList<String> city = m.getCities(); TODO
-	LinkedList<String> city = new LinkedList<String>();
-	city.add("raanana");
-	city.add("ramat gan");
+	LinkedList<String> station = conn.getStations();
+	
 	//save userName for next page
 	session.setAttribute("User", user);
 	
@@ -28,7 +25,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
 th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
-th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding-bottom: 20px}
+th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding-bottom: 20px}
 </style>
 <body class="w3-light-grey">
 
@@ -93,19 +90,21 @@ th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding
       <table class="groove">
 		  <tr class="groove">
 		    <th class="groove">departure time</th>
+		    <th class="groove">Arrival time</th>
 		    <th class="groove">Origin station</th>
 		    <th class="groove">dest. station</th>
-		    <th class="groove">Origin station</th>
-		    <th class="groove">dest. city</th>
+<!-- 		    <th class="groove">Origin station</th>
+		    <th class="groove">dest. city</th> -->
 		  </tr>
 	  </table>
 	<!-- ---------------------------- searching form -------------------------------------- -->
-	<form name="myForm" action="tremp_searching.jsp" onsubmit="return validateForm()"> 
+	<form name="myForm" action="tremp_searching.jsp" onsubmit="return validateForm()" method="post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
 			  <tr class="groove">
-				<th class="margin"><input type="time" name="time"/ required="required"></th>
+				<th class="margin"><input type="time"  name="departureT"/ required="required"></th>
+				<th class="margin"><input type="time" name="desiredArriveT"/ required="required"></th>
 			    <th class="margin">
 			    	<select name="Origin" >
 			    	<%for(String x: station) { %>
@@ -116,20 +115,6 @@ th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding
 			    <th class="margin">
 			    	<select name= "destination">
 			    	<%for(String x: station) { %>
-					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
-					<%} %>
-					</select >
-				</th>
-			    <th class="margin">
-			    	<select name= "orgCity">
-			    	<%for(String x: city) { %>
-					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
-					<%} %>
-					</select >
-				</th>
-			    <th class="margin">
-			    	<select name= "destCity">
-			    	<%for(String x: city) { %>
 					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
 					<%} %>
 					</select >
@@ -174,11 +159,14 @@ th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding
 
   <!-- End Page Container -->
 </div>
+<%// if time expired or someone tried to get access without permission
+	}catch(NullPointerException e){
+		%><script >alert("Connection has lost \n log in again");</script >
+			<script >window.location.href = "clear_page.jsp";</script >
 <%	}catch(Exception e){
-	out.println(e);
-%>
-<script type="text/javascript">window.location.href = "mainpage.jsp"</script>
-<%} %>
+%>	<script >alert("Data got lost \n log in again");</script >
+	<script >window.location.href = "clear_page.jsp";</script >	
+<%}%>
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -200,9 +188,10 @@ th.margin {  padding-left: 15px; padding-right: 15px; padding-top: 20px; padding
 	function validateForm() {
 		  var Origin = document.forms["myForm"]["Origin"].value;
 		  var destination = document.forms["myForm"]["destination"].value;
-		  var orgCity = document.forms["myForm"]["orgCity"].value;
-		  var destCity = document.forms["myForm"]["destCity"].value;
-		  if (Origin == destination || orgCity == destCity) {
+		  var dstCity = destination.split(",")[1];
+		  var srcCity = Origin.split(",")[1];
+		  
+		  if (Origin == destination || dstCity == srcCity) {
 		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
 		    return false;
 		  }

@@ -36,6 +36,7 @@ public class Group {
 	
 	public Group(Group g) throws Exception {
 		super();
+		this.id = g.getGroupId();
 		this.srcCity = g.getSourceCity();
 		this.srcStation = g.getSourceStation();
 		this.dstCity = g.getdstCity();
@@ -53,6 +54,7 @@ public class Group {
 		String dstCity = rs.getString("dstCity");
 		String dstStation = rs.getString("dststation");
 		int amount = Integer.parseInt(rs.getString("amount"));
+		int id = Integer.parseInt(rs.getString("idGroup"));
 		String depTime = rs.getString("departureTime");
 		String idDriver = rs.getString("idDriver");
 		String idUser1 = rs.getString("iduser1");
@@ -60,11 +62,13 @@ public class Group {
 		String idUser3 = rs.getString("iduser3");
 		String idUser4 = rs.getString("iduser4");
 		
+		
 		this.srcCity = srcCity;
 		this.srcStation = srcStation;
 		this.dstCity = dstCity;
 		this.dstStation = dstStation;
 		this.amount = amount;
+		this.id = id;
 		this.depTime = new Time(depTime);
 		this.idDriver = idDriver;
 		this.usersID = new String[4];
@@ -73,9 +77,13 @@ public class Group {
 		usersID[2] = idUser3;
 		usersID[3] = idUser4;
 		
+		
 	}
 	
 	// get and set functions:
+	public int getGroupId() {
+		return id;
+	}
 	public String getSourceCity() {
 		return srcCity;
 	}

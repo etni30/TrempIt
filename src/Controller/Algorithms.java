@@ -13,11 +13,11 @@ import Model.Path;
 import Model.Time;
 //import javafx.util.Pair;
 
-public class Algorithm {
+public class Algorithms {
 
 	private ModelInterface model = null;
 
-	public Algorithm() {
+	public Algorithms() {
     	this.model = new Model();
     }
 	

@@ -32,10 +32,17 @@ public interface DBInterface {
 	public ResultSet getEdges() throws Exception;
 	
 	// find distance between two stations, return distance
+<<<<<<< HEAD
+	public float getDistance(String srcStation, String dstStation) throws Exception;
+	
+	// update distance between two stations
+	public void changeDistance(String station1, String station2, float dist) throws Exception;
+=======
 	public double getDistance(String srcStation, String dstStation) throws Exception;
 	
 	// update distance between two stations
 	public void changeDistance(String station1, String station2, double dist) throws Exception;
+>>>>>>> master
 	
 	// add station to city with all distance 1
 	public void addStationToEdge(String station, String city) throws Exception;
