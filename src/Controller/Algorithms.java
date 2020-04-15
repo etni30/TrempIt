@@ -13,15 +13,15 @@ import Model.Path;
 import Model.Time;
 //import javafx.util.Pair;
 
-public class Algorithm {
+public class Algorithms {
 
 	private ModelInterface model = null;
 
-	public Algorithm() {
+	public Algorithms() {
     	this.model = new Model();
     }
 	
-	 public Time calcDepartT(float distance, Time arriveT) throws Exception
+	 private Time calcDepartT(float distance, Time arriveT) throws Exception
 	    {
 	    	float walkTime = calcTime(distance, 7);
 	    	Time departureT = Time.sub(arriveT, walkTime);
@@ -33,7 +33,7 @@ public class Algorithm {
 		 float walkTime = calcTime(distBtwnDests, 7);		// assume a car drives at 7 kmph
 		 
 		 Time arriveT = Time.add(groupDepTime, driveTime + walkTime);
-			return null;
+			return arriveT;
 		}
 	//______________________________________________________________________________________________________________
     // Method name: findTramps
@@ -42,7 +42,7 @@ public class Algorithm {
 	// 	0 = minimum walk
 	//	1 = early arriveTime
     public ArrayList<Path> findTramps(String srcStation, String srcCity, String dstStation,
-    											String dstCity, Time desiredArriveT, int prefer) throws Exception
+    											String dstCity, Time desiredArriveT, Time departureT, int prefer) throws Exception
     {
 
     	//-----------------------------Variables initializations----------------------------------------//
@@ -98,7 +98,7 @@ public class Algorithm {
     		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 	// get dist btwn cities
 
     		
-    		Time groupDepTime = tramp.getDepTime();									 // get departure time
+    		Time groupDepTime = tramp.getDepTime();									 // get group departure time
     		Time departT = calcDepartT(distBtwnSrcs, groupDepTime);					 // calc departure time
 
     		Time arriveT = calcArriveT(groupDepTime, distBtwnCities, distBtwnDests); // calc arriveT
@@ -112,9 +112,11 @@ public class Algorithm {
     		
     	}
     	
-    	// At this point we have put all of the paths in a list. Now we will sort it.
+    	// At this point we have put all of the paths in a list
     	
-    	sortPriority(paths, prefer);	 
+    	paths = removeIrrelevantGroups(paths, departureT);
+    	
+    	sortPriority(paths, prefer); // sort by preference
 		
     	
     	return paths;
@@ -122,30 +124,58 @@ public class Algorithm {
     }
     //_______________________________________________________________________________________________________________
 
-    private ArrayList<Path> sortPriority(ArrayList<Path> paths, int prefer)
+    private ArrayList<Path> removeIrrelevantGroups(ArrayList<Path> paths, Time departureT)
+    {
+    	ArrayList<Path> relevantPaths = new ArrayList<Path>();
+    	for( Path path: paths)
+    	{
+    		// if user depTime>= group DepT add it to relevant paths
+    		if(path.getG().getDepTime().compareTo(departureT) != -1)	
+    		{
+    			relevantPaths.add(path);
+    		}
+    	}
+    	return relevantPaths;
+    }
+    
+    private void sortPriority(ArrayList<Path> paths, int prefer)
     {
     	switch(prefer)
     	{
-    	case 0:
+
+    	case 0:	// Sort by minimum walk distance
     	{
     		Collections.sort(paths, new Comparator<Path>()
     		{
     			@Override
     			public int compare(Path p1, Path p2)
     			{
-    				return Float.compare(p1.getWalkDistance(), p2.getWalkDistance())*(-1);
+    				return Float.compare(p1.getWalkDistance(), p2.getWalkDistance());
     			}
     		});
     	}
-    	case 1:
+    	
+    	case 1:	// Sort by earliest arrive time
     		Collections.sort(paths, new Comparator<Path>()
     		{
     			@Override
     			public int compare(Path p1, Path p2)
     			{
-    				return p1.getArriveTime().compareTo(p2.getArriveTime())*(-1);
+    				return p1.getArriveTime().compareTo(p2.getArriveTime());
     			}
     		});
+    	
+    	case 2:	// Sort by closest departure time to desired departure time
+    	{
+    		Collections.sort(paths, new Comparator<Path>()
+    		{
+    			@Override
+    			public int compare(Path p1, Path p2)
+    			{
+    				return p1.getDepartureTime().compareTo(p2.getDepartureTime());
+    			}
+    		});
+    	}
     	}
     }
     public float calcTime(float distance, float speed)

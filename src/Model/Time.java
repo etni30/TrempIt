@@ -1,6 +1,6 @@
 package Model;
 
-public class Time implements Comparable {
+public class Time {
 	
 	private int hour;
 	private int minute;	
@@ -59,13 +59,14 @@ public class Time implements Comparable {
 		{
 			hour--;
 			minute += 60;
-
+		}
 		
 		if(hour<0)
 			hour += 24;
 		
 		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
 		return t;
+		
 	}
 	
 	public static Time add(Time t1, float t2) throws Exception
@@ -82,10 +83,10 @@ public class Time implements Comparable {
 		if(hour>24)
 			hour -= 24;
 		
-		
 		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
 		return t;
 	}
+	
 	
 	// return 0 if t1=t2, 1 if t1>t2 and -1 of t1<t2
 	public int compareTo(Time t2) {
@@ -107,6 +108,7 @@ public class Time implements Comparable {
 		
 		return 0;
 	}
+
 
 	}
 

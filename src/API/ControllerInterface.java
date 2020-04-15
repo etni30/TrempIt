@@ -2,6 +2,7 @@ package API;
 
 import java.util.LinkedList;
 
+import Model.Group;
 import Model.User;
 
 public interface ControllerInterface {
@@ -13,6 +14,8 @@ public interface ControllerInterface {
     public int getType(User u);
     
     public boolean checkPassword(String userName, String psw) throws Exception;
+    
     public LinkedList<String> getStations() throws Exception;
     
+    public Group getGroupForUser(int idUser) throws Exception;
 }

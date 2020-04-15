@@ -37,6 +37,17 @@ public class Path {
 	public void setArriveTime(Time arriveTime) {
 		this.arriveTime = arriveTime;
 	}
+	public String toString()
+	{
+		String desc = "Group: " + g.toString() + '\n';
+		
+		desc += "walkDistance: " + walkDistance + '\n';
+		desc += "departure time: " + departureTime + '\n';
+		desc += "arriveTime: " + arriveTime + '\n';
+		
+		return desc;
+		
+ 	}
 	
 	
 }

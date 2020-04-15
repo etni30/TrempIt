@@ -6,6 +6,8 @@
 	
 	try{
 		User user= (User)session.getAttribute("User");
+		session.setAttribute("user", user);
+		
 		String type = null;
 		if(user instanceof Passenger)
 			type = "Passenger";
@@ -87,30 +89,26 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
           <%
-          session.setAttribute("User", user);
-          if(type.equals("Passenger")){ 
-        	  
+          if(type.equals("Passenger") && user.getIsInARide() == false){ 
           %>	
           	<a href="automaticSearch.jsp">Automatic search</a>
-          <%}else{ // TODO add driver tremp %>
+          <%}else if(type.equals("Driver") && user.getIsInARide() == false)
+          { // TODO add driver tremp %>
           	<a href="creating_new_tremp.jsp">create a new tremp</a>
-          	<%} %>
+          	<%}else{ 
+          		out.print("Automatic search - (you are already signed to a tremp)");
+          	} %>
           </b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details<span class="w3-tag w3-teal w3-round">recommended</span></h6>
           <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
           <hr>
         </div>
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b><a href="#">Enter to the chat zone (manual search)[optional]</a></b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
-          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
-          <hr>
-        </div>
+
         
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>travel chat (<%
-        		  session.setAttribute("user", user);
-        		  if(user.isInARide()){
+          <h5 class="w3-opacity"><b>travel chat (
+          <%
+        		  if( user.getIsInARide()){
 	        		  if(user instanceof Driver){
 	        		  	%><a href="LiveChat.jsp">tremp zone</a>
 	        		  	<%
@@ -119,7 +117,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 	        			  %><a href="LiveChat.jsp">tremp zone</a>
 	        		  <%}
         		  }else{
-	        			  out.println("not available - sign to a tramp first " + user.isInARide());
+	        			  out.println("not available - sign to a tramp first " /* + user.isInARide() */);
         		  }%>)</b></h5>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
@@ -134,9 +132,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
   <!-- End Page Container -->
 </div>
+
+<%// if time expired or someone tried to get access without permission
+	}catch(NullPointerException e){
+		%><script >alert("Connection has lost \n log in again");</script >
+			<script >window.location.href = "clear_page.jsp";</script >
 <%	}catch(Exception e){
-	out.println(e);
-} %>
+%>	<script >alert("Data got lost \n log in again");</script >
+	<script >window.location.href = "clear_page.jsp";</script >	
+<%}%>
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>

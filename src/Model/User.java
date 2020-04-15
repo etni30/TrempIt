@@ -11,15 +11,17 @@ public abstract class User {
 	private String userName;
 	private String password;
 	private String email;
-	//TODO create a private boolean isInARide, and change the C'tor
+	private boolean isInARide;
 	
-	public User(int idUser, String firstName, String lastName, String userName, String password, String email) {
+	public User(int idUser, String firstName, String lastName, String userName, String password, String email
+			,boolean isInARide) {
 		this.idUser = idUser;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
+		this.isInARide = isInARide;
 	}
 	
 	// get and set functios:
@@ -28,10 +30,6 @@ public abstract class User {
 	}
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
-	}
-	public boolean isInARide() {
-		//TODO make an abstract function for both driver and passenger
-		return true;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -63,10 +61,15 @@ public abstract class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public boolean getIsInARide() {
+		return isInARide;
+	}
+	public void setIsInARide(boolean isInARide) {
+		this.isInARide = isInARide;
+	}
 
-	// if we change values we need to update the data base separately 
 	public void updateDB() throws Exception{
 		Model m = new Model();
-		m.updateUser(idUser, firstName, lastName, userName, password, email);
+		m.updateUser(idUser, firstName, lastName, userName, password, email, isInARide);
 	}
 }

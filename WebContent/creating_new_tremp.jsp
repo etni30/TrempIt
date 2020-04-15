@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*"%>
+<%@page import="Controller.Controller, Model.*, java.util.LinkedList"%>
 
 <%
 try{
-	String userName=(String)session.getAttribute("userName");
-	Model m = new Model();
-	User user = m.getUser(userName);
+	//parameter and initialization
+	Controller conn = new Controller();
+	User user = (User)session.getAttribute("User");
+	LinkedList<String> station = conn.getStations();
+	
+	//save userName for next page
+	session.setAttribute("User", user);
+	
 
 %>
 <!DOCTYPE html>
@@ -75,10 +80,6 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 
       </div>
       </br>
-      	  	<% session.setAttribute("userName", userName); %>
-<%	}catch(Exception e){
-	out.println(e);
-} %>
 
     <!-- End Left Column -->
     </div>
@@ -99,24 +100,24 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="add_new_tremp.jsp"> 
+	<form name="myForm" action="add_new_tremp.jsp" onsubmit="return validateForm()" method="post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
 			  <tr class="groove">
-				<th class="margin"><input type="time" name="time"/></th>
+				<th class="margin"><input type="time" name="departureT"/></th>
 			    <th class="margin">
-			    	<select name="Origin">
-					    <option value="1">אחד</option>
-					    <option value="2">שנים</option>
-					    <option value="3">שלוש</option>
+			    	<select name= "Origin">
+			    	<%for(String x: station) { %>
+					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
+					<%} %>
 					</select >
 				</th>
 			    <th class="margin">
-			    	<select name= "destination">
-					    <option value="1">אחד</option>
-					    <option value="2">שנים</option>
-					    <option value="3">שלוש</option>
+			    	<select name="destination" >
+			    	<%for(String x: station) { %>
+					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
+					<%} %>
 					</select >
 				</th>
 			  </tr>
@@ -137,6 +138,15 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
   <!-- End Page Container -->
 </div>
 
+<%// if time expired or someone tried to get access without permission
+	}catch(NullPointerException e){
+		%><script >alert("Connection has lost \n log in again");</script >
+			<script >window.location.href = "clear_page.jsp";</script >
+<%	}catch(Exception e){
+%>	<script >alert("Data got lost \n log in again");</script >
+	<script >window.location.href = "clear_page.jsp";</script >	
+<%}%>
+
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -155,6 +165,19 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		}
 	});
 	
+	function validateForm() {
+	
+		  var Origin = document.forms["myForm"]["Origin"].value;
+		  var destination = document.forms["myForm"]["destination"].value;
+		  var dstCity = destination.split(",")[1];
+		  var srcCity = Origin.split(",")[1];
+	
+		  if (Origin == destination || dstCity == srcCity) {
+		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
+		    return false;
+		  }
+			
+		}
 </script>
 
 </body>

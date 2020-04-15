@@ -22,14 +22,22 @@ public class Controller implements ControllerInterface{
     }
     
     	
-    // here we will put functions the business logic
-=======
+
 	// here we will put functions the business logic
 
     
     // here we will put the functions that access the database through the model
     
 	// add a new user, return 0 if success, return 1 if there exist user with same name, return 2 if sql problem
+    
+    public User getUser(String username) throws Exception {
+    	try {
+			return model.getUser(username);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			throw new Exception("turn on dB please");
+		}
+    }
     
     public int addNewUser(String first, String last, String type, String username, String password, String email) {
 		try {
@@ -55,13 +63,11 @@ public class Controller implements ControllerInterface{
     		throw e;
     	}
     }
-
+    
+	// return all station
     public LinkedList<String> getStations() throws Exception
     {
-    	ResultSet rs = dataBase.getStations();
-    	System.out.println(rs.toString());
-    	LinkedList<String> stations = new LinkedList<String>();
-    	return stations;
+    	return model.getStations();
     }
 
     
@@ -73,42 +79,14 @@ public class Controller implements ControllerInterface{
     		return 1;
     	return 2;
     }
+
+
+
+	@Override
+	public Group getGroupForUser(int idUser) throws Exception {
+		return model.getGroupForUser(idUser);
+	}
     
-    //______________________________________________________________________________________________________________
-    // Method name: Find_Tremp
-    // Description: The function returns a list of tramps between the two stations that deploy after departure_time.
-    // 				prefer = 0 for minimum walk, prefer = 1 for fastest arrive
-    	
-//TODO delete des and source station, we don't need them
-    
-//    public LinkedList <Tramp> Find_Tramp(String source_station, String source_city, String dest_station, String dest_city, Time departure_time, int prefer )
-//    {
-//    	
-//    	LinkedList <Tramp> trampList  = model.getTramps(source_city, dest_city, departure_time);
-//    	if(prefer == 0)
-//    	{
-//    		int dist;
-//    		for(Tramp tr:trampList)
-//    		{
-//    			//dist = model.get_distance(source_city, source_station, tr.);
-//    		}
-//    	}
-//    	return trampList;
-//    }
-    //_______________________________________________________________________________________________________________
-
-
-
-public static void main(String args[])
-{
-	/*Controller con = new Controller();
-	try {
-		con.getStations();
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}*/
-}
 }
 
 

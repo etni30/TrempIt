@@ -1,34 +1,42 @@
+<%@page import="com.sun.org.apache.xml.internal.security.algorithms.Algorithm"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.omg.CORBA.ExceptionList"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="Model.*, Controller.*, java.util.LinkedList"%>
 <%
+try{
+	User user = (User)session.getAttribute("User");
+	//save userName for next page
+	session.setAttribute("User", user);
+			
+	Controller conn = new Controller();
+			
+	//get data from form
+	//get city and station for source and destination
+	String[] src = request.getParameter("Origin").toString().split(",");  // source
+	String srcStation = src[0];
+	String srcCity = src[1];
+	String[] dst = request.getParameter("destination").toString().split(",");  // destination
+	String dstStation = dst[0];
+ 	String dstCity = dst[1];
+	//get departure and arival time
+ 	String  timeDep = request.getParameter("departureT");
+	String timeAR = request.getParameter("desiredArriveT");
+	Time desiredArriveT = new Time(timeAR);
+	Time departureT = new Time(timeDep);
+	//get prefer result from the user
+	Integer prefer =  Integer.parseInt(request.getParameter("priority"));
+	
+	Algorithms alg = new Algorithms();
 
-	String Origin = request.getParameter("Origin");
-	String destination = request.getParameter("destination");
-	String orgCity = request.getParameter("orgCity");
-	String destCity = request.getParameter("destCity");
-	String time = request.getParameter("time");
-	Time arrivalTime = new Time(time);
-	Integer priority =  Integer.parseInt(request.getParameter("priority"));
-	Model m = new Model();  // TODO change to view after finishig tests 
-	Algorithm alg = new Algorithm();
-	try{
 
-		//parameter and initialization
-		User user = (User)session.getAttribute("User");
 
-		//save userName for next page
-		session.setAttribute("User", user);
-		
+		//Searching Algorithm
+		ArrayList<Path> pathResult;
+		try{
+			pathResult= alg.findTramps(srcStation, srcCity, dstStation, dstCity, desiredArriveT, departureT, prefer);			
 	%>
-<%
-// The searching algorithm
-	//Controller con = new Controller();
-	//LinkedList <Tramp> groupList = con.Find_Tremp(Origin, destination, time, priority);
-%>
-
 
 <!DOCTYPE html>
 <html>
@@ -96,13 +104,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
     </div>
 
     <!-- Right Column -->
-    <%		
-		ArrayList<Path> pathResult;
-		try{
-			pathResult= alg.findTramps(Origin, orgCity, destination, destCity, arrivalTime, priority);//TODO ADD PRIORITY
-			
-			LinkedList<Group> groupList = m.getGroups();
-%>
+
     
     <div class="w3-twothird">
 
@@ -120,37 +122,34 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="LiveChat.jsp" method="post"> 
+	<form action="add_passenger.jsp" method="post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
 	      <% if(pathResult.size()> 0)
 			  for(Path i: pathResult){%>
 			  <tr class="groove">
-			  	<th><input type="radio" name="trempBox" value="<%out.print("i.getG().getId()");%>" required="required"/></th>
+			  	<th><%out.print(i.getG().getGroupId());%></th>
+			  	<th><input type="radio" name="idGroup" value="<%out.print(i.getG().getGroupId());%>" required="required"/></th>
 				<th class="margin"><% out.print(i.getG().getDepTime());%></th>
 			    <th class="margin"><% out.print(i.getG().getSourceStation()); %></th>
 			    <th class="margin"><% out.print(i.getG().getdstStation()); %></th>
 			    <th class="margin"><% out.print(i.getG().getAmount()); %></th>
 			  </tr>
 			  
-			  <%}%>
+			  <%}
+	      //The algorithm didnt find results
+	      else{
+			  %>	
 			  <tr>
 			  <th>
-			  <%
-	 		}catch(Exception e){
-	 		if(e.equals("itamar ERROR"))
-	 			out.print(e);
-			%>
-			<script >
-			alert("you choosed two places from the same city \n \n \t\t\t\t try again");
-			window.location.href = "automaticSearch.jsp";
-			</script>
-			<%
-
-	 			out.print(e);
-	 		}
-	       %>
+			  <script>alert("the system didnt find result for you \n \t\t\ttry again");</script >
+			  <script>window.location.href = "automaticSearch.jsp";</script >
+			  <%}// if time expired or someone tried to get access without permission
+					}catch(NullPointerException e){
+						%><script >alert("Connection has lost \n log in again");</script >
+							<script >window.location.href = "clear_page.jsp";</script >
+			  <%	}%>
 	       </th>
 	      </tr>
 		  </table>
@@ -168,9 +167,10 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
   <!-- End Page Container -->
 </div>
-<%	}catch(Exception e){
-	out.println(e);
-} %>
+<% }catch(Exception e){
+  %>	<script >alert("Data got lost \n log in again");</script >
+		<script >window.location.href = "clear_page.jsp";</script >	
+<%}%>
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
