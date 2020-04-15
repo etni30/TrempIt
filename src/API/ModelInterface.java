@@ -35,10 +35,10 @@ public interface ModelInterface {
 		public LinkedList<Edge> getEdges() throws Exception;
 		
 		// find distance between two stations, return distance
-		public float getDistance(String srcStation, String dstStation) throws Exception;
+		public double getDistance(String srcStation, String dstStation) throws Exception;
 		
 		// update distance between two stations
-		public void changeDistance(String station1, String station2) throws Exception;
+		public void changeDistance(String station1, String station2, double dist) throws Exception;
 
 		// station functions:------------------------------------------------------------------
 

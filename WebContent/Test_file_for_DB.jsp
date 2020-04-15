@@ -5,10 +5,10 @@
 // messege for itamar and eliyahu: this is a test file for our database dony delete it!
 
 
-DataBase db = new DataBase();
 try{
-//	db.addNewUser("assi", "cohen", "driver", "thr", "1234", "@");
-//	db.updateUser(19, "driver", "cohen", "beni", "1234", "@");
+	DataBase db = new DataBase();
+//	db.addNewUser("etni", "hagshi", "admin", "etni30", "1234", "etni30@gmail.com");
+//	db.updateUser(19, "tom", "cohen", "beni", "1234", "@", true);
 //	db.addRide(18, "15:00", "ahuza shwartz", "ra'anana", "ramat hen", "ramat gan");
 //	db.getEdge("ahuza shwartz", "amidar");
 //	db.getRide("ahuza shwartz", "ramat hen");
@@ -18,31 +18,51 @@ try{
 //	int x = db.getDistance("ahuza shwartz", "amidar");
 //	System.out.println(db.getTime());
 
-/*	Time t1 = new Time("13:00");
+/*
+	Time t1 = new Time("13:00");
 	Time t2 = new Time("13:30");
 	Time t3 = new Time("02:00");
 	Time t4 = new Time("13:00");
 	System.out.println(Time.cmpTime(t1, t2));
 	System.out.println(Time.cmpTime(t1, t3));
 	System.out.println(Time.cmpTime(t1, t4));
+
 */
-
-
 	Model m = new Model();
-//	m.addNewUser("eliyahu" , "levi", "passenger", "eli1", "1234", "eli@gmail.com");
-	System.out.println(m.checkPassword("eli1", "1234"));
-/*	
 
-	User u1 = m.getUser("eli1");
-	System.out.println(u1.getEmail());
-	u1.setEmail("eli29@gmail.com");
-	u1.updateDB();
-	Passenger p1 = (Passenger) u1;
-	System.out.println(p1.joinGroup(1));
 
-	Driver d1 = (Driver) m.getUser("guy1");
-	d1.addRide("12:30", "marom nave", "ramat gan", "amidar", "ra'anana");	
+//	m.addNewUser("etni", "hagshi", "admin", "etni30", "1234", "etni30@gmail.com");
+
+//	System.out.println(m.checkPassword("a", "a"));
 	
+
+//	System.out.println(u1.getEmail());
+//	u1.setEmail("eli19@gmail.com");
+//	u1.updateDB();
+
+//	Passenger p1 = (Passenger) m.getUser("eli1");
+//	System.out.println(p1.joinGroup(1));
+
+//	Driver d = (Driver) m.getUser(17);
+//	d.deleteRide();
+
+//	Driver d1 = (Driver) m.getUser("guy1");
+//	d1.addRide("12:30", "marom nave", "ramat gan", "amidar", "ra'anana");	
+	Admin a = (Admin) m.getUser(24);
+//	a.updateFirstName(13, "Eden");
+//	a.updateFirstName(16, "Igor");
+//	a.updateLastName(13, "Fargon");
+//	a.updateLastName(16, "Rochlin");
+//	a.updateUserName(13, "eden123");
+//	a.updateUserName(16, "igor123");
+//	a.updatePassword(13, "1234");
+//	a.updatePassword(16, "12345");
+	
+	System.out.println(a.getStations().size());
+
+//	a.addStation("soroka", "beer sheva");
+
+/*	
 	System.out.println(m.getDistance("kiryat shret", "amidar"));
 	System.out.println(m.getDistance("amidar", "kiryat shret"));
 	
