@@ -120,7 +120,11 @@ public class DataBase implements DBInterface {
 	}
 	
 	// get distance between two stations, return double
+<<<<<<< HEAD
 	public float getDistance(String srcStation, String dstStation) throws Exception{
+=======
+	public double getDistance(String srcStation, String dstStation) throws Exception{
+>>>>>>> master
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
@@ -128,10 +132,10 @@ public class DataBase implements DBInterface {
 				+ " `station2` = ? ;");
 		ps.setString(1, srcStation);
 		ps.setString(2, dstStation);
-		float dis = 0;
+		double dis = 0;
 		ResultSet rs = ps.executeQuery();
 		if(rs.next() != false) {
-			dis = rs.getFloat("distance");
+			dis = rs.getDouble("distance");
 			rs.previous();
 			conn.close();
 			return dis;
@@ -140,13 +144,17 @@ public class DataBase implements DBInterface {
 		ps.setString(2, srcStation);
 		rs = ps.executeQuery();
 		rs.next();
-		dis = rs.getFloat("distance");
+		dis = rs.getDouble("distance");
 		conn.close();
 		return dis;
 	}
 	
 	// update distance between two stations
+<<<<<<< HEAD
 	public void changeDistance(String station1, String station2, float dist) throws Exception{
+=======
+	public void changeDistance(String station1, String station2, double dist) throws Exception{
+>>>>>>> master
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/trampit", "root", "");
 		
@@ -330,11 +338,18 @@ public class DataBase implements DBInterface {
 		// update iduser at group
 		int amount = rs.getInt("amount");
 		if(amount == 4){
+<<<<<<< HEAD
 			System.out.println("test4");
 			conn.close();
 			return false;
 		}
 		System.out.println("test5");
+=======
+			conn.close();
+			return false;
+		}
+
+>>>>>>> master
 		amount += 1;
 		if(rs.getInt("iduser1") == 0) {
 			ps = conn.prepareStatement("UPDATE `group` SET `iduser1` = ?, `amount` = ? WHERE `idgroup` = ? ");
@@ -392,5 +407,8 @@ public class DataBase implements DBInterface {
 		return rs;
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 }
