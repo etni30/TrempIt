@@ -31,31 +31,30 @@ public class Model implements ModelInterface {
 		db.updateUser(iduser, first, last, username, password, email, isInARide);
 	}
 	
-	// return user for specific username
-	public User getUser(String username) throws Exception{
-		ResultSet rs = db.getUser(username);
-		User u = null;
-		rs.next();
-		switch(rs.getString("type")) {
+	public User creatUser(String type, ResultSet rs) throws Exception{
+		switch(type) {
 			case "passenger":
-				u = new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+				return new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
 						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
 						rs.getBoolean("isinaride"));
-				break;
 			case "driver":
-				u = new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+				return new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
 						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
 						rs.getBoolean("isinaride"));
-				break;
 			case "admin":
-				u = new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
+				return new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
 						rs.getString("username"), rs.getString("password"), rs.getString("email"),
 						rs.getBoolean("isinaride"));
-				break;
 			default:
 				throw new Exception("not a valid input in DB");
 		}	
-		return u;
+	}
+	
+	// return user for specific username
+	public User getUser(String username) throws Exception{
+		ResultSet rs = db.getUser(username);
+		rs.next();
+		return creatUser(rs.getString("type"), rs);
 	}
 	
 	// get all users
@@ -63,25 +62,7 @@ public class Model implements ModelInterface {
 		ResultSet rs = db.getUsers();
 		LinkedList<User> users= new LinkedList<User>();
 		while(rs.next()) {
-			switch(rs.getString("type")) {
-			case "passenger":
-				users.add(new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
-						rs.getBoolean("isinaride")));
-				break;
-			case "driver":
-				users.add(new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), 
-						rs.getBoolean("isinaride")));
-				break;
-			case "admin":
-				users.add(new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"),
-						rs.getBoolean("isinaride")));
-				break;
-			default:
-				throw new Exception("not a valid input in DB");
-			}	
+			users.add(creatUser(rs.getString("type"), rs));
 		}
 		return users;
 	}
@@ -89,26 +70,8 @@ public class Model implements ModelInterface {
 	// return user for specific userid
 	public User getUser(int userId) throws Exception{
 		ResultSet rs = db.getUser(userId);
-		User u = null;
 		rs.next();
-		switch(rs.getString("type")) {
-			case "passenger":
-				u = new Passenger(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), false);
-				break;
-			case "driver":
-				u = new Driver(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"), false);
-				break;
-			case "admin":
-				u = new Admin(rs.getInt("iduser"), rs.getString("firstname"), rs.getString("lastname"),
-						rs.getString("username"), rs.getString("password"), rs.getString("email"),
-						rs.getBoolean("isinaride"));
-				break;
-			default:
-				throw new Exception("not a valid input in DB");
-		}	
-		return u;
+		return creatUser(rs.getString("type"), rs);
 	}
 	
 	// check valid password
@@ -130,13 +93,13 @@ public class Model implements ModelInterface {
 	}
 	
 	// find distance between two stations, return distance
-	public float getDistance(String srcStation, String dstStation) throws Exception{
+	public double getDistance(String srcStation, String dstStation) throws Exception{
 		return db.getDistance(srcStation, dstStation);
 	}
 	
 	// update distance between two stations
-	public void changeDistance(String station1, String station2) throws Exception{
-		db.changeDistance(station1, station2);
+	public void changeDistance(String station1, String station2, double dist) throws Exception{
+		db.changeDistance(station1, station2, dist);
 	}
 		
 	// station functions:------------------------------------------------------------------
@@ -154,7 +117,9 @@ public class Model implements ModelInterface {
 	
 	// add new station to DB with default distance of 1 to all stations in same city
 	public void addStation(String  stationName, String city) throws Exception{
+		db.addStation(stationName, city);
 		db.addStationToEdge(stationName, city);
+		db.addCityToEdge(city);
 	}
 		
 		
@@ -174,7 +139,7 @@ public class Model implements ModelInterface {
 		LinkedList<Group> groups= new LinkedList<Group>();		
 		while(rs.next()) {
 			groups.add(new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-					rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 			}
 		return groups;
@@ -190,7 +155,7 @@ public class Model implements ModelInterface {
 		String dstCity = db.getCity(dstStation);
 		
 		Group g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-				rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+				rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 				rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
 		return g;
 	}
@@ -206,7 +171,7 @@ public class Model implements ModelInterface {
 			srcCity = db.getCity(srcStation);
 			dstCity = db.getCity(dstStation);
 			groups.add(new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
-      rs.getString("time"), rs.getString("iddriver"), rs.getString("iduser1"),
+      rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
       rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 		}
 		return groups;
@@ -238,7 +203,7 @@ public class Model implements ModelInterface {
 	// delete ride in DB and update each user
 	public void deleteRide(int idDriver) throws Exception{
 		ResultSet rs = db.getGroup(idDriver);
-		
+		rs.next();
 		int id = rs.getInt("iduser1");
 		if(id != 0) {
 			User u = getUser(id);

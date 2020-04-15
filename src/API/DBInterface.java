@@ -1,9 +1,6 @@
 package API;
 
 import java.sql.ResultSet;
-import java.util.LinkedList;
-
-import Model.User;
 
 public interface DBInterface {
 	
@@ -23,10 +20,10 @@ public interface DBInterface {
 	// return user for specific user, return ResultSet
 	public ResultSet getUser(int userId) throws Exception;
 	
-	// get all users
+	// get all users, return ResultSet
 	public ResultSet getUsers() throws Exception;
 
-	// check valid password
+	// check valid password, return true if match
 	public boolean checkPassword(String username, String password) throws Exception;
 	
 	// edge functions:--------------------------------------------------------------------
@@ -35,13 +32,16 @@ public interface DBInterface {
 	public ResultSet getEdges() throws Exception;
 	
 	// find distance between two stations, return distance
-	public float getDistance(String srcStation, String dstStation) throws Exception;
+	public double getDistance(String srcStation, String dstStation) throws Exception;
 	
 	// update distance between two stations
-	public void changeDistance(String station1, String station2) throws Exception;
+	public void changeDistance(String station1, String station2, double dist) throws Exception;
 	
 	// add station to city with all distance 1
 	public void addStationToEdge(String station, String city) throws Exception;
+	
+	// add city to edge with distance 1 to all cities
+	public void addCityToEdge(String city) throws Exception;
 	
 	// station functions:------------------------------------------------------------------
 
