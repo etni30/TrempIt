@@ -6,6 +6,7 @@ try{
 	User user =(User)session.getAttribute("user");
 	session.setAttribute("User", user);
 	String driverName;
+	Controller conn = new Controller();
 	if(user instanceof Passenger){
 		driverName = request.getParameter("trempBox");
 	}
@@ -13,7 +14,6 @@ try{
 		driverName = user.getUserName();
 		
 	}
-	Controller conn = new Controller();
 	Group g = conn.getGroupForUser(user.getIdUser());
 	
 %>
@@ -141,8 +141,12 @@ try{
 		  <tr class="groove"><h4><%out.print("destination station: " + g.getdstStation() 
 		  								+ ", " + g.getdstCity()); %></h4></tr>
 		  <tr class="groove"><h4><%out.print("place left:" + (4 - g.getAmount())); %></h4></tr>
+
 	  </table>
-	  <%if(user instanceof Driver){ %>
+	  <%
+	  
+	  
+	  if(user instanceof Driver){ %>
 		<a href="delete_tremp.jsp">click here to delete the tremp</a>
          <%} %>
         </div>

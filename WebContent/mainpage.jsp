@@ -7,15 +7,12 @@
 	try{
 		User user= (User)session.getAttribute("User");
 		session.setAttribute("user", user);
-		
+		//get user type
 		String type = null;
 		if(user instanceof Passenger)
 			type = "Passenger";
-		else if(user instanceof Driver)
-			type = "Driver";
 		else
-			type = "Admin";
-		Model m = new Model();
+			type = "Driver";
 
 %>
 
@@ -94,7 +91,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           %>	
           	<a href="automaticSearch.jsp">Automatic search</a>
           <%}else if(type.equals("Driver") && user.getIsInARide() == false)
-          { // TODO add driver tremp %>
+          { %>
           	<a href="creating_new_tremp.jsp">create a new tremp</a>
           <%}else if(user instanceof Admin) {%>
           <a href="show_tables.jsp">Show tables</a>	
@@ -102,46 +99,23 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           		out.print("Automatic search - (you are already signed to a tremp)");
           	} %>
           </b></h5>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details<span class="w3-tag w3-teal w3-round">recommended</span></h6>
-          <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i><span class="w3-tag w3-teal w3-round">recommended</span></h6>
+          <p>Start a ride with trampIt. Insert your desired destination, origin, and your arrival time, and find the best group for your ride.</p>
           <hr>
         </div>
 
-                    <%
-          	if(user instanceof Admin){%>
-          	
-        <div class="w3-container">
-          <h5 class="w3-opacity"><b>
-          		<a href="LiveChat.jsp">Edit users</a>
-          <%}else{%>
-          travel chat (
-	
-          	
-        		 <% if( user.getIsInARide()){
+ 
+          <%{
+        		 if( user.getIsInARide()){  // 
 	        		  	%><a href="LiveChat.jsp">trampBox</a>
         		  <%}else{
-	        			  out.println("not available - sign to a tramp first " /* + user.isInARide() */);
+	        			  out.println("not available - sign to a tramp first " );
         		  }
-        		%>)</b></h5> <%} %>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
+        		%></b></h5> <%} %>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>tramp information page</h6>
+          <p>tramp details and navigation map</p><br>
         </div>
-       <%if(user instanceof Admin){%>
-      <div class="w3-container">
-          <h5 class="w3-opacity"><b>
-          		<a href="LiveChat.jsp">Add stations</a>     
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
-        </div>
-        <%}if(user instanceof Admin){%>
-      <div class="w3-container">
-          <h5 class="w3-opacity"><b>
-          		<a href="LiveChat.jsp">Change Edge Distance</a>     
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
-        </div>
-     
-<%}%>
+  
       </div>
       </div>
 
@@ -164,15 +138,12 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+
+  <p>Powered by Hagashi & co.</a></p>
 </footer>
+
 <script >
+	//evet listener for exit
 	var img = document.getElementsByClassName('back');
 	document.addEventListener('click', function(e){
 		if(e.target && e.target.id== 'back'){

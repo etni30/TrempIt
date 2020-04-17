@@ -166,7 +166,10 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			    <th class="margin"><% out.print("SourceCity"); %></th>
 			    <th class="margin"><% out.print("SourceStation"); %></th>
 			    <th class="margin"><% out.print("DepTime"); %></th>
-			    <th class="margin"><% out.print("UsersID"); %></th>
+			    <th class="margin"><% out.print("UsersID1"); %></th>
+			    <th class="margin"><% out.print("UsersID2"); %></th>
+			    <th class="margin"><% out.print("UsersID3"); %></th>
+			    <th class="margin"><% out.print("UsersID4"); %></th>
 			  </tr>        
 		<%		
 			  j = 0;
@@ -180,8 +183,10 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			    <th class="margin"><% out.print(i.getSourceCity()); %></th>
 			    <th class="margin"><% out.print(i.getSourceStation()); %></th>
 			    <th class="margin"><% out.print(i.getDepTime()); %></th>
-			    <th class="margin"><% out.print(i.getUsersID()); %></th>
-
+			    <th class="margin"><% out.print(i.getUsersID()[0]); %></th>
+			    <th class="margin"><% out.print(i.getUsersID()[1]); %></th>
+			    <th class="margin"><% out.print(i.getUsersID()[2]); %></th>
+			    <th class="margin"><% out.print(i.getUsersID()[3]); %></th>			    			    
 		</tr>
 			  <%}%>
 		 </table>
@@ -211,7 +216,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			  <th class="margin"><% out.print("clicked on the select user");%></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getUserName()); %>"><% out.print(i.getUserName()); %></th>
 				<th id="chosenUser" class="margin" value="<% out.print(i.getFirstName());%>"><% out.print(i.getFirstName());%></th>
-			    <th id="chosenUser" class="margin" value="<% out.print(i.getIdUser()); %>"><% out.print(i.getIdUser()); %></th>
+			    <th id="chosenUser" class="margin" value="<% out.print(i.getIdUser());%>" ><% out.print(i.getIdUser()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getIsInARide()); %>"><% out.print(i.getIsInARide()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getLastName()); %>"><% out.print(i.getLastName()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getPassword()); %>"><% out.print(i.getPassword()); %></th>
@@ -221,11 +226,11 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			  <%}%>
 		<form action="changeUserServlet"  method="post" >
 		<tr id="userChange">
-				<th><input type="checkbox" name="User" required="required" value=""></th>
+				<th><input type="checkbox" name="User" required="required" value="" ></th>
 				
 				<th><input type="text" name="UserName" value="enter username" required="required"/></th>			
 				<th><input type="text" name="FirstName" value="enter FirstName" required="required"/></th>
-				<th><input type="text" name="IdUser" value="enter IdUser" required="required"/></th>
+				<th><input type="text" name="IdUser" value="enter IdUser" required="required" disabled/></th>
 				<th><input type="text" name="IsInARide" value="enter IsInARide(1/0)" required="required"/></th>
 				<th><input type="text" name="LastName" value="enter LastName" required="required"/></th>
 				<th><input type="text" name="Password" value="enter Password" required="required"/></th>

@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Controller.Controller;
+import Model.Admin;
 import Model.User;
 
 /**
- * Servlet implementation class SignInServlet
+ * Servlet implementation class SignInServlet:
+ * 
+ * the servlet check if the user is valid
+ * create session for the user
+ * and send the user to mainpage or show_tables depend on kind of the user
  */
 @WebServlet("/SignInServlet")
 public class SignInServlet extends HttpServlet {
@@ -46,21 +51,24 @@ public class SignInServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 
         try {
-        	//validation- check password and type
+        	//Sign up - get data for the new user
 	        Controller conn = new Controller();
 			String type = request.getParameter("type");
 			String first = request.getParameter("first");
 			String last = request.getParameter("last");
 			String userName = request.getParameter("userName");
 			String psw = request.getParameter("psw");
+			String mail = request.getParameter("mail");
 
-
-			int valid = conn.addNewUser(first, last, type, userName, psw, "test@gmail.com");
+			//sign up the new user & check validation
+			int valid = conn.addNewUser(first, last, type, userName, psw, mail);
 	        
-			if(valid == 0){
+			if(valid == 0){  // valid user
 				User user = conn.getUser(userName);
 				session.setAttribute("User", user);
-				response.sendRedirect("mainpage.jsp");
+				if(user instanceof Admin)  // for admin user
+					response.sendRedirect("show_tables.jsp");
+				response.sendRedirect("mainpage.jsp");  // for other users
 			}else {
 				throw new Exception("invalid user name, the name is already in use");
 			}
@@ -71,6 +79,7 @@ public class SignInServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 		    
+		    //print the error
 			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
 		    out.print(str);
 		    

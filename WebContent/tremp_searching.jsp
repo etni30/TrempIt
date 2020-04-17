@@ -100,7 +100,8 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		    <th class="groove">places left</th>
 		  </tr>
 	  </table>
-	<!--  searching form  -->
+	  
+	<!--  algorithm result form (user choose group) -->
 	<form action="AddPassengerServlet" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
@@ -109,7 +110,6 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 				
 			  for(Path i: pathResult){%>
 			  <tr class="groove">
-			  	<th><%out.print(i.getG().getGroupId());%></th>
 			  	<th><input type="radio" name="idGroup" value="<%out.print(i.getG().getGroupId());%>" required="required"/></th>
 				<th class="margin"><% out.print(i.getG().getDepTime());%></th>
 			    <th class="margin"><% out.print(i.getG().getSourceStation()); %></th>

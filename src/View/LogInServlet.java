@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import Controller.Controller;
 import Model.Admin;
+import Model.Driver;
+import Model.Passenger;
 import Model.User;
 
 /**
@@ -46,16 +48,20 @@ public class LogInServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 
         try {
-        	//validation- check password and type
+        	//get parameters from form
 	        String username = request.getParameter("userName").toString();
 	        String password = request.getParameter("psw").toString();
 	        Controller conn = new Controller();
-	        
-					if(conn.checkPassword(username, password)) {  // passowrd validation
+	        		//validation- check password and type
+					if(conn.checkPassword(username, password)) {  // for valid password
 						User user = conn.getUser(username);
 						session.setAttribute("User", user);
-						response.sendRedirect("mainpage.jsp");
-					}else {
+						if(user instanceof Passenger || user instanceof Driver)
+							response.sendRedirect("mainpage.jsp");
+						else {  // for admin
+							response.sendRedirect("show_tables.jsp");
+						}
+					}else { // wrong password or username
 						throw new Exception("invalid password or Username");
 					}
 		} catch (Exception e) {
@@ -65,6 +71,7 @@ public class LogInServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 		    
+		    //show error
 			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
 		    out.print(str);
 		    

@@ -6,8 +6,8 @@
 try{
 	//parameter and initialization
 	Controller conn = new Controller();
-	User user = (User)session.getAttribute("User");
-	LinkedList<String> station = conn.getStations();
+	Driver user = (Driver)session.getAttribute("User");
+	LinkedList<String> station = conn.getStations();  // the user select a station from list
 	
 	//save userName for next page
 	session.setAttribute("User", user);
@@ -25,10 +25,12 @@ try{
 <head>
 
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
+table{overflow: auto; white-space;}
+table.groove {overflow: auto; white-space; nowrap; position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
-th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
-th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px}
+th.groove {border-left-style: double;  padding-left: 30px; padding-right: 30px; }
+th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 45px; padding-right: 45px; padding-top: 10px; padding-bottom: 10px;
+			background-color: #d4bce1;}
 </style>
 
 </head>
@@ -92,20 +94,21 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
       </div>
 	<!--  names of parameters -->
 	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h4> 
-      <table class="groove">
-		  <tr class="groove">
-		    <th class="groove">departure time</th>
-		    <th class="groove">Origin </th>
-		    <th class="groove">destination</th>
-		  </tr>
-	  </table>
+
 	<!--  searching form  -->
+<table class="groove">
 	<form name="myForm" action="AddNewTrempServlet" onsubmit="return validateForm()" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
-	      <table class="groove">
+
 			  <tr class="groove">
-				<th class="margin"><input type="time" name="departureT"/></th>
+			    <th class="groove">departure time</th>
+			    <th class="groove">Origin </th>
+			    <th class="groove">destination</th>
+			  </tr>
+			  
+			  <tr class="groove">
+				<th class="margin"><input type="time" name="departureT" required="required"/></th>
 			    <th class="margin">
 			    	<select name= "Origin">
 			    	<%for(String x: station) { %>
@@ -121,14 +124,15 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 					</select >
 				</th>
 			  </tr>
-		  </table>
+	  		<tr><div><input type="submit" value="add a new tremp"></div></tr>  
 	  	</div>
 
 	<!--  searching form  -->
 
-	  	<div class ="submit" ><input type="submit" value="add a new tremp"></div>
+
 	  	</form><!-- end of form -->
-	
+</table>
+
     <!-- End Right Column -->
     </div>
 
@@ -149,13 +153,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p>Powered by Hgashi & co.</a></p>
 </footer>
 <script >
 	var img = document.getElementsByClassName('back');

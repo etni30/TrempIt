@@ -54,7 +54,7 @@ public class AdminServlet extends HttpServlet {
 						if(user instanceof Admin || true) {  //Admin validation
 							HttpSession Hsess = request.getSession(true);
 							Hsess.setAttribute("User", user);
-							response.sendRedirect("mainpage.jsp");
+							response.sendRedirect("show_tables.jsp");
 						// hendle errors
 						}else {
 						    throw new Exception("ERROR the user is not admin");	
