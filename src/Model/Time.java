@@ -75,15 +75,15 @@ public class Time {
 		int hour = t1.getHour() + Math.round(t2);
 		
 		int minute = (int) (t1.getMinute() + (t2%1)*60);
-		if(minute>60)
+		while(minute>60)
 		{
 			hour++;
-			minute += 60;
+			minute -= 60;
 		}
-		if(hour>24)
+		if(hour>24)	
 			hour -= 24;
 		
-		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute).charAt(0) +  String.valueOf(minute).charAt(1));
+		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
 		return t;
 	}
 	

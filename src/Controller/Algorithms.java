@@ -28,10 +28,8 @@ public class Algorithms {
 	    	return departureT;
 	    }
 	 private Time calcArriveT(Time groupDepTime, float distBtwnCities, float distBtwnDests) throws Exception {
- 		System.out.println("test6");
 		 float driveTime = calcTime(distBtwnCities, 70);	// assume a car drives at 70 kmph
 		 float walkTime = calcTime(distBtwnDests, 7);		// assume a car drives at 7 kmph
- 		System.out.println("test7");
 		 Time arriveT = Time.add(groupDepTime, driveTime + walkTime);
 
 		 return arriveT;
@@ -91,34 +89,37 @@ public class Algorithms {
     		float distBtwnSrcs = 0;
     		float distBtwnDests = 0;
     		float distBtwnCities = 0;
-    		System.out.println("test1111");    		
-    		if( !srcStation.equals(groupSrcStation))
-    			distBtwnSrcs = model.getDistance(srcStation, groupSrcStation);	 //	If not the same, get distance
-    		System.out.println("test22222");
-    		if( !dstStation.equals(groupDstStation))
-        		distBtwnDests = model.getDistance(dstStation, groupDstStation);	 //	If not the same, get distance 
-    		System.out.println("test3333");
-    		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 	// get dist btwn cities
 
-    		System.out.println("test4444");
+    		System.out.println("srcStation: " + srcStation);
+    		System.out.println("groupSrcStation: " + groupSrcStation);
+    		System.out.println("dstStation: " + dstStation);
+    		System.out.println("groupDstStation: " + groupDstStation);
+    		
+    		if( !srcStation.equals(groupSrcStation))
+    			distBtwnSrcs = model.getDistance(srcStation, groupSrcStation);	 	 //	If not the same, get distance
+
+    		if( !dstStation.equals(groupDstStation))
+        		distBtwnDests = model.getDistance(dstStation, groupDstStation);		 //	If not the same, get distance 
+
+    		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 		 // get dist btwn cities
+
     		Time groupDepTime = tramp.getDepTime();									 // get group departure time
 
     		Time departT = calcDepartT(distBtwnSrcs, groupDepTime);					 // calc departure time
 
     		Time arriveT = calcArriveT(groupDepTime, distBtwnCities, distBtwnDests); // calc arriveT
-    		System.out.println("test2");
-    		Group g = new Group(tramp);												// Create a new group object
-    		Float walkDistance = new Float(distBtwnSrcs + distBtwnDests);			// Create the walkDistance Float object
+
+    		Group g = new Group(tramp);											 	// Create a new group object
+    		Float walkDistance = new Float(distBtwnSrcs + distBtwnDests);			 // Create the walkDistance Float object
     		
     		Path p = new Path(g, walkDistance, departT, arriveT);
     		
     		paths.add(p);
-    		System.out.println("test3");
     	}
 
     	// At this point we have put all of the paths in a list
     	
-    	paths = removeIrrelevantGroups(paths, departureT);
+    	paths = removeIrrelevantPaths(paths, departureT, desiredArriveT);
     	
     	sortPriority(paths, prefer); // sort by preference
     	
@@ -127,16 +128,20 @@ public class Algorithms {
     }
     //_______________________________________________________________________________________________________________
 
-    private ArrayList<Path> removeIrrelevantGroups(ArrayList<Path> paths, Time departureT)
+    private ArrayList<Path> removeIrrelevantPaths(ArrayList<Path> paths, Time departureT, Time desiredArriveT)
     {
     	ArrayList<Path> relevantPaths = new ArrayList<Path>();
     	for( Path path: paths)
     	{
-    		// if user depTime>= group DepT add it to relevant paths
-    		if(path.getG().getDepTime().compareTo(departureT) != -1)	
+    		// if path DepT >= user depTime add it to relevant paths
+    		if(path.getDepartureTime().compareTo(departureT) != -1)	
     		{
-    			relevantPaths.add(path);
+    			// if path ArriveTime <= user desired arrive time add it to relevant paths
+    			if(path.getArriveTime().compareTo(desiredArriveT) != 1)
+    				relevantPaths.add(path);
     		}
+    		
+    		
     	}
     	return relevantPaths;
     }

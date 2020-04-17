@@ -148,9 +148,9 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 65px;
 			  <tr class="groove">
 			    <th >
 			    	<select name="priority">
-					    <option value="0">distance from Origin</option>
-					    <option value="1">distance from destination</option>
-					    <option value="2">departure time</option>
+					    <option value="0">Minimal walking distance</option>
+					    <option value="1">Earliest arrive time</option>
+					    <option value="2">Earliest departure time</option>
 					</select >
 				</th>
 			  </tr>
