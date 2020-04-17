@@ -28,12 +28,13 @@ public class Algorithms {
 	    	return departureT;
 	    }
 	 private Time calcArriveT(Time groupDepTime, float distBtwnCities, float distBtwnDests) throws Exception {
-			
+ 		System.out.println("test6");
 		 float driveTime = calcTime(distBtwnCities, 70);	// assume a car drives at 70 kmph
 		 float walkTime = calcTime(distBtwnDests, 7);		// assume a car drives at 7 kmph
-		 
+ 		System.out.println("test7");
 		 Time arriveT = Time.add(groupDepTime, driveTime + walkTime);
-			return arriveT;
+
+		 return arriveT;
 		}
 	//______________________________________________________________________________________________________________
     // Method name: findTramps
@@ -69,9 +70,10 @@ public class Algorithms {
     	
     	//------------------------ Get all tramps between the two cities-------------------------//
     	else try {
+
 			tramps = model.getGroups(srcCity, dstCity);
 		} catch (Exception e) {
-			System.out.println(e);
+			
 			throw new Exception("DATABASE ERROR");
 		}
     	//--------------------------------------------------------------------------------------//
@@ -79,7 +81,8 @@ public class Algorithms {
     	//-------- Go over all the tramps and put them in a list of pairs <Group, float>--------//
     	    	
     	for( Group tramp: tramps)
-    	{
+    	{	
+
     		String groupSrcStation = tramp.getSourceStation();	//
     		String groupDstStation = tramp.getdstStation();		//	Get src's and dst's
     		String groupSrcCity = tramp.getSourceCity();		//
@@ -88,36 +91,36 @@ public class Algorithms {
     		float distBtwnSrcs = 0;
     		float distBtwnDests = 0;
     		float distBtwnCities = 0;
-    		
+    		System.out.println("test1111");    		
     		if( !srcStation.equals(groupSrcStation))
     			distBtwnSrcs = model.getDistance(srcStation, groupSrcStation);	 //	If not the same, get distance
-    		
+    		System.out.println("test22222");
     		if( !dstStation.equals(groupDstStation))
         		distBtwnDests = model.getDistance(dstStation, groupDstStation);	 //	If not the same, get distance 
-    		
+    		System.out.println("test3333");
     		distBtwnCities = model.getDistance(groupSrcCity, groupDstCity); 	// get dist btwn cities
 
-    		
+    		System.out.println("test4444");
     		Time groupDepTime = tramp.getDepTime();									 // get group departure time
+
     		Time departT = calcDepartT(distBtwnSrcs, groupDepTime);					 // calc departure time
 
     		Time arriveT = calcArriveT(groupDepTime, distBtwnCities, distBtwnDests); // calc arriveT
-    		
+    		System.out.println("test2");
     		Group g = new Group(tramp);												// Create a new group object
     		Float walkDistance = new Float(distBtwnSrcs + distBtwnDests);			// Create the walkDistance Float object
     		
     		Path p = new Path(g, walkDistance, departT, arriveT);
     		
     		paths.add(p);
-    		
+    		System.out.println("test3");
     	}
-    	
+
     	// At this point we have put all of the paths in a list
     	
     	paths = removeIrrelevantGroups(paths, departureT);
     	
     	sortPriority(paths, prefer); // sort by preference
-		
     	
     	return paths;
     		

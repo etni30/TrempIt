@@ -100,7 +100,7 @@ th.margin {  padding-left: 50px; padding-right: 50px; padding-top: 20px; padding
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form name="myForm" action="add_new_tremp.jsp" onsubmit="return validateForm()" method="post"> 
+	<form name="myForm" action="AddNewTrempServlet" onsubmit="return validateForm()" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">

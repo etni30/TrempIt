@@ -74,9 +74,17 @@ function myMoveL(left_collomn) {
       div.innerHTML = "log-in";
       // div.appendChild(a);
       register[0].appendChild(div);
+      
+      var div = document.createElement('div');
+      div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
+      div.id = "log_admin";
+      register[0].innerHTML += "</br>";
+      var a = document.createElement('a');
+      div.innerHTML = "log-as-admin";
+      register[0].appendChild(div);
 
     } else {
-      pos -= 8;
+      pos -= 10;
       elem.style.left = pos + "px";
     }
   }
@@ -94,7 +102,7 @@ function creatAnewForm1(){
 
   //insert new form to the project
   var form = document.createElement('form');//creat a form sending the data
-  form.action = 'registeration_page.jsp';
+  form.action = 'SignInServlet';
   form.method = 'post';
   
   form.innerHTML += "choose type:    driver <input type ='radio' value = 'driver' name ='type' required='required' />  "
@@ -148,8 +156,7 @@ function creatAnewForm1(){
 
 //------------------------delet elements------------------------
 function deleteElement(){
-  // var x = register[0].getElementsByClassName('w3-container w3-center w3-round-xlarge w3-teal w3-hight');
-  console.log();
+
   while (register[0].firstChild != null) {
     register[0].removeChild(register[0].firstChild);
   }

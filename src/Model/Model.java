@@ -93,20 +93,12 @@ public class Model implements ModelInterface {
 	}
 	
 	// find distance between two stations, return distance
-<<<<<<< HEAD
 	public float getDistance(String srcStation, String dstStation) throws Exception{
-=======
-	public double getDistance(String srcStation, String dstStation) throws Exception{
->>>>>>> master
 		return db.getDistance(srcStation, dstStation);
 	}
 	
 	// update distance between two stations
-<<<<<<< HEAD
 	public void changeDistance(String station1, String station2, float dist) throws Exception{
-=======
-	public void changeDistance(String station1, String station2, double dist) throws Exception{
->>>>>>> master
 		db.changeDistance(station1, station2, dist);
 	}
 		
@@ -117,12 +109,7 @@ public class Model implements ModelInterface {
 		ResultSet rs = db.getStations();
 		LinkedList<String> stations= new LinkedList<String>();
 		while(rs.next()) {
-<<<<<<< HEAD
 			stations.add(rs.getString("stationname") + "," + rs.getString("city"));
-=======
-			stations.add(rs.getString("stationname"));
-			stations.add(rs.getString("city"));
->>>>>>> master
 		}
 		return stations;
 	}

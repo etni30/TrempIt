@@ -86,6 +86,14 @@ public class Controller implements ControllerInterface{
 	public Group getGroupForUser(int idUser) throws Exception {
 		return model.getGroupForUser(idUser);
 	}
+
+
+
+	@Override
+	public void updateUser(int iduser, String first, String last, String username, String password, String email,
+			boolean isInARide) throws Exception {
+		model.updateUser(iduser, first, last, username, password, email, isInARide);
+	}
     
 }
 

@@ -1,5 +1,8 @@
+<%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
+
+
 <!DOCTYPE html>
 <html>
 <title>W3.CSS Template</title>
@@ -38,6 +41,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           </br>
           <div id="log_in" class="w3-container w3-center w3-round-xlarge w3-teal w3-hight" style="width:100%">
             log-in
+          </div>
+          </br>
+		  <div id="log_admin" class="w3-container w3-center w3-round-xlarge w3-teal w3-hight" style="width:100%">
+            log-as-admin
           </div>
         </div>
           <br>
@@ -86,7 +93,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <i class="fa fa-linkedin w3-hover-opacity"></i>
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
-<script type="text/javascript" src="sign_in.js"></script>
-<script type="text/javascript" src="log_in.js"></script>
+<script type="text/javascript" src="javaScript/sign_in.js"></script>
+<script type="text/javascript" src="javaScript/log_in.js"></script>
+<script type="text/javascript" src="javaScript/log_admin.js"></script> 
 </body>
 </html>

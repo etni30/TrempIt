@@ -9,34 +9,13 @@ try{
 	User user = (User)session.getAttribute("User");
 	//save userName for next page
 	session.setAttribute("User", user);
-			
-	Controller conn = new Controller();
-			
-	//get data from form
-	//get city and station for source and destination
-	String[] src = request.getParameter("Origin").toString().split(",");  // source
-	String srcStation = src[0];
-	String srcCity = src[1];
-	String[] dst = request.getParameter("destination").toString().split(",");  // destination
-	String dstStation = dst[0];
- 	String dstCity = dst[1];
-	//get departure and arival time
- 	String  timeDep = request.getParameter("departureT");
-	String timeAR = request.getParameter("desiredArriveT");
-	Time desiredArriveT = new Time(timeAR);
-	Time departureT = new Time(timeDep);
-	//get prefer result from the user
-	Integer prefer =  Integer.parseInt(request.getParameter("priority"));
-	
-	Algorithms alg = new Algorithms();
-
-
 
 		//Searching Algorithm
 		ArrayList<Path> pathResult;
 		try{
-			pathResult= alg.findTramps(srcStation, srcCity, dstStation, dstCity, desiredArriveT, departureT, prefer);			
-	%>
+			pathResult= (ArrayList<Path>)session.getAttribute("PathResult");
+
+			%>
 
 <!DOCTYPE html>
 <html>
@@ -122,11 +101,12 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		  </tr>
 	  </table>
 	<!--  searching form  -->
-	<form action="add_passenger.jsp" method="post"> 
+	<form action="AddPassengerServlet" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
 	      <% if(pathResult.size()> 0)
+				
 			  for(Path i: pathResult){%>
 			  <tr class="groove">
 			  	<th><%out.print(i.getG().getGroupId());%></th>
@@ -168,7 +148,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
   <!-- End Page Container -->
 </div>
 <% }catch(Exception e){
-  %>	<script >alert("Data got lost \n log in again");</script >
+  %>	<script >alert("<%out.print(e);%>" + "Data got lost \n log in again");</script >
 		<script >window.location.href = "clear_page.jsp";</script >	
 <%}%>
 
