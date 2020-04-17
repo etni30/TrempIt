@@ -120,7 +120,7 @@ function creatAccountElement33(){
   div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
   div.id = "sign_in";
   var a = document.createElement('a');
-  div.innerHTML = "sign-in";
+  div.innerHTML = "sign-up";
   register[0].appendChild(div);
 
   var div = document.createElement('div');
@@ -132,12 +132,6 @@ function creatAccountElement33(){
   // div.appendChild(a);
   register[0].appendChild(div);
   
-  var div = document.createElement('div');
-  div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
-  div.id = "log_admin";
-  register[0].innerHTML += "</br>";
-  var a = document.createElement('a');
-  div.innerHTML = "log-as-admin";
-  register[0].appendChild(div);
+
   
 }

@@ -94,6 +94,10 @@ public class Controller implements ControllerInterface{
 			boolean isInARide) throws Exception {
 		model.updateUser(iduser, first, last, username, password, email, isInARide);
 	}
+	public String getUserNumberOrMail(int userId) throws Exception {
+		User user = model.getUser(userId);
+		return user.getEmail();
+	}
     
 }
 

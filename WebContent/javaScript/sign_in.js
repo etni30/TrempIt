@@ -63,7 +63,7 @@ function myMoveL(left_collomn) {
       div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
       div.id = "sign_in";
       var a = document.createElement('a');
-      div.innerHTML = "sign-in";
+      div.innerHTML = "sign-up";
       register[0].appendChild(div);
 
       var div = document.createElement('div');
@@ -112,7 +112,7 @@ function creatAnewForm1(){
   input.name = "first";
   input.required="required";
   input.style.width = "100%";
-  input.value = "first name";
+  input.value = "insert first name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
@@ -120,7 +120,7 @@ function creatAnewForm1(){
   input.name = "last";
   input.required="required"
   input.style.width = "100%";
-  input.value = "last name";
+  input.value = "insert last name";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
@@ -128,7 +128,7 @@ function creatAnewForm1(){
   input.name = "userName";
   input.required="required"
   input.style.width = "100%";
-  input.value = "userName";
+  input.value = "insert userName";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
@@ -141,6 +141,15 @@ function creatAnewForm1(){
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
+  var input = document.createElement('input');//password element
+  input.name = "mail";
+  input.required="required"
+  input.value = "insert mail for communication";
+  input.style.width = "100%";
+  input.type = "text";
+  input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
+  form.appendChild(input);
+  
   var input = document.createElement('input');//submit button element
   input.type = "submit";
   input.required="required"

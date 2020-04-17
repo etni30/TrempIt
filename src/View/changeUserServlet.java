@@ -49,23 +49,22 @@ public class changeUserServlet extends HttpServlet {
 		Controller conn = new Controller();
 		
 		try{
+			
 			//get parameters f
 			Admin admin = (Admin)session.getAttribute("User");
 			session.setAttribute("User", admin);
 			String us = request.getParameter("User");
-			User user = conn.getUser(us);
+			User user = conn.getUser(us);  // get the disirable user that we want to change
 			String UserName = request.getParameter("UserName");
 			String FirstName = request.getParameter("FirstName");
-			Integer IdUser = Integer.parseInt(request.getParameter("IdUser"));
 			Boolean IsInARide = Boolean.parseBoolean(request.getParameter("IsInARide"));
 			String LastName = request.getParameter("LastName");
 			String Password = request.getParameter("Password");
 			String Email = request.getParameter("Email");
-			
+
 			//Change user details
 			user.setUserName(UserName);
 			user.setFirstName(FirstName);
-			user.setIdUser(IdUser);
 			user.setIsInARide(IsInARide);
 			user.setLastName(LastName);
 			user.setPassword(Password);

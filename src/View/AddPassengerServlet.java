@@ -47,6 +47,7 @@ public class AddPassengerServlet extends HttpServlet {
 			int idGroup = Integer.parseInt(request.getParameter("idGroup"));
 			Passenger pass = (Passenger)session.getAttribute("User");
 			session.setAttribute("User", pass);
+			//join to group method and 
 			boolean successJoin = pass.joinGroup(idGroup);
 
 					 	//message for user
@@ -61,10 +62,9 @@ public class AddPassengerServlet extends HttpServlet {
 			    out.println("window.location.href = \"mainpage.jsp\";");
 			    out.println("</script>");
 			}else{ 
-			
-		    out.println("<script> alert('you can't sign to this ride,\n try another ride');");
-		    out.println("window.location.href = \"automaticSearch.jsp\";");
-		    out.println("</script>");
+			    out.println("<script> alert('you can't sign to this ride,\n try another ride');");
+			    out.println("window.location.href = \"automaticSearch.jsp\";");
+			    out.println("</script>");
 			}
 	}catch(NullPointerException e){
 	    out.println("<script> alert('connection has lost');");

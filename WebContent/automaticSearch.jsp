@@ -22,10 +22,12 @@ try{
 <link rel="stylesheet" href="cssFile/demostyle.css">
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-table.groove {position:ralative;  margin-left: auto; margin-right: auto; }
+table{overflow: auto; white-space;}
+table.groove {overflow: auto; white-space; nowrap; position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
-th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; }
-th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding-bottom: 20px}
+th.groove {border-left-style: double;  padding-left: 65px; padding-right: 65px; }
+th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 65px; padding-right: 65px; padding-top: 10px; padding-bottom: 10px;
+			background-color: #d4bce1;}
 </style>
 <body class="w3-light-grey">
 
@@ -86,25 +88,34 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>TRAMP SEARCHING (AUTO)</h2>
       </div>
 	<!--  names of parameters -->
-	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h4> 
-      <table class="groove">
-		  <tr class="groove">
-		    <th class="groove">departure time</th>
-		    <th class="groove">Arrival time</th>
-		    <th class="groove">Origin station</th>
-		    <th class="groove">dest. station</th>
-<!-- 		    <th class="groove">Origin station</th>
-		    <th class="groove">dest. city</th> -->
-		  </tr>
-	  </table>
+	<h3 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h3> 
+		<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>arrival and departure time</h4>
 	<!-- ---------------------------- searching form -------------------------------------- -->
 	<form name="myForm" action="TrempSearchingServlet" onsubmit="return validateForm()" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
 	      <table class="groove">
+		   	  <tr class="groove">
+			    <th class="groove">departure time</th>
+			    <th class="groove">Arrival time</th>
+			   </tr>
+
 			  <tr class="groove">
 				<th class="margin"><input type="time"  name="departureT"/ required="required"></th>
 				<th class="margin"><input type="time" name="desiredArriveT"/ required="required"></th>
+			  </tr>
+
+
+		  </table>
+	  	</div>
+	  		<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Location</h4>
+	  	<div class="w3-container w3-card w3-white w3-margin-bottom">
+	      <table class="groove">
+			  <tr>
+			    <th class="groove">Origin station</th>
+			    <th class="groove">dest. station</th>
+			  </tr>
+			  <tr>
 			    <th class="margin">
 			    	<select name="Origin" >
 			    	<%for(String x: station) { %>
@@ -122,6 +133,9 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
 			  </tr>
 		  </table>
 	  	</div>
+	  	</br>
+	  	
+	  	
 	  	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>CHOOSE PRIORITY</h4>
 	  	      <table class="groove">
 		  <tr class="groove">
@@ -130,7 +144,6 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
 	  </table>
 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
-	  <!-- search parameters -->
 	      <table class="groove">
 			  <tr class="groove">
 			    <th >
@@ -138,7 +151,6 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
 					    <option value="0">distance from Origin</option>
 					    <option value="1">distance from destination</option>
 					    <option value="2">departure time</option>
-					   <!--  <option value="rank">driver rank</option> -->
 					</select >
 				</th>
 			  </tr>
@@ -169,13 +181,8 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
 <%}%>
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+
+  <p>Powered by Hagashi & co.</a></p>
 </footer>
 <script >
 	var img = document.getElementsByClassName('back');
@@ -190,6 +197,14 @@ th.margin {  padding-left: 35px; padding-right: 35px; padding-top: 20px; padding
 		  var destination = document.forms["myForm"]["destination"].value;
 		  var dstCity = destination.split(",")[1];
 		  var srcCity = Origin.split(",")[1];
+		  
+		  var departureT = document.forms["myForm"]["departureT"].value;
+		  var ArriveT = document.forms["myForm"]["desiredArriveT"].value;
+		  
+		  if( departureT > ArriveT){
+			  alert("your departure time is grater then arival disired time\n\n \t\t\t\t try again");
+			    return false;
+		  }
 		  
 		  if (Origin == destination || dstCity == srcCity) {
 		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
