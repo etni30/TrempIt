@@ -83,7 +83,7 @@ public class Time {
 		if(hour>24)
 			hour -= 24;
 		
-		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute));
+		Time t = new Time(String.valueOf(hour) + ":" + String.valueOf(minute).charAt(0) +  String.valueOf(minute).charAt(1));
 		return t;
 	}
 	
@@ -108,7 +108,6 @@ public class Time {
 		
 		return 0;
 	}
-
 
 	}
 

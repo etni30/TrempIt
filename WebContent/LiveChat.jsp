@@ -5,10 +5,17 @@
 try{
 	User user =(User)session.getAttribute("user");
 	session.setAttribute("User", user);
-	
-	String driverName = request.getParameter("trempBox");
+	String driverName;
+	if(user instanceof Passenger){
+		driverName = request.getParameter("trempBox");
+	}
+	else{
+		driverName = user.getUserName();
+		
+	}
 	Controller conn = new Controller();
 	Group g = conn.getGroupForUser(user.getIdUser());
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -147,7 +154,8 @@ try{
       </br>
 
 <% }catch(Exception e){
-  %>	<script >alert("Data got lost \n log in again");</script >
+		out.print(e);
+  %>	<script >alert( "Data got lost \n log in again");</script >
 		<script >window.location.href = "clear_page.jsp";</script >	
 <%}%>
 
@@ -218,8 +226,8 @@ try{
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     mapTypeControl: false,
-    center: {lat: -33.8688, lng: 151.2195},
-    zoom: 13
+    center: {lat: 32.8688, lng: 35.3},
+    zoom: 7
   });
 
   new AutocompleteDirectionsHandler(map);

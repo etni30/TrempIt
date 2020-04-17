@@ -11,8 +11,10 @@
 		String type = null;
 		if(user instanceof Passenger)
 			type = "Passenger";
-		else
+		else if(user instanceof Driver)
 			type = "Driver";
+		else
+			type = "Admin";
 		Model m = new Model();
 
 %>
@@ -83,7 +85,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
     <!-- Right Column -->
     <div class="w3-twothird">
-
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>USER MENU</h2>
         <div class="w3-container">
@@ -95,6 +96,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <%}else if(type.equals("Driver") && user.getIsInARide() == false)
           { // TODO add driver tremp %>
           	<a href="creating_new_tremp.jsp">create a new tremp</a>
+          <%}else if(user instanceof Admin) {%>
+          <a href="show_tables.jsp">Show tables</a>	
           	<%}else{ 
           		out.print("Automatic search - (you are already signed to a tremp)");
           	} %>
@@ -104,24 +107,42 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
         </div>
 
-        
+                    <%
+          	if(user instanceof Admin){%>
+          	
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>travel chat (
-          <%
-        		  if( user.getIsInARide()){
-	        		  if(user instanceof Driver){
-	        		  	%><a href="LiveChat.jsp">tremp zone</a>
-	        		  	<%
-	        		  		
-	        		  }else{// TODO separate page for passenger and driver  
-	        			  %><a href="LiveChat.jsp">tremp zone</a>
-	        		  <%}
-        		  }else{
+          <h5 class="w3-opacity"><b>
+          		<a href="LiveChat.jsp">Edit users</a>
+          <%}else{%>
+          travel chat (
+	
+          	
+        		 <% if( user.getIsInARide()){
+	        		  	%><a href="LiveChat.jsp">trampBox</a>
+        		  <%}else{
 	        			  out.println("not available - sign to a tramp first " /* + user.isInARide() */);
-        		  }%>)</b></h5>
+        		  }
+        		%>)</b></h5> <%} %>
           <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
         </div>
+       <%if(user instanceof Admin){%>
+      <div class="w3-container">
+          <h5 class="w3-opacity"><b>
+          		<a href="LiveChat.jsp">Add stations</a>     
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
+        </div>
+        <%}if(user instanceof Admin){%>
+      <div class="w3-container">
+          <h5 class="w3-opacity"><b>
+          		<a href="LiveChat.jsp">Change Edge Distance</a>     
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>details</h6>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
+        </div>
+     
+<%}%>
+      </div>
       </div>
 
     <!-- End Right Column -->
@@ -131,7 +152,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   </div>
 
   <!-- End Page Container -->
-</div>
 
 <%// if time expired or someone tried to get access without permission
 	}catch(NullPointerException e){
@@ -141,6 +161,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 %>	<script >alert("Data got lost \n log in again");</script >
 	<script >window.location.href = "clear_page.jsp";</script >	
 <%}%>
+
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
   <i class="fa fa-facebook-official w3-hover-opacity"></i>

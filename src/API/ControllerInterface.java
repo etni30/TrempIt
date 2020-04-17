@@ -18,4 +18,8 @@ public interface ControllerInterface {
     public LinkedList<String> getStations() throws Exception;
     
     public Group getGroupForUser(int idUser) throws Exception;
+    
+    // update properties for specific user
+ 	public void updateUser(int iduser, String first, String last, String username, String password, String email,
+ 			boolean isInARide) throws Exception;
 }

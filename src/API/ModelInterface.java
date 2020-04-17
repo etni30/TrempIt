@@ -35,17 +35,10 @@ public interface ModelInterface {
 		public LinkedList<Edge> getEdges() throws Exception;
 		
 		// find distance between two stations, return distance
-<<<<<<< HEAD
 		public float getDistance(String srcStation, String dstStation) throws Exception;
 		
 		// update distance between two stations
 		public void changeDistance(String station1, String station2, float dist) throws Exception;
-=======
-		public double getDistance(String srcStation, String dstStation) throws Exception;
-		
-		// update distance between two stations
-		public void changeDistance(String station1, String station2, double dist) throws Exception;
->>>>>>> master
 
 		// station functions:------------------------------------------------------------------
 
@@ -78,10 +71,7 @@ public interface ModelInterface {
 		// delete ride and update all users
 		public void deleteRide(int idDriver) throws Exception;
 
-<<<<<<< HEAD
 //		//return city's station
 //		public String getCity(String station);
 
-=======
->>>>>>> master
 }

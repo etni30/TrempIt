@@ -1,23 +1,23 @@
-var clicked2 = false;
+var clicked3 = false;
 
   document.addEventListener('click', function(e){
-    if(e.target && e.target.id== 'log_in'){
+    if(e.target && e.target.id== 'log_admin'){
         myMoveR(left_collomn[0]);//change the screen to log-in
         //delete elements 'log-in', 'sign in'
         deleteElement();
         creatAnewForm();
         const xButton = left_collomn[0].getElementsByTagName('p')[0].getElementsByTagName('img')[0];
-        clicked2 = true;
+        clicked3 = true;
       }
     });
 
 //---------------go back to menu---------------
 document.addEventListener('click', function(e){
   if(e.target && e.target.id== 'xbutton'){
-      if(clicked2){
+      if(clicked3){
         myMoveL(left_collomn[0]);
         left_collomn[0].getElementsByTagName('p')[0].textContent = "Account";
-        clicked2 = false;
+        clicked3 = false;
         sign_in = register[0].getElementsByTagName("div");
         }
       }
@@ -55,7 +55,7 @@ function myMoveL(left_collomn) {
       deleteElement()
       creatAccountElement()
     } else {
-      pos -= 8;
+      pos -= 10;
       elem.style.left = pos + "px";// move left_collomn to the center
     }
   }
@@ -69,25 +69,25 @@ function creatAnewForm(){
   img.id = "xbutton";
   left_collomn[0].getElementsByTagName('p')[0].innerHTML = "";
   left_collomn[0].getElementsByTagName('p')[0].appendChild(img);
-  left_collomn[0].getElementsByTagName('p')[0].innerHTML += "Create your TrampIt Account";
+  left_collomn[0].getElementsByTagName('p')[0].innerHTML += "Enter pasword & Adimin name";
 
   //insert new form to the project
   var form = document.createElement('form');//create a form sending the data
-  form.action = 'connect_to_main_page.jsp';
+  form.action = 'AdminServlet';
   form.method = 'POST';
 
   var input = document.createElement('input');//first name element
   input.name = "userName";
   input.required="required";
   input.style.width = "100%";
-  input.value = "userName";
+  input.value = "etni30";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
   form.appendChild(input);
 
   var input = document.createElement('input');//password element
   input.name = "psw";
   input.required="required";
-  input.value = "0000";
+  input.value = "1234";
   input.style.width = "100%";
   input.type = "password";
   input.classList.add('w3-container','w3-center','w3-round-xlarge','w3-teal','w3-hight');
@@ -123,6 +123,7 @@ function creatAccountElement(){
   var a = document.createElement('a');
   div.innerHTML = "sign-in";
   register[0].appendChild(div);
+  
 
   var div = document.createElement('div');
   div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
@@ -130,6 +131,16 @@ function creatAccountElement(){
   register[0].innerHTML += "</br>";
   var a = document.createElement('a');
   div.innerHTML = "log-in";
-  // div.appendChild(a);
   register[0].appendChild(div);
+  
+  var div = document.createElement('div');
+  div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
+  div.id = "log_admin";
+  register[0].innerHTML += "</br>";
+  var a = document.createElement('a');
+  div.innerHTML = "log-as-admin";
+  register[0].appendChild(div);
+  
+  var clicked3 = false;
+
 }
