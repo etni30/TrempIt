@@ -15,7 +15,7 @@
 
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>TrampIT</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="cssFile/demostyle.css">
@@ -41,9 +41,8 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          <img src="cssFile/images/driver.png" style="width:100%" alt="Avatar" >
+          <img src="cssFile/images/Logo.jpeg" style="width:100%" alt="Avatar" >
            <div class="w3-display-bottomleft w3-container w3-text-black">
-            <h2>TrampIt</h2>
           </div>
          </div>
         <div class="w3-container">
@@ -142,14 +141,26 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			  </tr>
 			  <%}%>
 			</table>
+			
+			
 			<form action="addStationServlet"  method="post">
-				<input type="text" name="stationName" value="enter station name" required="required"/>			
-				<input type="text" name="city" value="enter city name" required="required"/>
-
-          </b></h5>
+			
+			<h5> Add new station</h5>
+				<h5>City:
+				<input type="text" name="city" required="required" oninput = "validateFields()"/>
+				 </h5>
+				 
+				<h5>Station name:
+				<input type="text" name="stationName" required="required"/>
+				</h5>
+				
+          </b>
 		  <h6 class="w3-text-teal"><span class="w3-tag w3-teal w3-round">
-    		    <input type="submit" value="add Station"/></span></h6>
+		  
+    		    <input type="submit" name = "submitStation" value="add Station" /></span></h6>
+    		    
 			</form>
+			
         </div>
         
         <div class="w3-container">
@@ -255,14 +266,23 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
   <!-- End Page Container -->
 
-<%// if time expired or someone tried to get access without permission
-	}catch(NullPointerException e){
+
+<%	}
+	catch(java.lang.IllegalStateException e){	// if there were session problems (if time expired)
+%>	<script >alert("Session Expired. \n log in again");</script >
+	<script >window.location.href = "clear_page.jsp";</script >	
+<%}
+
+//  if someone tried to get access without permission
+	catch(NullPointerException e){
 		%><script >alert("Connection has lost \n log in again");</script >
 			<script >window.location.href = "clear_page.jsp";</script >
-<%	}catch(Exception e){
-%>	<script >alert("Data got lost \n log in again");</script >
-	<script >window.location.href = "clear_page.jsp";</script >	
-<%}%>
+<%}
+	catch(Exception e){
+	%>
+	<script >alert(<%e.toString();%>);</script >
+			
+<%} %>
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
@@ -298,6 +318,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		}
 
 	});
+
 	
 	function hideEdgeTable(){
 		if(edge.style.display == "none"){

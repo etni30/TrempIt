@@ -17,7 +17,7 @@ try{
 <!DOCTYPE html>
 
 <html>
-<title>W3.CSS Template</title>
+<title>TrampIT</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="UTF-8">
 <link rel="stylesheet" href="cssFile/demostyle.css">

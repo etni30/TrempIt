@@ -18,7 +18,7 @@
 
 <!DOCTYPE html>
 <html>
-<title>W3.CSS Template</title>
+<title>TrampIT</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="cssFile/demostyle.css">
@@ -38,7 +38,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          <img src="cssFile/images/driver.png" style="width:100%" alt="Avatar" >
+          <img src="cssFile/images/Logo.jpeg" style="width:100%" alt="Avatar" >
            <div class="w3-display-bottomleft w3-container w3-text-black">
             <h2>TrampIt</h2>
           </div>

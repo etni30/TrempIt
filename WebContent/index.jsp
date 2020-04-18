@@ -5,7 +5,7 @@
 
 <!DOCTYPE html>
 <html>
-<title>Entrance Page</title>
+<title>TrampIT</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="cssFile/demostyle.css">
@@ -26,9 +26,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
-          <img src="cssFile/images/start.png" style="width:100%" alt="Avatar" >
+          <img src="cssFile/images/Logo.jpeg" style="width:100%" alt="Avatar" >
            <div class="w3-display-bottomleft w3-container w3-text-black">
-            <h2>TrampIt</h2>
           </div>
          </div>
         <div class="w3-container">
@@ -43,9 +42,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             log-in
           </div>
           </br>
-		  <div id="log_admin" class="w3-container w3-center w3-round-xlarge w3-teal w3-hight" style="width:100%">
-            log-as-admin
-          </div>
         </div>
           <br>
         </div>
