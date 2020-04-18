@@ -256,8 +256,9 @@ public class Model implements ModelInterface {
 			u.setIsInARide(false);
 			u.updateDB();
 		}
+		int idgroup = rs.getInt("idgroup");
 		db.closeConnection();
-		db.deleteGroup(rs.getInt("idgroup"));
+		db.deleteGroup(idgroup);
 	}
 
 }

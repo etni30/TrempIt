@@ -86,7 +86,7 @@ public class changeUserServlet extends HttpServlet {
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+		String str = "<script> alert('Username already exists')</script>";
 		out.print(str);
 	    out.println("<script> window.location.href = \"show_tables.jsp\";</script >");
 	}finally {

@@ -70,7 +70,7 @@ public class addStationServlet extends HttpServlet {
 	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-		String str = "alert('" + e.getMessage() + "')";
+		String str = "alert('station already exists')";
 		out.println("<script>");
 		out.println(str);
 	    out.println("window.location.href = \"show_tables.jsp\";");
