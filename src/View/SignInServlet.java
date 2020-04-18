@@ -66,7 +66,8 @@ public class SignInServlet extends HttpServlet {
 			if(valid == 0){  // valid user
 				User user = conn.getUser(userName);
 				session.setAttribute("User", user);
-				if(user instanceof Admin)  // for admin user
+				
+				if(user instanceof Admin)  // redirect to show tables for admin user
 					response.sendRedirect("show_tables.jsp");
 				response.sendRedirect("mainpage.jsp");  // for other users
 			}else {

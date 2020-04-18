@@ -84,12 +84,15 @@ public class changeUserServlet extends HttpServlet {
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(NumberFormatException e) {
-		out.println("<script> alert('insert number please');");
+		out.println("<script> alert('Division by 0 Exception');");
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('problem with dB');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
+		//String error = e.toString();
+		out.println("<script>");
+		//out.println("alert('heyo" + error + "');");
+		out.println("alert('Already in DataBase');");
+	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}finally {
 		out.println("</body>");

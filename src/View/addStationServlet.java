@@ -71,8 +71,8 @@ public class addStationServlet extends HttpServlet {
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('problem with dB');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
+	    out.println("<script> alert('Station already in DataBase');");
+	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}finally {
 		out.println("</body>");
