@@ -17,7 +17,7 @@ public class Algorithms {
 
 	private ModelInterface model = null;
 
-	public Algorithms() {
+	public Algorithms() throws Exception {
     	this.model = new Model();
     }
 	

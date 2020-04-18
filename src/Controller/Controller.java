@@ -16,7 +16,7 @@ public class Controller implements ControllerInterface{
 	private ModelInterface model = null;
 	private DataBase dataBase = null;
     
-    public Controller() {
+    public Controller() throws Exception {
     	this.model = new Model();
     	this.dataBase = new DataBase();
     }

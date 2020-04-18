@@ -54,7 +54,10 @@ public class Model implements ModelInterface {
 	public User getUser(String username) throws Exception{
 		ResultSet rs = db.getUser(username);
 		rs.next();
-		return creatUser(rs.getString("type"), rs);
+		User u = creatUser(rs.getString("type"), rs);
+		db.closeConnection();
+		
+		return u;
 	}
 	
 	// get all users
@@ -64,6 +67,8 @@ public class Model implements ModelInterface {
 		while(rs.next()) {
 			users.add(creatUser(rs.getString("type"), rs));
 		}
+		
+		db.closeConnection();
 		return users;
 	}
 	
@@ -71,7 +76,9 @@ public class Model implements ModelInterface {
 	public User getUser(int userId) throws Exception{
 		ResultSet rs = db.getUser(userId);
 		rs.next();
-		return creatUser(rs.getString("type"), rs);
+		User u = creatUser(rs.getString("type"), rs);
+		db.closeConnection();
+		return u;
 	}
 	
 	// check valid password
@@ -89,6 +96,8 @@ public class Model implements ModelInterface {
 			edges.add(new Edge(rs.getString("station1"), rs.getString("station2"),
 					rs.getString("city"), rs.getInt("distance")));
 		}
+		
+		db.closeConnection();
 		return edges;
 	}
 	
@@ -106,11 +115,14 @@ public class Model implements ModelInterface {
 
 	// return all stations in a linked list where the first is the station name and the second is the city
 	public LinkedList<String> getStations() throws Exception{
+		
 		ResultSet rs = db.getStations();
 		LinkedList<String> stations= new LinkedList<String>();
 		while(rs.next()) {
 			stations.add(rs.getString("stationname") + "," + rs.getString("city"));
 		}
+
+		db.closeConnection();
 		return stations;
 	}
 	
@@ -141,6 +153,8 @@ public class Model implements ModelInterface {
 					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 			}
+		
+		db.closeConnection();
 		return groups;
 	}
 	
@@ -156,6 +170,8 @@ public class Model implements ModelInterface {
 		Group g = new Group(rs.getInt("idgroup"), srcCity, srcStation, dstCity, dstStation, rs.getInt("amount"),
 				rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 				rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4"));
+		
+		db.closeConnection();
 		return g;
 	}
 
@@ -173,6 +189,8 @@ public class Model implements ModelInterface {
       rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
       rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 		}
+		
+		db.closeConnection();
 		return groups;
 	}
 	
@@ -195,6 +213,8 @@ public class Model implements ModelInterface {
 					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
 					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
 		}
+		
+		db.closeConnection();
 		return groups;
 		
 	}
@@ -232,6 +252,9 @@ public class Model implements ModelInterface {
 		}
 		
 		db.deleteGroup(rs.getInt("idgroup"));
+		
+		db.closeConnection();
 	}
+	
 
 }

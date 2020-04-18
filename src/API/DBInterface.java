@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 
 public interface DBInterface {
 	
+	// close connection
+		public void closeConnection() throws Exception;
+	
 	// user functions:------------------------------------------------------------------
 
 	// add a new user
@@ -80,4 +83,7 @@ public interface DBInterface {
 
 	// get group by driver id
 	public ResultSet getGroup(int idDriver) throws Exception;
+	
+	
+	
 }
