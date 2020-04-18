@@ -2,10 +2,11 @@ package API;
 
 import java.sql.ResultSet;
 
+// Interface of DataBase class
 public interface DBInterface {
 	
 	// close connection
-		public void closeConnection() throws Exception;
+	public void closeConnection() throws Exception;
 	
 	// user functions:------------------------------------------------------------------
 
@@ -74,6 +75,9 @@ public interface DBInterface {
 
 	// join group, if full return false
 	public boolean joinGroup(int idUser, int idGroup) throws Exception;
+	
+	// remove user from group
+	public void leaveGroup(int idUser, int idGroup) throws Exception;
 
 	// get groups from one city to another city
 	public ResultSet getGroups(String srcCity, String dstCity) throws Exception;
@@ -81,9 +85,5 @@ public interface DBInterface {
 	// delete group and update users
 	public void deleteGroup(int idDriver) throws Exception;
 
-	// get group by driver id
-	public ResultSet getGroup(int idDriver) throws Exception;
-	
-	
 	
 }

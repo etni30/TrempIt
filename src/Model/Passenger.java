@@ -24,5 +24,17 @@ public class Passenger extends User{
 		return false;
 	}
 	
+	// leave ride in DB
+	public void leaveGroup() throws Exception{
+		if(!this.getIsInARide()) {
+			throw new Exception("Not in a ride");
+		}
+		setIsInARide(false);
+		updateDB();
+		ModelInterface m = new Model();
+		int idGroup = m.getGroupForUser(this.getIdUser()).getGroupId();
+		m.leaveGroup(this.getIdUser(), idGroup);
+	}
+	
 
 }

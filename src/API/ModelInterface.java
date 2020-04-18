@@ -24,7 +24,6 @@ public interface ModelInterface {
 
 		// get all users
 		public LinkedList<User> getUsers() throws Exception;
-
 		
 		// check valid password
 		public boolean checkPassword(String username, String password) throws Exception;
@@ -64,6 +63,9 @@ public interface ModelInterface {
 
 		// join group, if full return false
 		public boolean joinGroup(int idUser, int idGroup) throws Exception;
+		
+		// remove user from group
+		public void leaveGroup(int idUser, int idGroup) throws Exception;
 
 		// get groups from one city to another city
 		public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception;
