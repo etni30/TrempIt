@@ -24,14 +24,12 @@ public class AddNewTrempServlet extends HttpServlet {
      */
     public AddNewTrempServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -58,6 +56,8 @@ public class AddNewTrempServlet extends HttpServlet {
 			String[] dst = request.getParameter("destination").toString().split(",");  // destination
 			String dstStation = dst[0];
 		 	String dstCity = dst[1];
+		 	//get departure time
+		 	String  timeDep = request.getParameter("departureT");
 		 	
 		 	//message for user
 			out.println("<html>");
@@ -66,23 +66,25 @@ public class AddNewTrempServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 		    
-		 	//get departure time
-		 	String  timeDep = request.getParameter("departureT");
+
 			//create a new ride
 			user.addRide(timeDep, srcStation, srcCity, dstStation, dstCity);
 			
 			
-		    out.println("<script> alert('success, for more data go to tremp zone');");
+		    out.println("<script> alert('success, for more data go to TrempBox');");
 		    out.println("window.location.href = \"mainpage.jsp\";");
 		    out.println("</script>");
+		    
+// if time expired or someone tried to get access without permission		    
 	}catch(NullPointerException e){
 	    out.println("<script> alert('connection has lost');");
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('problem with dB');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
-	    out.println("</script>");
+	    //show error
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+	    out.print(str);
+	    out.println("<script> window.location.href = \"clear_page.jsp\";</script>");
 	}finally {
 		out.println("</body>");
 	    out.println("</html>");

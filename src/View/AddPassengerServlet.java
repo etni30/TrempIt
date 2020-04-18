@@ -1,5 +1,5 @@
 package View;
-
+//adding passenger to a ride
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -23,14 +23,12 @@ public class AddPassengerServlet extends HttpServlet {
      */
     public AddPassengerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -71,9 +69,10 @@ public class AddPassengerServlet extends HttpServlet {
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('problem with dB');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
-	    out.println("</script>");
+	    //show error
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+	    out.print(str);
+	    out.println("<script> window.location.href = \"clear_page.jsp\";</script>");
 	}finally {
 		out.println("</body>");
 	    out.println("</html>");

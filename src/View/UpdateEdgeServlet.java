@@ -1,5 +1,5 @@
 package View;
-
+//admin method updating edge table
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -26,14 +26,12 @@ public class UpdateEdgeServlet extends HttpServlet {
      */
     public UpdateEdgeServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -46,11 +44,12 @@ public class UpdateEdgeServlet extends HttpServlet {
 			HttpSession session = request.getSession(true);
 
 			try{
+				//get parameters
 				Admin admin = (Admin)session.getAttribute("User");
 				session.setAttribute("User", admin);
 				String[] station = request.getParameter("Edge").split(",");
 				Float distance = Float.parseFloat(request.getParameter("distance"));
-
+				// get stations from the form
 				admin.changeDistance(station[0].split("			  ")[1], station[1], distance);
 				
 				out.println("<html>");
@@ -58,6 +57,7 @@ public class UpdateEdgeServlet extends HttpServlet {
 			    out.println("<title>Servlet GreetingServlet</title>");
 			    out.println("</head>");
 			    out.println("<body>");
+
 				response.sendRedirect("show_tables.jsp");
 
 		
@@ -65,16 +65,12 @@ public class UpdateEdgeServlet extends HttpServlet {
 		    out.println("<script> alert('connection has lost');");
 		    out.println("window.location.href = \"clear_page.jsp\";");
 		    out.println("</script>");
-		}catch(NumberFormatException e) {
-			out.println("<script> alert('insert number please');");
-		    out.println("window.location.href = \"show_tables.jsp\";");
-		    out.println("</script>");
+
 		}catch(Exception e) {
-			String str = "alert('" + e.getMessage() + "')";
-			out.println("<script>");
-			out.println(str);
-			out.println("window.location.href = \"clear_page.jsp\";");
-		    out.println("</script>");
+		    //show error
+			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+		    out.print(str);
+		    out.println("<script> window.location.href = \"show_tables.jsp\";</script>");
 		}finally {
 			out.println("</body>");
 		    out.println("</html>");

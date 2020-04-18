@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-<%@page import="View.*, Model.*"%>
 <%@ page session="true" %>
+<%@page import="View.*, Model.*"%>
 <%
 	
 	try{
@@ -13,7 +13,6 @@
 			type = "Passenger";
 		else
 			type = "Driver";
-
 %>
 
 <!DOCTYPE html>
@@ -87,15 +86,13 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
           <%
-          if(type.equals("Passenger") && user.getIsInARide() == false){ 
+          if(user instanceof Passenger && user.getIsInARide() == false){ 
           %>	
           	<a href="automaticSearch.jsp">Automatic search</a>
-          <%}else if(type.equals("Driver") && user.getIsInARide() == false)
+          <%}else if(user instanceof Driver && user.getIsInARide() == false)
           { %>
           	<a href="creating_new_tremp.jsp">create a new tremp</a>
-          <%}else if(user instanceof Admin) {%>
-          <a href="show_tables.jsp">Show tables</a>	
-          	<%}else{ 
+          <%}else{ 
           		out.print("Automatic search - (you are already signed to a tremp)");
           	} %>
           </b></h5>
@@ -104,15 +101,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
         </div>
 
-          <%{
-        		 if( user.getIsInARide()){  // 
-	        		  	%><a href="LiveChat.jsp">trampBox</a>
-        		  <%}else{
-	        			  out.println("not available - sign to a tramp first " );
-        		  }
-        		%></b></h5> <%} %>
-          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>tramp information page</h6>
-          <p>tramp details and navigation map</p><br>
+          <%
+       		  if( user.getIsInARide()){  // 
+        		  	%><a href="LiveChat.jsp">TrampBox</a>
+       		  <%}else{
+        			  out.println("not available - sign to a tramp first " );
+       		  }
+        		%></b></h5> 
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>Tramp information page</h6>
+          <p>ride details and navigation map</p><br>
         </div>
   
       </div>
@@ -131,7 +128,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 		%><script >alert("Connection has lost \n log in again");</script >
 			<script >window.location.href = "clear_page.jsp";</script >
 <%	}catch(Exception e){
-%>	<script >alert("Data got lost \n log in again");</script >
+%>	<script >alert("<%out.print(e.getMessage());%>");</script >
 	<script >window.location.href = "clear_page.jsp";</script >	
 <%}%>
 

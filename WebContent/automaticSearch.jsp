@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="Controller.Controller, Model.*,java.util.LinkedList"%>
-
+<!-- Passenger searching page -->
 <%
 try{
 	//parameter and initialization
@@ -184,6 +184,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 65px;
 
   <p>Powered by Hagashi & co.</a></p>
 </footer>
+
 <script >
 	var img = document.getElementsByClassName('back');
 	document.addEventListener('click', function(e){
@@ -201,11 +202,15 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 65px;
 		  var departureT = document.forms["myForm"]["departureT"].value;
 		  var ArriveT = document.forms["myForm"]["desiredArriveT"].value;
 		  
+		  //form validation
+		  
+		  //check if the user Arrivel time is grater then departure time
 		  if( departureT > ArriveT){
 			  alert("your departure time is grater then arival disired time\n\n \t\t\t\t try again");
-			    return false;
+			  return false;
 		  }
 		  
+		  // check if the user didn't choose two stations from the same city
 		  if (Origin == destination || dstCity == srcCity) {
 		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
 		    return false;

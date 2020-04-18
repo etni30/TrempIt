@@ -84,6 +84,8 @@ public interface DBInterface {
 	
 	// delete group and update users
 	public void deleteGroup(int idDriver) throws Exception;
-
+	
+	//create data base
+	public boolean createDB() throws Exception;
 	
 }

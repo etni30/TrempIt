@@ -73,7 +73,7 @@ public interface ModelInterface {
 		// delete ride and update all users
 		public void deleteRide(int idDriver) throws Exception;
 
-//		//return city's station
-//		public String getCity(String station);
+		//create Datat Base
+		public boolean createDB() throws Exception;
 
 }

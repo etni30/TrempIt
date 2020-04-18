@@ -30,14 +30,12 @@ public class SignInServlet extends HttpServlet {
      */
     public SignInServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -52,6 +50,7 @@ public class SignInServlet extends HttpServlet {
 
         try {
         	//Sign up - get data for the new user
+        	//get parameters from form
 	        Controller conn = new Controller();
 			String type = request.getParameter("type");
 			String first = request.getParameter("first");
@@ -60,16 +59,16 @@ public class SignInServlet extends HttpServlet {
 			String psw = request.getParameter("psw");
 			String mail = request.getParameter("mail");
 
-			//sign up the new user & check validation
+			//check valid username 
 			int valid = conn.addNewUser(first, last, type, userName, psw, mail);
 	        
-			if(valid == 0){  // valid user
+			if(valid == 0){  // if user is valid 
 				User user = conn.getUser(userName);
 				session.setAttribute("User", user);
 				
-				if(user instanceof Admin)  // redirect to show tables for admin user
+				if(user instanceof Admin)  // redirect to show_tables(admin main) for admin user
 					response.sendRedirect("show_tables.jsp");
-				response.sendRedirect("mainpage.jsp");  // for other users
+				response.sendRedirect("mainpage.jsp");  // for other users send to mainpage
 			}else {
 				throw new Exception("invalid user name, the name is already in use");
 			}
@@ -83,11 +82,11 @@ public class SignInServlet extends HttpServlet {
 		    //print the error
 			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
 		    out.print(str);
-		    
-		} finally {
-			out.print("<script >window.location.href = \"clear_page.jsp\";</script >");
+			out.print("<script >window.location.href = \"index.jsp\";</script >");
 			out.println("</body>");
-		    out.println("</html>");
+		    out.println("</html>");		    
+		} finally {
+
 		    out.close();
 		}
     

@@ -22,4 +22,7 @@ public interface ControllerInterface {
     // update properties for specific user
  	public void updateUser(int iduser, String first, String last, String username, String password, String email,
  			boolean isInARide) throws Exception;
+ 	
+ 	//create data base
+	public boolean createDB() throws Exception;
 }

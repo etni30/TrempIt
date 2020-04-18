@@ -7,6 +7,7 @@
 		session.setAttribute("user", admin);
 		String type = "Admin";
 		
+		//get data to show
 		LinkedList<Edge> edges = admin.getEdges();
 		LinkedList<Group> groups = admin.getGroups();
 		LinkedList<String> stations = admin.getStations();
@@ -208,7 +209,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
           	<a href="#" onclick="hideUserTable()">User table</a>
-          	<table id="Users" onclick="myFunction(event)">
+          	<table id="Users" onclick="changeUser(event)">
 			  <tr class="groove">
 				<th class="margin"><% out.print("select user");%></th>
 				<th class="margin"><% out.print("Email");%></th>
@@ -268,19 +269,14 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
 
 <%	}
-	catch(java.lang.IllegalStateException e){	// if there were session problems (if time expired)
-%>	<script >alert("Session Expired. \n log in again");</script >
-	<script >window.location.href = "clear_page.jsp";</script >	
-<%}
 
 //  if someone tried to get access without permission
-	catch(NullPointerException e){
+  catch(NullPointerException e){
 		%><script >alert("Connection has lost \n log in again");</script >
 			<script >window.location.href = "clear_page.jsp";</script >
-<%}
-	catch(Exception e){
+<%}catch(Exception e){
 	%>
-	<script >alert(<%e.toString();%>);</script >
+	<script >alert(<%out.print(e.getMessage());%>);</script >
 			
 <%} %>
 
@@ -294,9 +290,11 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 	const groups = document.getElementById("Group");
 	const users = document.getElementById("Users");
 	const userChange = document.getElementById("userChange");
+	
 	hideAll();
 	
-	function myFunction(event) {
+	//get user ditails from user table and change them
+	function changeUser(event) {
 		if(event.target.getAttribute("id") == "chosenUser")
 		for( i= 1; i<8; i++){
 		  userChange.children[i].children[0].value = event.target.parentNode.children[i].getAttribute("value");
@@ -304,6 +302,8 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 		userChange.children[0].children[0].value = event.target.parentNode.children[1].getAttribute("value");
 		userChange.children[0].children[0].checked = "checked";
 	}
+	
+	//go back to index page
 	document.addEventListener('click', function(e){
 		if(e.target && e.target.id== 'back'){
 			alert("goodbye");
@@ -312,7 +312,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
 	});
 
-	
+	//hide tabales function
 	function hideEdgeTable(){
 		if(edge.style.display == "none"){
 			edge.style.display = "block";

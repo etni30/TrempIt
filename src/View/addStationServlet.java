@@ -1,5 +1,5 @@
 package View;
-
+//admin method adding a new station
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -24,14 +24,12 @@ public class addStationServlet extends HttpServlet {
      */
     public addStationServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -70,11 +68,10 @@ public class addStationServlet extends HttpServlet {
 	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-		String str = "alert('station already exists')";
-		out.println("<script>");
-		out.println(str);
-	    out.println("window.location.href = \"show_tables.jsp\";");
-	    out.println("</script>");
+	    //show error
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+	    out.print(str);
+	    out.println("<script> window.location.href = \"show_tables.jsp\";</script>");
 	}finally {
 		out.println("</body>");
 	    out.println("</html>");

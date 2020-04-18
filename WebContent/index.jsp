@@ -1,7 +1,14 @@
-<%-- <%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%> --%>
+<%@page import="API.ControllerInterface"%>
+<%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
-
+<%@page import="Controller.Controller"%>
+    
+<% 
+	ControllerInterface con = new Controller();
+	try{
+		con.createDB();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -84,6 +91,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <p>Find me on social media.</p>
   <p><a>Powered by Hagashi & co.</a></p>
 </footer>
+<%}catch(Exception e){ %>
+<script >alert(<%out.print(e.getMessage());%>);</script>
+<%} %>
 <script type="text/javascript" src="javaScript/sign_in.js"></script>
 <script type="text/javascript" src="javaScript/log_in.js"></script>
 <script type="text/javascript" src="javaScript/index.js"></script> 

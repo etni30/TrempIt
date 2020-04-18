@@ -7,7 +7,7 @@ try{
 	//parameter and initialization
 	Controller conn = new Controller();
 	Driver user = (Driver)session.getAttribute("User");
-	LinkedList<String> station = conn.getStations();  // the user select a station from list
+	LinkedList<String> station = conn.getStations();  // get all the station
 	
 	//save userName for next page
 	session.setAttribute("User", user);
@@ -95,8 +95,9 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 45px;
 	<!--  names of parameters -->
 	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h4> 
 
-	<!--  searching form  -->
+
 <table class="groove">
+	<!----------------------------  searching form  --------------------------------------------->
 	<form name="myForm" action="AddNewTrempServlet" onsubmit="return validateForm()" method="Post"> 
 	  <div class="w3-container w3-card w3-white w3-margin-bottom">
 	  <!-- search parameters -->
@@ -118,7 +119,8 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 45px;
 				</th>
 			    <th class="margin">
 			    	<select name="destination" >
-			    	<%for(String x: station) { %>
+			    	<%//show all the stations in option
+			    	for(String x: station) { %>
 					    <option name="<% out.print(x);%>"><% out.print(x);%></option>
 					<%} %>
 					</select >
@@ -147,7 +149,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 45px;
 		%><script >alert("Connection has lost \n log in again");</script >
 			<script >window.location.href = "clear_page.jsp";</script >
 <%	}catch(Exception e){
-%>	<script >alert("Data got lost \n log in again");</script >
+%>	<script >alert("<% out.print(e.getMessage());%>");</script >
 	<script >window.location.href = "clear_page.jsp";</script >	
 <%}%>
 
@@ -169,7 +171,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 45px;
 		  var destination = document.forms["myForm"]["destination"].value;
 		  var dstCity = destination.split(",")[1];
 		  var srcCity = Origin.split(",")[1];
-	
+		  
 		  if (Origin == destination || dstCity == srcCity) {
 		    alert("you cannot choose two places from the same city \n\n \t\t\t\t try again");
 		    return false;

@@ -261,4 +261,9 @@ public class Model implements ModelInterface {
 		db.deleteGroup(idgroup);
 	}
 
+
+	public boolean createDB() throws Exception {
+		return db.createDB();
+	}
+
 }

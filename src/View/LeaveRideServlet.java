@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Controller.Controller;
-import Model.Driver;
 import Model.Passenger;
-import Model.User;
 
 /**
- * Servlet implementation class deleteUser
+ * Servlet implementation class LeaveRideServlet
  */
-@WebServlet("/deleteUser")
+@WebServlet("/LeaveRideServlet")
 public class LeaveRideServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,33 +39,40 @@ public class LeaveRideServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession(true);
+	       response.setContentType("text/html;charset=UTF-8");
+	        PrintWriter out = response.getWriter();
+			HttpSession session = request.getSession(true);
 
-        try {
-    		//parameter and initialization
-        	Passenger user = (Passenger)session.getAttribute("User");
-    		//save userName for next page
-    		session.setAttribute("User", user);
-    		
-    		//delete the ride		
-    		user.leaveRide();
-    		
-		} catch (Exception e) {
-			out.println("<html>");
-		    out.println("<head>");
-		    out.println("<title>Servlet GreetingServlet</title>");
-		    out.println("</head>");
-		    out.println("<body>");
-		    
+	        try {
+	        	System.out.println("lamaaaaaaaaa1");
+	    		//parameter and initialization
+	        	Passenger user = (Passenger)session.getAttribute("User");
+	    		//save userName for next page
+	    		session.setAttribute("User", user);
+	        	System.out.println("lamaaaaaaaaa2");
+	    		//delete the ride		
+	    		user.leaveRide();
+	        	System.out.println("lamaaaaaaaaa3");    		
+				out.println("<html>");
+			    out.println("<head>");
+			    out.println("<title>Servlet GreetingServlet</title>");
+			    out.println("</head>");
+			    out.println("<body>");
+	        	response.sendRedirect("mainpage.jsp");
 
-		    
-		} finally {
-			out.println("</body>");
-		    out.println("</html>");
-		    out.close();
-		}
-    }
+			} catch (Exception e) {
+
+				//print the error
+				String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+			    out.print(str);
+	
+			    
+			} finally {
+				out.println("</body>");
+			    out.println("</html>");
+				out.close();
+			}
+	    }
+
 
 }

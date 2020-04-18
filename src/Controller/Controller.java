@@ -94,6 +94,11 @@ public class Controller implements ControllerInterface{
 		User user = model.getUser(userId);
 		return user.getEmail();
 	}
+
+	//create data base
+	public boolean createDB() throws Exception {
+		return model.createDB();
+	}
     
 }
 

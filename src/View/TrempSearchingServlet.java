@@ -1,4 +1,5 @@
 package View;
+//get form from the user and use searching algorithm to find the best paths
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,10 +62,11 @@ public class TrempSearchingServlet extends HttpServlet {
 		try{
 			Time desiredArriveT = new Time(timeAR);
 			Time departureT = new Time(timeDep);
+			
 			//get prefer result from the user
 			Integer prefer =  Integer.parseInt(request.getParameter("priority"));
 			
-			Algorithms alg = new Algorithms();
+			Algorithms alg = new Algorithms(); 
 
 			//parameter and initialization
 			User user = (User)session.getAttribute("User");			
@@ -82,16 +84,17 @@ public class TrempSearchingServlet extends HttpServlet {
 		    out.println("<title>Servlet GreetingServlet</title>");
 		    out.println("</head>");
 		    out.println("<body>");
-		    out.println("<script> window.location.href = \"tremp_searching.jsp\";</script>");
+		    out.println("<script> window.location.href = \"searching_result.jsp\";</script>");
 		    
 	}catch(NullPointerException e){
 	    out.println("<script> alert('connection has lost');");
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('problem with dB');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
-	    out.println("</script>");
+	    //show error
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+	    out.print(str);
+	    out.println("<script> window.location.href = \"clear_page.jsp\";</script>");
 	}finally {
 		out.println("</body>");
 	    out.println("</html>");

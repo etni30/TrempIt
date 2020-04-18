@@ -18,7 +18,7 @@ import Model.User;
 /**
  * Servlet implementation class deleteUser
  */
-@WebServlet("/deleteUser")
+@WebServlet("/DeleteUserServlet")
 public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -51,16 +51,21 @@ public class DeleteUserServlet extends HttpServlet {
         	Driver user = (Driver)session.getAttribute("User");
     		//save userName for next page
     		session.setAttribute("User", user);
-    		
-    		//delete the ride		
-    		user.deleteRide();
-    		
-		} catch (Exception e) {
 			out.println("<html>");
 		    out.println("<head>");
 		    out.println("<title>Servlet GreetingServlet</title>");
 		    out.println("</head>");
 		    out.println("<body>");
+		    
+    		//delete the ride		
+    		user.deleteRide();
+        	response.sendRedirect("mainpage.jsp");
+    		
+		} catch (Exception e) {
+			
+			//print the error
+			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+		    out.print(str);
 		    
 
 		    

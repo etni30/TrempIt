@@ -1,5 +1,5 @@
 package View;
-
+//admin method changing user ditails
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -81,13 +81,10 @@ public class changeUserServlet extends HttpServlet {
 	    out.println("<script> alert('connection has lost');");
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
-	}catch(NumberFormatException e) {
-		out.println("<script> alert('Division by 0 Exception');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
-	    out.println("</script>");
 	}catch(Exception e) {
-		String str = "<script> alert('Username already exists')</script>";
-		out.print(str);
+	    //show error
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+	    out.print(str);
 	    out.println("<script> window.location.href = \"show_tables.jsp\";</script >");
 	}finally {
 		out.println("</body>");

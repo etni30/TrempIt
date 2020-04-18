@@ -2,11 +2,13 @@
     pageEncoding="windows-1255"%>
 <%@page import="Controller.Controller ,Model.*, java.util.ArrayList"%>
 <%
+// trmp box page - ditails of the ride
 try{
 	User user =(User)session.getAttribute("user");
 	session.setAttribute("User", user);
-	String driverName;
+	//get driver name
 	Controller conn = new Controller();
+	String driverName;
 	if(user instanceof Passenger){
 		driverName = request.getParameter("trempBox");
 	}
@@ -144,10 +146,15 @@ try{
 
 	  </table>
 	  <% if(user instanceof Driver){%>
-		<a href="DeleteUserServlet.java">click here to delete the tremp</a>
+	  	<form action="DeleteUserServlet" method="POST">
+			<input type="submit" value="click here to delete the tremp"/>
+		</form>
        <%}else{ %>
-       <a href="leave_tremp.jsp">click here to delete the tremp</a>
+       <form action="LeaveRideServlet" method="POST">
+	       <input type="submit" value="click here to leave the tremp"/>
+       </form>
        <%} %>
+       
         </div>
           <img id="back" src="cssFile/images/button.png" />
         </div>
