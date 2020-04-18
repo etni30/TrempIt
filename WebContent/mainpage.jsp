@@ -104,7 +104,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <hr>
         </div>
 
- 
           <%{
         		 if( user.getIsInARide()){  // 
 	        		  	%><a href="LiveChat.jsp">trampBox</a>
@@ -137,8 +136,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <%}%>
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
-  <p>Find me on social media.</p>
-
   <p>Powered by Hagashi & co.</a></p>
 </footer>
 

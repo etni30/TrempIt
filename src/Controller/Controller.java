@@ -31,12 +31,8 @@ public class Controller implements ControllerInterface{
 	// add a new user, return 0 if success, return 1 if there exist user with same name, return 2 if sql problem
     
     public User getUser(String username) throws Exception {
-    	try {
-			return model.getUser(username);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new Exception("turn on dB please");
-		}
+			
+    	return model.getUser(username);
     }
     
     public int addNewUser(String first, String last, String type, String username, String password, String email) {

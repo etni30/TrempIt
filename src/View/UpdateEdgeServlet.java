@@ -67,11 +67,13 @@ public class UpdateEdgeServlet extends HttpServlet {
 		    out.println("</script>");
 		}catch(NumberFormatException e) {
 			out.println("<script> alert('insert number please');");
-		    out.println("window.location.href = \"clear_page.jsp\";");
+		    out.println("window.location.href = \"show_tables.jsp\";");
 		    out.println("</script>");
 		}catch(Exception e) {
-		    out.println("<script> alert('problem with dB');");
-		    out.println("window.location.href = \"clear_page.jsp\";");
+			String str = "alert('" + e.getMessage() + "')";
+			out.println("<script>");
+			out.println(str);
+			out.println("window.location.href = \"clear_page.jsp\";");
 		    out.println("</script>");
 		}finally {
 			out.println("</body>");

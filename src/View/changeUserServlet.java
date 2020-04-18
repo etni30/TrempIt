@@ -27,14 +27,12 @@ public class changeUserServlet extends HttpServlet {
      */
     public changeUserServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -54,7 +52,7 @@ public class changeUserServlet extends HttpServlet {
 			Admin admin = (Admin)session.getAttribute("User");
 			session.setAttribute("User", admin);
 			String us = request.getParameter("User");
-			User user = conn.getUser(us);  // get the disirable user that we want to change
+			User user = conn.getUser(us);  // get the user that we want to change
 			String UserName = request.getParameter("UserName");
 			String FirstName = request.getParameter("FirstName");
 			Boolean IsInARide = Boolean.parseBoolean(request.getParameter("IsInARide"));
@@ -88,12 +86,9 @@ public class changeUserServlet extends HttpServlet {
 	    out.println("window.location.href = \"clear_page.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-		//String error = e.toString();
-		out.println("<script>");
-		//out.println("alert('heyo" + error + "');");
-		out.println("alert('Already in DataBase');");
-	    out.println("window.location.href = \"show_tables.jsp\";");
-	    out.println("</script>");
+		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+		out.print(str);
+	    out.println("<script> window.location.href = \"show_tables.jsp\";</script >");
 	}finally {
 		out.println("</body>");
 	    out.println("</html>");

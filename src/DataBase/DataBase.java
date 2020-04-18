@@ -392,7 +392,6 @@ public class DataBase implements DBInterface {
 		ps.setInt(3, idGroup);
 		ps.executeUpdate();
 		this.closeConnection();
-		return true;
 	}
 		
 	// return ResultSet of all groups from one city to another city

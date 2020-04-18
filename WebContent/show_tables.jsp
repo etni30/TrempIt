@@ -128,7 +128,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
         
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
-          	<a href="#" onclick="hideStationsTable()">stations</a>
+          	<a href="#" onclick="hideStationsTable()">Station table</a>
          <table id="stations">
 		    <th class="margin"><% out.print("station"); %></th>
 		    <th class="margin"><% out.print("city"); %></th>           	
@@ -165,7 +165,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
         
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
-          	<a href="#" onclick="hideGroupTable()">Group</a>
+          	<a href="#" onclick="hideGroupTable()">Group table</a>
           <table id="Group">
 			  <tr class="groove">
 			  	
@@ -207,7 +207,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
-          	<a href="#" onclick="hideUserTable()">Users</a>
+          	<a href="#" onclick="hideUserTable()">User table</a>
           	<table id="Users" onclick="myFunction(event)">
 			  <tr class="groove">
 				<th class="margin"><% out.print("select user");%></th>
@@ -285,14 +285,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 <%} %>
 
 <footer class="w3-container w3-teal w3-center w3-margin-top">
-  <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p>Powered by Hagashi & co.</a></p>
 </footer>
 <script >
 	var img = document.getElementsByClassName('back');

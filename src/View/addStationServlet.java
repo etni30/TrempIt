@@ -60,7 +60,6 @@ public class addStationServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 			response.sendRedirect("show_tables.jsp");
-
 	
 	}catch(NullPointerException e){
 	    out.println("<script> alert('connection has lost');");
@@ -68,10 +67,12 @@ public class addStationServlet extends HttpServlet {
 	    out.println("</script>");
 	}catch(NumberFormatException e) {
 		out.println("<script> alert('insert number please');");
-	    out.println("window.location.href = \"clear_page.jsp\";");
+	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}catch(Exception e) {
-	    out.println("<script> alert('Station already in DataBase');");
+		String str = "alert('" + e.getMessage() + "')";
+		out.println("<script>");
+		out.println(str);
 	    out.println("window.location.href = \"show_tables.jsp\";");
 	    out.println("</script>");
 	}finally {

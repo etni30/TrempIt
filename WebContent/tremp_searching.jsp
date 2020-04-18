@@ -1,6 +1,6 @@
 <%@page import="com.sun.org.apache.xml.internal.security.algorithms.Algorithm"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="org.omg.CORBA.ExceptionList"%>
+<%--  <%@page import="org.omg.CORBA.ExceptionList"%>--%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="Model.*, Controller.*, java.util.LinkedList"%>
