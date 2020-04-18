@@ -143,12 +143,11 @@ try{
 		  <tr class="groove"><h4><%out.print("place left:" + (4 - g.getAmount())); %></h4></tr>
 
 	  </table>
-	  <%
-	  
-	  
-	  if(user instanceof Driver){ %>
-		<a href="delete_tremp.jsp">click here to delete the tremp</a>
-         <%} %>
+	  <% if(user instanceof Driver){%>
+		<a href="DeleteUserServlet.java">click here to delete the tremp</a>
+       <%}else{ %>
+       <a href="leave_tremp.jsp">click here to delete the tremp</a>
+       <%} %>
         </div>
           <img id="back" src="cssFile/images/button.png" />
         </div>
@@ -171,38 +170,36 @@ try{
 
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>YOUR TREMPBOX</h2>
-      	<!--  searching form  -->
-	<form action="#" onsubmit="me.route()"> 
-			  <div class="w3-container w3-card w3-white w3-margin-bottom">
-			  <!-- search parameters -->
-			      <table class="groove">
-					  <tr class="groove">
-					 <input id="origin-input" class="controls" type="text"
-		            placeholder="Enter an origin location">
-		
-		        <input id="destination-input" class="controls" type="text"
-		            placeholder="Enter a destination location">
-					 <div id="mode-selector" class="controls">
-				 click on one of the buttons to see how to travel:
-				 </br>
-		          <input type="radio" name="type" id="changemode-walking" checked="checked">
-		          <label for="changemode-walking">Walking</label>
-		
-		          <input type="radio" name="type" id="changemode-transit">
-		          <label for="changemode-transit">Transit</label>
-		
-		          <input type="radio" name="type" id="changemode-driving">
-		          <label for="changemode-driving">Driving</label>
-		        </div>
-		    </div>
-					 
-			  </tr>
-		  </table>
-      </div>
-
-	  	</div>
-	  	</form>
-	
+<!-- map part -->
+			<form action="#" onsubmit="me.route()"> 
+					  <div class="w3-container w3-card w3-white w3-margin-bottom">
+					  <!-- search parameters -->
+					      <table class="groove">
+							  <tr class="groove">
+							 <input id="origin-input" class="controls" type="text"
+				            placeholder="Enter an origin location">
+				
+				        <input id="destination-input" class="controls" type="text"
+				            placeholder="Enter a destination location">
+							 <div id="mode-selector" class="controls">
+						 click on one of the buttons to see how to travel:
+						 </br>
+				          <input type="radio" name="type" id="changemode-walking" checked="checked">
+				          <label for="changemode-walking">Walking</label>
+				
+				          <input type="radio" name="type" id="changemode-transit">
+				          <label for="changemode-transit">Transit</label>
+				
+				          <input type="radio" name="type" id="changemode-driving">
+				          <label for="changemode-driving">Driving</label>
+				        </div>
+				    </div>	 
+					  </tr>
+				  </table>
+		      </div>
+			</div>
+		</form>
+			
     <!-- End Right Column -->
     </div>
 
@@ -216,13 +213,7 @@ try{
     
     <footer class="w3-container w3-teal w3-center w3-margin-top">
   <p>Find me on social media.</p>
-  <i class="fa fa-facebook-official w3-hover-opacity"></i>
-  <i class="fa fa-instagram w3-hover-opacity"></i>
-  <i class="fa fa-snapchat w3-hover-opacity"></i>
-  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-  <i class="fa fa-twitter w3-hover-opacity"></i>
-  <i class="fa fa-linkedin w3-hover-opacity"></i>
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  <p>Powered by Hagashi & co.</a></p>
 </footer>
 
     <script>

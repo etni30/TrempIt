@@ -32,11 +32,11 @@ function myMoveR(left_collomn) {
 
   document.getElementsByClassName('w3-twothird')[0].style.display = "none";
   function frame() {
-    if (pos == 30) {
+    if (pos == 400) {
       clearInterval(id);
     } else {
-      pos += 0.5;
-      elem.style.left = pos + "%";
+      pos += 10;
+      elem.style.left = pos + "px";
     }
   }
 }
@@ -108,7 +108,6 @@ function creatAnewForm(){
 
 //------------------------delet elements------------------------
 function deleteElement(){
-  // var x = register[0].getElementsByClassName('w3-container w3-center w3-round-xlarge w3-teal w3-hight');
   console.log();
   while (register[0].firstChild != null) {
     register[0].removeChild(register[0].firstChild);
@@ -131,14 +130,6 @@ function creatAccountElement(){
   register[0].innerHTML += "</br>";
   var a = document.createElement('a');
   div.innerHTML = "log-in";
-  register[0].appendChild(div);
-  
-  var div = document.createElement('div');
-  div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
-  div.id = "log_admin";
-  register[0].innerHTML += "</br>";
-  var a = document.createElement('a');
-  div.innerHTML = "log-as-admin";
   register[0].appendChild(div);
   
   var clicked3 = false;

@@ -25,7 +25,7 @@ public class Passenger extends User{
 	}
 	
 	// leave ride in DB
-	public void leaveGroup() throws Exception{
+	public void leaveRide() throws Exception{
 		if(!this.getIsInARide()) {
 			throw new Exception("Not in a ride");
 		}

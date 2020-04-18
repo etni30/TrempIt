@@ -2,7 +2,7 @@ package Model;
 
 import API.ModelInterface;
 
-public class Driver extends User{
+public class Driver extends User {
 	
 	public Driver(int idUser, String firstName, String lastName, String userName, String password,
 			String email, boolean isInARide) {

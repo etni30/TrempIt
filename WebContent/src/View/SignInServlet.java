@@ -12,21 +12,23 @@ import javax.servlet.http.HttpSession;
 
 import Controller.Controller;
 import Model.Admin;
-import Model.Driver;
-import Model.Passenger;
 import Model.User;
 
 /**
- * Servlet implementation class LogInServlet
+ * Servlet implementation class SignInServlet:
+ * 
+ * the servlet check if the user is valid
+ * create session for the user
+ * and send the user to mainpage or show_tables depend on kind of the user
  */
-@WebServlet("/LogInServlet")
-public class LogInServlet extends HttpServlet {
+@WebServlet("/SignInServlet")
+public class SignInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogInServlet() {
+    public SignInServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,27 +45,34 @@ public class LogInServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession(true);
 
         try {
-        	//get parameters from form
-	        String username = request.getParameter("userName").toString();
-	        String password = request.getParameter("psw").toString();
+        	//Sign up - get data for the new user
 	        Controller conn = new Controller();
-	        		//validation- check password and type
-					if(conn.checkPassword(username, password)) {  // for valid password
-						User user = conn.getUser(username);
-						session.setAttribute("User", user);
-						if(user instanceof Passenger || user instanceof Driver)
-							response.sendRedirect("mainpage.jsp");
-						else {  // for admin
-							response.sendRedirect("show_tables.jsp");
-						}
-					}else { // wrong password or username
-						throw new Exception("invalid password or Username");
-					}
+			String type = request.getParameter("type");
+			String first = request.getParameter("first");
+			String last = request.getParameter("last");
+			String userName = request.getParameter("userName");
+			String psw = request.getParameter("psw");
+			String mail = request.getParameter("mail");
+
+			//sign up the new user & check validation
+			int valid = conn.addNewUser(first, last, type, userName, psw, mail);
+	        
+			if(valid == 0){  // valid user
+				User user = conn.getUser(userName);
+				session.setAttribute("User", user);
+				
+				if(user instanceof Admin)  // redirect to show tables for admin user
+					response.sendRedirect("show_tables.jsp");
+				response.sendRedirect("mainpage.jsp");  // for other users
+			}else {
+				throw new Exception("invalid user name, the name is already in use");
+			}
 		} catch (Exception e) {
 			out.println("<html>");
 		    out.println("<head>");
@@ -71,16 +80,17 @@ public class LogInServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 		    
-		    //show error
+		    //print the error
 			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
 		    out.print(str);
+		    
+		} finally {
 			out.print("<script >window.location.href = \"clear_page.jsp\";</script >");
 			out.println("</body>");
 		    out.println("</html>");
-		    
-		} finally {
-
 		    out.close();
 		}
-    }
+    
+	}
+
 }

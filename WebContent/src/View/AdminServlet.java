@@ -3,6 +3,7 @@ package View;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,21 +13,18 @@ import javax.servlet.http.HttpSession;
 
 import Controller.Controller;
 import Model.Admin;
-import Model.Driver;
-import Model.Passenger;
 import Model.User;
-
 /**
- * Servlet implementation class LogInServlet
+ * Servlet implementation class AdminServlet
  */
-@WebServlet("/LogInServlet")
-public class LogInServlet extends HttpServlet {
+@WebServlet("/AdminServlet")
+public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogInServlet() {
+    public AdminServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,25 +43,25 @@ public class LogInServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession(true);
-
         try {
-        	//get parameters from form
+        	//validation- check password and type
 	        String username = request.getParameter("userName").toString();
 	        String password = request.getParameter("psw").toString();
 	        Controller conn = new Controller();
-	        		//validation- check password and type
-					if(conn.checkPassword(username, password)) {  // for valid password
+
+					if(conn.checkPassword(username, password)) {  // passowrd validation
 						User user = conn.getUser(username);
-						session.setAttribute("User", user);
-						if(user instanceof Passenger || user instanceof Driver)
-							response.sendRedirect("mainpage.jsp");
-						else {  // for admin
+						if(user instanceof Admin || true) {  //Admin validation
+							HttpSession Hsess = request.getSession(true);
+							Hsess.setAttribute("User", user);
 							response.sendRedirect("show_tables.jsp");
-						}
-					}else { // wrong password or username
-						throw new Exception("invalid password or Username");
-					}
+						// hendle errors
+						}else {
+						    throw new Exception("ERROR the user is not admin");	
+				}
+			}else {
+				throw new Exception("invalid password/user name");
+			}
 		} catch (Exception e) {
 			out.println("<html>");
 		    out.println("<head>");
@@ -71,16 +69,16 @@ public class LogInServlet extends HttpServlet {
 		    out.println("</head>");
 		    out.println("<body>");
 		    
-		    //show error
 			String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
 		    out.print(str);
+		    
+		} finally {
 			out.print("<script >window.location.href = \"clear_page.jsp\";</script >");
 			out.println("</body>");
 		    out.println("</html>");
-		    
-		} finally {
-
 		    out.close();
+
 		}
     }
+
 }

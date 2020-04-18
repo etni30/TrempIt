@@ -23,43 +23,7 @@ document.addEventListener('click', function(e){
       }
     });
 
-//------------------------move screen function------------------------
-function myMoveR(left_collomn) {
-  var elem = left_collomn;
-  elem.style.position = "relative";
-  var pos = 0;
-  var id = setInterval(frame, 5);
 
-  document.getElementsByClassName('w3-twothird')[0].style.display = "none";
-  function frame() {
-    if (pos == 30) {
-      clearInterval(id);
-    } else {
-      pos += 0.5;
-      elem.style.left = pos + "%";
-    }
-  }
-}
-
-
-//------------------------move screen function------------------------
-function myMoveL(left_collomn) {
-  var elem = left_collomn;
-  elem.style.position = "relative";
-  var pos = 400;
-  var id = setInterval(frame, 5);
-  function frame() {
-    if (pos == 0) {
-      clearInterval(id);
-      document.getElementsByClassName('w3-twothird')[0].style.display = "block";
-      deleteElement()
-      creatAccountElement3()
-    } else {
-      pos -= 8;
-      elem.style.left = pos + "px";// move left_collomn to the center
-    }
-  }
-}
 //------------------------creat a form------------------------
 function creatAnewForm3(){
 
@@ -106,15 +70,8 @@ function creatAnewForm3(){
   const sign_in = register[0].getElementsByTagName("div");
 }
 
-//------------------------delet elements------------------------
-function deleteElement(){
 
-  while (register[0].firstChild != null) {
-    register[0].removeChild(register[0].firstChild);
-  }
-
-}
-
+//
 function creatAccountElement33(){
   var div = document.createElement('div');
   div.classList.add("w3-container" ,"w3-center" ,"w3-round-xlarge" ,"w3-teal" ,"w3-hight");
@@ -131,7 +88,5 @@ function creatAccountElement33(){
   div.innerHTML = "log-in";
   // div.appendChild(a);
   register[0].appendChild(div);
-  
-
   
 }

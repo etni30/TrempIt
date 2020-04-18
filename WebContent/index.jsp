@@ -1,4 +1,4 @@
-<%--  <%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%>--%>
+<%-- <%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%> --%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 
@@ -86,6 +86,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </footer>
 <script type="text/javascript" src="javaScript/sign_in.js"></script>
 <script type="text/javascript" src="javaScript/log_in.js"></script>
-<script type="text/javascript" src="javaScript/log_admin.js"></script> 
+<script type="text/javascript" src="javaScript/index.js"></script> 
 </body>
 </html>
