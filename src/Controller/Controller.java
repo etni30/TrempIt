@@ -14,11 +14,9 @@ import API.DBInterface;
 public class Controller implements ControllerInterface{
     
 	private ModelInterface model = null;
-	private DataBase dataBase = null;
     
     public Controller() throws Exception {
     	this.model = new Model();
-    	this.dataBase = new DataBase();
     }
     
     	
@@ -52,7 +50,7 @@ public class Controller implements ControllerInterface{
     public boolean checkPassword(String username, String password) throws Exception
     {
     	try {
-    		return dataBase.checkPassword(username, password);
+    		return model.checkPassword(username, password);
     	}
     	catch(Exception e)
     	{
