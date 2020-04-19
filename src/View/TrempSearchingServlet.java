@@ -56,7 +56,8 @@ public class TrempSearchingServlet extends HttpServlet {
 		String[] dst = request.getParameter("destination").toString().split(",");  // destination
 		String dstStation = dst[0];
 	 	String dstCity = dst[1];
-		//get departure and arival time
+	 	
+		//get departure and arrival time
 	 	String  timeDep = request.getParameter("departureT");
 	 	String timeAR = request.getParameter("desiredArriveT");
 		try{
@@ -73,7 +74,7 @@ public class TrempSearchingServlet extends HttpServlet {
 			//save userName for next page
 			session.setAttribute("User", user);
 			
-			//use optimal path algoritm to find the best ride
+			//use optimal path algorithm to find the best ride
 			ArrayList<Path> pathResult;
 			pathResult= alg.findTramps(srcStation, srcCity, dstStation, dstCity, desiredArriveT, departureT, prefer);			
 			session.setAttribute("PathResult", pathResult);

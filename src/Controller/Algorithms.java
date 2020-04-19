@@ -158,12 +158,16 @@ public class Algorithms {
     			@Override
     			public int compare(Path p1, Path p2)
     			{
-    				return Float.compare(p1.getWalkDistance(), p2.getWalkDistance());
+    				int res =  Float.compare(p1.getWalkDistance(), p2.getWalkDistance());
+    				return res;
     			}
     		});
+    		
+    		break;
     	}
     	
     	case 1:	// Sort by earliest arrive time
+    	{
     		Collections.sort(paths, new Comparator<Path>()
     		{
     			@Override
@@ -172,6 +176,9 @@ public class Algorithms {
     				return p1.getArriveTime().compareTo(p2.getArriveTime());
     			}
     		});
+    		
+    		break;
+    	}
     	
     	case 2:	// Sort by closest departure time to desired departure time
     	{
@@ -183,6 +190,8 @@ public class Algorithms {
     				return p1.getDepartureTime().compareTo(p2.getDepartureTime());
     			}
     		});
+    		
+    		break;
     	}
     	}
     }
