@@ -1,4 +1,4 @@
-<%@page import="com.sun.org.apache.xml.internal.security.algorithms.Algorithm"%>
+<%-- <%@page import="com.sun.org.apache.xml.internal.security.algorithms.Algorithm"%> --%>
 <%@page import="java.util.ArrayList"%>
 <%--  <%@page import="org.omg.CORBA.ExceptionList"%>--%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
@@ -28,8 +28,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", ariel}
 table{overflow: auto; white-space; nowrap;}
 table.groove {overflow: auto; white-space; nowrap; position:ralative;  margin-left: auto; margin-right: auto; }
 .submit {position:ralative;  margin-left: auto; margin-right: auto; }
-th.groove {border-left-style: double;  padding-left: 50px; padding-right: 50px; padding-top: 10px; padding-bottom: 10px;}
-th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px; padding-right: 55px; padding-top: 10px; padding-bottom: 10px;
+th.groove {border-left-style: double;  padding-left: 15px; padding-right: 15px; padding-top: 10px; padding-bottom: 10px;}
+th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 15px; padding-right: 15px; padding-top: 10px; padding-bottom: 10px;
 			background-color: #d4bce1;}
 </style>
 <body class="w3-light-grey">
@@ -91,6 +91,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>TRAMP SEARCHING (AUTO)</h2>
       </div>
 	<!--  names of parameters -->
+	
 	<h4 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>INSERT PARAMETERS</h4> 
       <table >
 		  <tr class="groove">

@@ -1,5 +1,5 @@
 <%@page import="API.ControllerInterface"%>
-<%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%>
+<%--<%@page import="com.sun.xml.internal.bind.v2.schemagen.xmlschema.Import"%> --%>
 <%@ page language="java" contentType="text/html; charset=windows-1255"
     pageEncoding="windows-1255"%>
 <%@page import="Controller.Controller"%>

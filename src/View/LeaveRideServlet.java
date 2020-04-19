@@ -44,15 +44,12 @@ public class LeaveRideServlet extends HttpServlet {
 			HttpSession session = request.getSession(true);
 
 	        try {
-	        	System.out.println("lamaaaaaaaaa1");
 	    		//parameter and initialization
 	        	Passenger user = (Passenger)session.getAttribute("User");
 	    		//save userName for next page
 	    		session.setAttribute("User", user);
-	        	System.out.println("lamaaaaaaaaa2");
 	    		//delete the ride		
 	    		user.leaveRide();
-	        	System.out.println("lamaaaaaaaaa3");    		
 				out.println("<html>");
 			    out.println("<head>");
 			    out.println("<title>Servlet GreetingServlet</title>");

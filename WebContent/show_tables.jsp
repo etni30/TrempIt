@@ -90,7 +90,7 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
         <div class="w3-container">
           <h5 class="w3-opacity"><b>
           	<a href="#" onclick="hideEdgeTable()">Edge table</a>
-<form action="UpdateEdgeServlet" method="POST">
+<form  name="edgeForm" action="UpdateEdgeServlet" method="POST" onsubmit="return checkNegative()">
         <table id="Edge">
         	
 			  
@@ -212,13 +212,13 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
           	<table id="Users" onclick="changeUser(event)">
 			  <tr class="groove">
 				<th class="margin"><% out.print("select user");%></th>
-				<th class="margin"><% out.print("Email");%></th>
+				<th class="margin"><% out.print("UserName");%></th>
 				<th class="margin"><% out.print("FirstName");%></th>
+				<th class="margin"><% out.print("LastName"); %></th>
 			    <th class="margin"><% out.print("IdUser"); %></th>
 			    <th class="margin"><% out.print("IsInARide"); %></th>
-			    <th class="margin"><% out.print("LastName"); %></th>
 			    <th class="margin"><% out.print("Password"); %></th>
-			    <th class="margin"><% out.print("UserName"); %></th>
+			    <th class="margin"><% out.print("Email"); %></th>
 			  </tr>        
 		<%		
 			  j = 0;
@@ -228,9 +228,9 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 			  <th class="margin"><% out.print("clicked on the select user");%></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getUserName()); %>"><% out.print(i.getUserName()); %></th>
 				<th id="chosenUser" class="margin" value="<% out.print(i.getFirstName());%>"><% out.print(i.getFirstName());%></th>
+			    <th id="chosenUser" class="margin" value="<% out.print(i.getLastName()); %>"><% out.print(i.getLastName()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getIdUser());%>" ><% out.print(i.getIdUser()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getIsInARide()); %>"><% out.print(i.getIsInARide()); %></th>
-			    <th id="chosenUser" class="margin" value="<% out.print(i.getLastName()); %>"><% out.print(i.getLastName()); %></th>
 			    <th id="chosenUser" class="margin" value="<% out.print(i.getPassword()); %>"><% out.print(i.getPassword()); %></th>
 				<th id="chosenUser" class="margin" value="<% out.print(i.getEmail());%>"><% out.print(i.getEmail());%></th>
 
@@ -290,8 +290,16 @@ th.margin {font-family: Comic Sans MS, Comic Sans, cursive;  padding-left: 55px;
 	const groups = document.getElementById("Group");
 	const users = document.getElementById("Users");
 	const userChange = document.getElementById("userChange");
+	const inputEdge = document.forms['edgeForm']['distance'];
 	
 	hideAll();
+	
+	function checkNegative(){
+		if(!(inputEdge.value > 0)) {
+			alert("ERROR - you cannot insert negative input ")
+			return false;
+		}
+	}
 	
 	//get user ditails from user table and change them
 	function changeUser(event) {

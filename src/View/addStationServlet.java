@@ -69,7 +69,7 @@ public class addStationServlet extends HttpServlet {
 	    out.println("</script>");
 	}catch(Exception e) {
 	    //show error
-		String str = "<script>" + "alert('" + e.getMessage() + "')" + "</script>";
+		String str = "<script>" + "alert('duplicate entry for station name')" + "</script>";
 	    out.print(str);
 	    out.println("<script> window.location.href = \"show_tables.jsp\";</script>");
 	}finally {
