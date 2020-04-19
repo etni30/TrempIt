@@ -24,5 +24,5 @@ public interface ControllerInterface {
  			boolean isInARide) throws Exception;
  	
  	//create data base
-	public boolean createDB() throws Exception;
+	public void createDB() throws Exception;
 }

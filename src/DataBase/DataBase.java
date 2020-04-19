@@ -418,126 +418,187 @@ public class DataBase implements DBInterface {
 	
 	
 	// Create DB for new systems -------------------------------------------------------------------
-	public boolean createDB() throws Exception{
-		try {
-			this.openConnection();
+		public void createDB() throws Exception{
+			try {
+				
+				//-----------Open DB connection--------------------------//
+				
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/", "root", "");
+				
+				//--------------------------------------------------------//
 
-			PreparedStatement ps = conn.prepareStatement("CREATE DATABASE IF NOT EXISTS trampit");
-			int exist = ps.executeUpdate(); // exist = 1 if created trampit Data Base 
-											// and exist = 0 if already exists
-			if(exist==1){
-				exist = this.createUsers();
-				if(exist!=4) {
-					this.closeConnection();
-					return false;
+				PreparedStatement ps = conn.prepareStatement("CREATE DATABASE IF NOT EXISTS `trampit`");
+				int exist = ps.executeUpdate(); // exist = 1 if created trampit Data Base 
+												// and exist = 0 if already exists
+				if(exist==1){
+					
+					this.createUsers();
+					
+					this.createGroup();
+					
+					this.createEdge();
+					
+					this.createStation();
+					
 				}
-				exist = this.createGroup();
-				if(exist!=2) {
-					this.closeConnection();
-					return false;
-				}
-				exist = this.createEdge();
-				if(exist!=1) {
-					this.closeConnection();
-					return false;
-				}
-				exist = this.createStation();
-				if(exist!=6) {
-					this.closeConnection();
-					return false;
-				}
+				
 				this.closeConnection();
-				return true;	// success
-			}
-			else{
-				this.closeConnection();
-				return false;
-			}
+				
+				
+			} catch (Exception e) {
+				dropDB();
+				throw new Exception("DB creation failed");
+			}	
+		}
+		
+		public void dropDB() throws Exception
+		{
+			PreparedStatement ps= conn.prepareStatement("DROP DATABASE `trampit`");
+			ps.executeUpdate();
+		}
+	
+		// creating "users" table in DB
+		public void createUsers() throws Exception{
+			PreparedStatement ps= conn.prepareStatement("CREATE TABLE `trampit`.`users` (" + 
+					"  `iduser` int(11) NOT NULL," + 
+					"  `firstname` varchar(255) NOT NULL," + 
+					"  `lastname` varchar(255) NOT NULL," + 
+					"  `type` varchar(255) NOT NULL," + 
+					"  `username` varchar(255) NOT NULL," + 
+					"  `password` varchar(255) NOT NULL," + 
+					"  `email` varchar(255) NOT NULL," + 
+					"  `isinaride` tinyint(1) NOT NULL DEFAULT 0" + 
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"); 
+
+			ps.executeUpdate();
+
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`users`" + 
+					"  ADD PRIMARY KEY (`iduser`)," + 
+					"  ADD UNIQUE KEY `username` (`username`);");
+			ps.executeUpdate();
 			
-		} catch (Exception e) {
-			throw new Exception("DB creation failed");
-		}	
-	}
-	
-	// creating "users" table in DB
-	public int createUsers() throws Exception{
-		PreparedStatement ps= conn.prepareStatement("CREATE TABLE `etni`.`users` (\r\n" + 
-				"  `iduser` int(11) NOT NULL,\r\n" + 
-				"  `firstname` varchar(255) NOT NULL,\r\n" + 
-				"  `lastname` varchar(255) NOT NULL,\r\n" + 
-				"  `type` varchar(255) NOT NULL,\r\n" + 
-				"  `username` varchar(255) NOT NULL,\r\n" + 
-				"  `password` varchar(255) NOT NULL,\r\n" + 
-				"  `email` varchar(255) NOT NULL,\r\n" + 
-				"  `isinaride` tinyint(1) NOT NULL DEFAULT 0,\r\n" + 
-				"  `tablename` varchar(255) NOT NULL DEFAULT 'empty'\r\n" + 
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\r\n" + 
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`users`" + 
+					"  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;");
+			
+			ps.executeUpdate();
+			
+			ps= conn.prepareStatement("INSERT INTO `trampit`.`users` (`iduser`, `firstname`, `lastname`, `type`, `username`, `password`, `email`, `isinaride`) VALUES" + 
+					"(33, 'Igor', 'Rochlin', 'admin', 'Igor123', '1234', 'Igor@gmail.com', 0)," + 
+					"(34, 'Jerry', 'Seinfeld', 'driver', 'Jerom', '1234', 'JS@gmail.com', 1)," + 
+					"(35, 'Eden', 'Fargon', 'driver', 'Eden123', '1234', 'ednenF@gmail.com', 1)," + 
+					"(36, 'Guy', 'Amit', 'driver', 'guy123', 'password', 'guyAmit11@gmail.com', 1)," + 
+					"(37, 'Mr', 'Zipan', 'driver', 'Marzipan', '1234', 'Marzipan@yalla.com', 1)," + 
+					"(38, 'Itamar', 'Dayan', 'passenger', 'Itamar123', '1234', 'Itamard06@gmail.com', 1)," + 
+					"(39, 'Etni', 'Hagashi', 'passenger', 'EtniH', 'Yemen', 'Hagashi@gmail.com', 1)," + 
+					"(40, 'Eliyahu', 'Levi', 'driver', 'eli123', '1234abcd', 'Eliyahu@yahoo.com', 1)," + 
+					"(41, 'Rick', 'Sanchez', 'driver', 'PickleRick', '1234', 'Rick@gmail.com', 0)," + 
+					"(42, 'Assi', 'Cohen', 'driver', 'Assi', '2222', 'AC@hotmail.com', 1)," + 
+					"(43, 'Walter', 'White', 'passenger', 'Heisenberg', '0000', 'WH@walla.com', 0);");
+			
+			ps.executeUpdate();
 
-				"ALTER TABLE `etni`.`users`\r\n" + 
-				"  ADD PRIMARY KEY (`iduser`),\r\n" + 
-				"  ADD UNIQUE KEY `username` (`username`);\r\n" + 
+		}
+	
+		// creating "group" table in DB
+		public void createGroup() throws Exception{
+			PreparedStatement ps= conn.prepareStatement("CREATE TABLE `trampit`.`group` (" + 
+					"  `idgroup` int(11) NOT NULL," + 
+					"  `amount` int(11) NOT NULL DEFAULT 0," + 
+					"  `departureTime` varchar(255) NOT NULL DEFAULT '00:00'," + 
+					"  `srcCity` varchar(255) DEFAULT NULL," + 
+					"  `dstCity` varchar(255) DEFAULT NULL," + 
+					"  `srcstation` varchar(255) NOT NULL," + 
+					"  `dststation` varchar(255) NOT NULL," + 
+					"  `iddriver` int(11) NOT NULL," + 
+					"  `iduser1` int(11) NOT NULL DEFAULT 0," + 
+					"  `iduser2` int(11) NOT NULL DEFAULT 0," + 
+					"  `iduser3` int(11) NOT NULL DEFAULT 0," + 
+					"  `iduser4` int(11) NOT NULL DEFAULT 0" + 
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+					
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`group`" + 
+					"  ADD PRIMARY KEY (`idgroup`)," + 
+					"  ADD UNIQUE KEY `iddriver` (`iddriver`);");
+			
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`group`" + 
+					"  MODIFY `idgroup` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;");
+			
+			ps.executeUpdate();
+			
+			ps= conn.prepareStatement("INSERT INTO `trampit`.`group` (`idgroup`, `amount`, `departureTime`, `srcCity`, `dstCity`, `srcstation`, `dststation`, `iddriver`, `iduser1`, `iduser2`, `iduser3`, `iduser4`) VALUES" + 
+					"(1, 0, '08:20', 'raanana', 'ramat gan', 'ahuza shwartz', 'ramat hen', 34, 0, 0, 0, 0)," + 
+					"(2, 2, '10:20', 'raanana', 'ramat gan', 'amidar', 'tel binyamin', 35, 38, 39, 0, 0)," + 
+					"(3, 0, '12:25', 'ramat gan', 'raanana', 'ramat hen', 'amidar', 36, 0, 0, 0, 0)," + 
+					"(4, 0, '15:40', 'jerusalem', 'raanana', 'rehavia', 'amidar', 37, 0, 0, 0, 0)," + 
+					"(5, 0, '13:30', 'jerusalem', 'ramat gan', 'rehavia', 'ramat hen', 40, 0, 0, 0, 0)," + 
+					"(7, 0, '16:30', 'raanana', 'jerusalem', 'amidar', 'rehavia', 42, 0, 0, 0, 0);");
+			
+			ps.executeUpdate();
 
-				"ALTER TABLE `etni`.`users`\r\n" + 
-				"  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;\r\n");
-	    ps.executeUpdate();
-		ps= conn.prepareStatement("");// TODO choose Users to add!!!!
-		int x = ps.executeUpdate(); // amount of rows inserted
-		return x;
-	}
+		}
 	
-	// creating "group" table in DB
-	public int createGroup() throws Exception{
-		PreparedStatement ps= conn.prepareStatement("CREATE TABLE `etni`.`group` (\r\n" + 
-				"  `idgroup` int(11) NOT NULL,\r\n" + 
-				"  `amount` int(11) NOT NULL DEFAULT 0,\r\n" + 
-				"  `departureTime` varchar(255) NOT NULL DEFAULT '00:00',\r\n" + 
-				"  `srcCity` varchar(255) DEFAULT NULL,\r\n" + 
-				"  `dstCity` varchar(255) DEFAULT NULL,\r\n" + 
-				"  `srcstation` varchar(255) NOT NULL,\r\n" + 
-				"  `dststation` varchar(255) NOT NULL,\r\n" + 
-				"  `iddriver` int(11) NOT NULL,\r\n" + 
-				"  `iduser1` int(11) NOT NULL DEFAULT 0,\r\n" + 
-				"  `iduser2` int(11) NOT NULL DEFAULT 0,\r\n" + 
-				"  `iduser3` int(11) NOT NULL DEFAULT 0,\r\n" + 
-				"  `iduser4` int(11) NOT NULL DEFAULT 0\r\n" + 
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" +
-				
-				"ALTER TABLE `etni`.`group`\r\n" + 
-				"  ADD PRIMARY KEY (`idgroup`),\r\n" + 
-				"  ADD UNIQUE KEY `iddriver` (`iddriver`);");
-		ps.executeUpdate();
-		ps= conn.prepareStatement(""); // TODO choose groups to add!!!!
-		int x = ps.executeUpdate(); // amount of rows inserted
-		return x;
-	}
+		public void createEdge() throws Exception{
+			PreparedStatement ps= conn.prepareStatement("CREATE TABLE `trampit`.`edge` (" + 
+					"  `station1` varchar(255) NOT NULL," + 
+					"  `station2` varchar(255) NOT NULL," + 
+					"  `city` varchar(255) NOT NULL," + 
+					"  `distance` double NOT NULL DEFAULT 1" + 
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+					
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`edge`" + 
+					"  ADD PRIMARY KEY (`station1`,`station2`);");
+			ps.executeUpdate();
+			ps= conn.prepareStatement("INSERT INTO `trampit`.`edge` (`station1`, `station2`, `city`, `distance`) VALUES" + 
+					"('ahuza shwartz', 'amidar', 'raanana', 2)," + 
+					"('jerusalem', 'raanana', 'cities', 80)," + 
+					"('jerusalem', 'ramat gan', 'cities', 60)," + 
+					"('marom nave', 'ramat hen', 'ramat gan', 2.6)," + 
+					"('neot sade', 'ahuza shwartz', 'raanana', 2)," + 
+					"('neot sade', 'amidar', 'raanana', 2.5)," + 
+					"('neot sade', 'ravutzki', 'raanana', 1.9)," + 
+					"('ramat gan', 'raanana', 'cities', 20)," + 
+					"('ravutzki', 'ahuza shwartz', 'raanana', 0.95)," + 
+					"('ravutzki', 'amidar', 'raanana', 2.4)," + 
+					"('rehavia', 'kiryat menachem', 'jerusalem', 4)," + 
+					"('tel binyamin', 'marom nave', 'ramat gan', 3.5)," + 
+					"('tel binyamin', 'ramat hen', 'ramat gan', 2.4);");
+			
+			ps.executeUpdate();
+		}
 	
-	public int createEdge() throws Exception{
-		PreparedStatement ps= conn.prepareStatement("CREATE TABLE `etni`.`edge` (\r\n" + 
-				"  `station1` varchar(255) NOT NULL,\r\n" + 
-				"  `station2` varchar(255) NOT NULL,\r\n" + 
-				"  `city` varchar(255) NOT NULL,\r\n" + 
-				"  `distance` double NOT NULL DEFAULT 1\r\n" + 
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" +
-				
-				"ALTER TABLE `etni`.`edge`\r\n" + 
-				"  ADD PRIMARY KEY (`station1`,`station2`);");
-		ps.executeUpdate();
-		ps= conn.prepareStatement(""); // TODO choose edge to add!!!!
-		int x = ps.executeUpdate(); // amount of rows inserted
-		return x;
-	}
+		public void createStation() throws Exception{	
+			PreparedStatement ps= conn.prepareStatement("CREATE TABLE `trampit`.`station` (" + 
+					"  `stationname` varchar(255) NOT NULL," + 
+					"  `city` varchar(255) NOT NULL" + 
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+			ps.executeUpdate();
+			
+			ps = conn.prepareStatement("ALTER TABLE `trampit`.`station` " +
+					  "ADD UNIQUE KEY `stationname` (`stationname`);");
+			
+			ps.executeUpdate();
+			
+			ps= conn.prepareStatement("INSERT INTO `trampit`.`station` (`stationname`, `city`) VALUES" + 
+					"('ahuza shwartz', 'raanana')," + 
+					"('amidar', 'raanana')," + 
+					"('kiryat menachem', 'jerusalem')," + 
+					"('marom nave', 'ramat gan')," + 
+					"('neot sade', 'raanana')," + 
+					"('ramat hen', 'ramat gan')," + 
+					"('ravutzki', 'raanana')," + 
+					"('rehavia', 'jerusalem')," + 
+					"('tel binyamin', 'ramat gan');");
+			
+			ps.executeUpdate();
+
+		}
 	
-	public int createStation() throws Exception{	
-		PreparedStatement ps= conn.prepareStatement("CREATE TABLE `etni`.`station` (\r\n" + 
-				"  `stationname` varchar(255) NOT NULL,\r\n" + 
-				"  `city` varchar(255) NOT NULL\r\n" + 
-				") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" +
-				
-				"ALTER TABLE `etni`.`station`\r\n" + 
-				"  ADD PRIMARY KEY (`stationname`,`city`) USING BTREE;");
-		ps.executeUpdate();
-		ps= conn.prepareStatement(""); // TODO choose station to add!!!!
-		int x = ps.executeUpdate(); // amount of rows inserted
-		return x;
-	}
+	
 }

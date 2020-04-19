@@ -183,17 +183,22 @@ public class Model implements ModelInterface {
 
 	// return LinkedList with all group object
 	public LinkedList<Group> getGroups() throws Exception{
-		
-		ResultSet rs = db.getGroups();
-		LinkedList<Group> groups= new LinkedList<Group>();
-		while(rs.next()) {
-			groups.add(new Group(rs.getInt("idgroup"), rs.getString("srcCity"), rs.getString("srcstation"),
-					rs.getString("dstCity"), rs.getString("dststation"), rs.getInt("amount"),
-					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
-					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
+		try {
+			ResultSet rs = db.getGroups();
+			LinkedList<Group> groups= new LinkedList<Group>();
+			while(rs.next()) {
+				groups.add(new Group(rs.getInt("idgroup"), rs.getString("srcCity"), rs.getString("srcstation"),
+						rs.getString("dstCity"), rs.getString("dststation"), rs.getInt("amount"),
+						rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
+						rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
+			}
+			db.closeConnection();
+			return groups;
 		}
-		db.closeConnection();
-		return groups;
+		catch(Exception e)
+		{
+			throw new Exception("Failed to get groups");
+		}
 	}
 	
 
@@ -211,17 +216,23 @@ public class Model implements ModelInterface {
 
 	// get groups from one city to another city
 	public LinkedList<Group> getGroups(String srcCity, String dstCity) throws Exception {
-		ResultSet rs = db.getGroups(srcCity, dstCity);
-		String srcStation, dstStation;
-		LinkedList<Group> groups= new LinkedList<Group>();
-		while(rs.next()) {
-			groups.add(new Group(rs.getInt("idgroup"), srcCity, rs.getString("srcstation"),
-					dstCity, rs.getString("dststation"), rs.getInt("amount"),
-					rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
-					rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
+		try {
+			ResultSet rs = db.getGroups(srcCity, dstCity);
+			String srcStation, dstStation;
+			LinkedList<Group> groups= new LinkedList<Group>();
+			while(rs.next()) {
+				groups.add(new Group(rs.getInt("idgroup"), srcCity, rs.getString("srcstation"),
+						dstCity, rs.getString("dststation"), rs.getInt("amount"),
+						rs.getString("departureTime"), rs.getString("iddriver"), rs.getString("iduser1"),
+						rs.getString("iduser2"), rs.getString("iduser3"), rs.getString("iduser4")));
+			}
+			db.closeConnection();
+			return groups;
 		}
-		db.closeConnection();
-		return groups;
+		catch(Exception e)
+		{
+			throw new Exception("Failed to get groups");
+		}
 		
 	}
 	
@@ -262,8 +273,8 @@ public class Model implements ModelInterface {
 	}
 
 
-	public boolean createDB() throws Exception {
-		return db.createDB();
+	public void createDB() throws Exception {
+		db.createDB();
 	}
 
 }

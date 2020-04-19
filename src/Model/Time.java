@@ -52,7 +52,7 @@ public class Time {
 	public static Time sub(Time t1, float t2) throws Exception
 	{
 		
-		int hour = t1.getHour() - Math.round(t2);
+		int hour = (int) (t1.getHour() - Math.floor(t2));
 		
 		int minute = (int) (t1.getMinute() - (t2%1)*60);
 		if(minute<0)
@@ -72,7 +72,7 @@ public class Time {
 	public static Time add(Time t1, float t2) throws Exception
 	{
 		
-		int hour = t1.getHour() + Math.round(t2);
+		int hour = (int) (t1.getHour() + Math.floor(t2));
 		
 		int minute = (int) (t1.getMinute() + (t2%1)*60);
 		while(minute>60)

@@ -96,8 +96,8 @@ public class Controller implements ControllerInterface{
 	}
 
 	//create data base
-	public boolean createDB() throws Exception {
-		return model.createDB();
+	public void createDB() throws Exception {
+		model.createDB();
 	}
     
 }

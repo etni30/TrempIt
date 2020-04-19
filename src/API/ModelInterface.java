@@ -74,6 +74,6 @@ public interface ModelInterface {
 		public void deleteRide(int idDriver) throws Exception;
 
 		//create Datat Base
-		public boolean createDB() throws Exception;
+		public void createDB() throws Exception;
 
 }
