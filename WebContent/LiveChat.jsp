@@ -340,7 +340,7 @@ document.addEventListener('click', function(e){
 
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDopI8aARx_Cu5Eo6A3VHvTMKOeqdX9KZE&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=X9KZE&libraries=places&callback=initMap"
         async defer></script>
 
   </body>
